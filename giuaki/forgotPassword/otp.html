@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Xác thực mã OTP</title>
+    <!-- Bootstrap 5 CDN Link -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Custom CSS Link -->
+    <link rel="stylesheet" href="../forgotPassword/assets/css/otp.css" />
+
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.js"
+      integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+      crossorigin="anonymous"
+    ></script>
+
+    <script>
+      $(document).ready(function () {
+        var index = 0;
+        // $("input").focus(function () {
+        //   console.log(index);
+        // });
+        $("input").keyup(function (e) {
+          if (e.keyCode == 8) {
+            if (index >= 6) {
+              index = 6;
+              index = index - 1;
+              $("#i" + index + "").focus();
+            } else {
+              index = index - 1;
+              $("#i" + index + "").focus();
+            }
+          } else if (/\D/g.test(this.value)) {
+            // Filter non-digits from input value.
+            this.value = this.value.replace(/\D/g, "");
+          } else {
+            if (index <= 0) {
+              index = 1;
+              index = index + 1;
+              $("#i" + index + "").focus();
+            } else {
+              index = index + 1;
+              $("#i" + index + "").focus();
+            }
+          }
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <section class="wrapper">
+      <div class="container">
+        <div
+          class="col-sm-8 offset-sm-2 col-lg-6 offset-lg-3 col-xl-6 offset-xl-3 text-center"
+        >
+          <div class="logo">
+            <!-- <img decoding="async" src="images/logo.png" class="img-fluid" alt="logo"> -->
+          </div>
+          <form
+            class="rounded bg-white shadow p-5"
+            action="../forgotPassword/changePassword.html"
+          >
+            <h3 class="text-dark fw-bolder fs-4 mb-2">Nhập mã xác thực</h3>
+
+            <div class="fw-normal text-muted mb-4">
+              Vui lòng nhập mã xác thực mà chúng tôi đã gửi cho bạn
+            </div>
+
+            <div
+              class="d-flex align-items-center justify-content-center fw-bold mb-4"
+            >
+              Mốt sẽ truyền cái email mình nhập vào
+            </div>
+
+            <div class="otp_input text-start mb-2">
+              <label for="digit">Nhập 6 kí tự xác thực</label>
+              <div
+                class="d-flex align-items-center justify-content-between mt-2 inputfield"
+              >
+                <input
+                  id="i1"
+                  type="text"
+                  class="form-control"
+                  placeholder=""
+                  maxlength="1"
+                  required
+/>
+                <input
+                  id="i2"
+                  type="text"
+                  class="form-control"
+                  placeholder=""
+                  maxlength="1"
+                  required
+                />
+                <input
+                  id="i3"
+                  type="text"
+                  class="form-control"
+                  placeholder=""
+                  maxlength="1"
+                  required
+                />
+                <input
+                  id="i4"
+                  type="text"
+                  class="form-control"
+                  placeholder=""
+                  maxlength="1"
+                  required
+                />
+                <input
+                  id="i5"
+                  type="text"
+                  class="form-control"
+                  placeholder=""
+                  maxlength="1"
+                  required
+                />
+                <input
+                  id="i6"
+                  type="text"
+                  class="form-control"
+                  placeholder=""
+                  maxlength="1"
+                  required
+                />
+              </div>
+            </div>
+
+            <input
+              type="submit"
+              id="submit"
+              class="btn btn-primary submit_btn my-4"
+              value="Gửi"
+            />
+
+            <!-- <input type="submit" value="Gửi" id="submitOTP" class="btn btn-primary"/> -->
+            <div class="fw-normal text-muted mb-2">
+              Bạn đã nhận được mã chưa ?
+              <a href="#" class="text-primary fw-bold text-decoration-none"
+                >Gửi lại</a
+              >
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>

@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>$Apartment </title>
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="../assets/css/admin/plugins/fontawesome-free/css/all.min.css">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- Tempusdominus Bootstrap 4 -->
+  <link rel="stylesheet"
+    href="../assets/css/admin/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+  <!-- iCheck -->
+  <link rel="stylesheet" href="../assets/css/admin/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+  <!-- JQVMap -->
+  <link rel="stylesheet" href="../assets/css/admin/plugins/jqvmap/jqvmap.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="../assets/css/admin/dist/css/adminlte.min.css">
+  <!-- overlayScrollbars -->
+  <link rel="stylesheet" href="../assets/css/admin/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+  <!-- Daterange picker -->
+  <link rel="stylesheet" href="../assets/css/admin/plugins/daterangepicker/daterangepicker.css">
+  <!-- summernote -->
+  <link rel="stylesheet" href="../assets/css/admin/plugins/summernote/summernote-bs4.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link rel="stylesheet" href="../assets/css/admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="../assets/css/admin/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+  <link rel="stylesheet" href="../assets/css/admin/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+  <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+  <script>
+  $( function() {
+    $( "#datepicker" ).datepicker({
+          dateFormat: 'dd/mm/yy'
+      });
+      $( "#datepicker1" ).datepicker({
+          dateFormat: 'dd/mm/yy'
+      });
+  } );
+  </script>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed">
+  <div class="wrapper">
+
+    <!-- Preloader -->
+    <div class="preloader flex-column justify-content-center align-items-center">
+      <img class="animation__shake" src="../assets/css/admin/dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60"
+        width="60">
+    </div>
+
+    <!-- Navbar -->
+    
+    <!-- /.navbar -->
+
+    <!-- Main Sidebar Container -->
+    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+      <!-- Brand Logo -->
+      <a href="index3.html" class="brand-link">
+        <img src="../assets/css/admin/dist/img/AdminLTELogo.png" alt="AdminLTE Logo"
+          class="brand-image img-circle elevation-3" style="opacity: .8">
+        <span class="brand-text font-weight-light">$Apartment</span>
+      </a>
+
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <!-- Sidebar user panel (optional) -->
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+          <div class="image">
+            <img src="../assets/css/admin/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+          </div>
+          <div class="info">
+            <a href="#" class="d-block">Admin $Apartment</a>
+          </div>
+        </div>
+
+        <!-- SidebarSearch Form -->
+        <div class="form-inline">
+          <div class="input-group" data-widget="sidebar-search">
+            <input class="form-control form-control-sidebar" type="search" placeholder="Tìm kiếm" aria-label="Search">
+            <div class="input-group-append">
+              <button class="btn btn-sidebar">
+                <i class="fas fa-search fa-fw"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+          <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            <!-- Add icons to the links using the .nav-icon class
+               with font-awesome or any other icon font library -->
+            <li class="nav-item menu-open">
+              <a href="#" class="nav-link active">
+                <i class="fa-solid fa-list-check"></i> &nbsp;
+                <p>
+                  Quản lý
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="index.html" class="nav-link ">
+                    <i class="fa-solid fa-user"></i> &nbsp;
+                    <p>Tài khoản</p>
+
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="systemapartment.html" class="nav-link">
+                    <i class="fa-solid fa-building"></i> &nbsp;
+                    <p>Căn hộ của hệ thống</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="userapartment.html" class="nav-link active">
+                    <i class="fa-solid fa-building-user"></i> &nbsp;
+                    <p>Căn hộ của người dùng</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+           
+            <li class="nav-item">
+              <a href="postapartment.html" class="nav-link ">
+                
+                <i class="fa-solid fa-newspaper"></i>&nbsp;
+                <p>
+                  Bài đăng của người dùng
+                  
+                </p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="newcontract.html" class="nav-link">
+                <i class="fa-solid fa-file-signature"></i> &nbsp;
+                <p>
+                  Hợp đồng
+                  <i class="fas fa-angle-left right"></i>
+
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="edituserapartment.html" class="nav-link">
+                    <i class="fa-solid fa-user-plus"></i></i> &nbsp;
+                    <p>Chủ sở hữu mới</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="#" class="nav-link">
+                    <i class="fa-solid fa-plus"></i> &nbsp;
+                    <p>Hợp đồng mới</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="contractApartment.html" class="nav-link">
+                    <i class="fa-solid fa-file-contract"></i> &nbsp;
+                    <p>Danh sách hợp đồng</p>
+                  </a>
+                </li>
+                
+
+
+              </ul>
+            </li>
+
+            <li class="nav-item">
+              <a href="feedbacks.html" class="nav-link">
+                <i class="fa-solid fa-comment"></i> &nbsp;
+                <p>
+                  Đánh giá
+                
+
+                </p>
+              </a>
+            </li>
+
+          </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
+      </div>
+      <!-- /.sidebar -->
+    </aside>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+      <!-- Content Header (Page header) -->
+      <section class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1>Danh sách căn hộ người dùng</h1>
+            </div>
+            
+          </div>
+        </div><!-- /.container-fluid -->
+      </section>
+
+      <!-- Main content -->
+      <section class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                
+                <!-- /.card-header -->
+                <div class="card-body">
+                  <table style="text-align: center;" id="example2" class="table table-bordered table-hover">
+                    <thead>
+                      <tr>
+                        <th style="vertical-align: top;">
+                          Mã căn hộ
+                        </th>
+                        <th style="vertical-align: top;">
+                          Tiêu đề
+                          <br>
+                          <input style="width: 140px;" type="text">
+                        </th>
+                        <th style="vertical-align: top;">Mã tài khoản</th>
+                        <th style="vertical-align: top;">Ngày đăng</th>
+                        <th style="vertical-align: top;">Phòng ngủ</th>
+                        <th style="vertical-align: top;">Phòng tắm</th>
+                        <th style="vertical-align: top;">Giá</th>
+                        <th style="vertical-align: top;">Đặt cọc</th>
+                        <th style="vertical-align: top;">Địa chỉ</th>
+                        <th style="vertical-align: top;">Diện tích</th>
+                        <th style="vertical-align: top;">Mô tả</th>
+                        <th style="vertical-align: top;">Ảnh căn hộ</th>
+                        <th style="vertical-align: top;">Quản lý</th>
+                       
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>1</td>
+                        <td>CĂN HỘ ESSENSIA SKY - MẶT TIỀN NGUYỄN HỮU THỌ - CÁCH QUẬN 1 CHỈ 8KM</td>
+                        <td>1</td>
+                        <td>10/11/2023</td>
+                        <td>2</td>
+                        <td>2</td>
+                        <td>2 tỷ</td>
+                        <td>20 triệu</td>
+                        <td>Chung cư an bình, dĩ an, bình dương</td>
+                        <td>50m2</td>
+                        <td>Kết cấu: 2 phòng ngủ,1 phòng tắm, 1 khu vực đa năng
+
+                          Thiết kế tiện nghi, nội thất cao cấp sang trọng
+                          
+                          Nội thất đầy đủ, Thang máy, hầm xe bảo vệ 24/7
+                          
+                          Ở từ 2-4 người, cho nuôi thú cưng</td>
+                        <td><a href="../assets/images/50canho/can1.jpg" target="_blank"><img src="../assets/images/50canho/can1.jpg" height="100" width="90" alt=""></a></td>
+                        <td><a onclick="return confirm('Xóa căn hộ?')" href="#"><i class="fa-solid fa-trash"></i></a></td>
+                      </tr>
+                      <tr>
+                        <td>2</td>
+                        <td>Chính chủ bán căn hộ CC A2 khu dân cư Miếu Nổi, Vạn Kiếp, Bình Thạnh</td>
+                        <td>1</td>
+                        <td>12/10/2023</td>
+                        <td>3</td>
+                        <td>2</td>
+                        <td>3,8 tỷ</td>
+                        <td>20 triệu</td>
+                        <td>Chung cư an bình, dĩ an, bình dương</td>
+                        <td>50m2</td>
+                        <td>Kết cấu: 2 phòng ngủ,1 phòng tắm, 1 khu vực đa năng
+
+                          Thiết kế tiện nghi, nội thất cao cấp sang trọng
+                          
+                          Nội thất đầy đủ, Thang máy, hầm xe bảo vệ 24/7
+                          
+                          Ở từ 2-4 người, cho nuôi thú cưng</td>
+                        <td><a href="../assets/images/50canho/can2.jpg" target="_blank"><img src="../assets/images/50canho/can2.jpg" height="100" width="90" alt=""></a></td>
+                        <td><a onclick="return confirm('Xóa căn hộ?')" href="#"><i class="fa-solid fa-trash"></i></a></td>
+                      </tr><tr>
+                        <td>3</td>
+                        <td>BÁN CĂN HỘ 68M2 2 PHÒNG NGỦ RẺ NHẤT KHU, QUỸ NHÀ Ở HỖ TRỢ 8 CHẤM</td>
+                        <td>1</td>
+                        <td>06/08/2023</td>
+                        <td>2</td>
+                        <td>2</td>
+                        <td>4,2 tỷ</td>
+                        <td>20 triệu</td>
+                        <td>Chung cư an bình, dĩ an, bình dương</td>
+                        <td>50m2</td>
+                        <td>Kết cấu: 2 phòng ngủ,1 phòng tắm, 1 khu vực đa năng
+
+                          Thiết kế tiện nghi, nội thất cao cấp sang trọng
+                          
+                          Nội thất đầy đủ, Thang máy, hầm xe bảo vệ 24/7
+                          
+                          Ở từ 2-4 người, cho nuôi thú cưng</td>
+                          <td><a href="../assets/images/50canho/can3.jpg" target="_blank"><img src="../assets/images/50canho/can3.jpg" height="100" width="90" alt=""></a></td>
+                        <td><a onclick="return confirm('Xóa căn hộ?')" href="#"><i class="fa-solid fa-trash"></i></a></td>
+                      </tr><tr>
+                        <td>4</td>
+                        <td>BÁN CĂN HỘ 2 PHÒNG NGỦ, 98m2, EMPIRE CITY</td>
+                        <td>1</td>
+                        <td>05/09/2023</td>
+                        <td>3</td>
+                        <td>2</td>
+                        <td>12,4 tỷ</td>
+                        <td>20 triệu</td>
+                        <td>Chung cư an bình, dĩ an, bình dương</td>
+                        <td>50m2</td>
+                        <td>Kết cấu: 2 phòng ngủ,1 phòng tắm, 1 khu vực đa năng
+
+                          Thiết kế tiện nghi, nội thất cao cấp sang trọng
+                          
+                          Nội thất đầy đủ, Thang máy, hầm xe bảo vệ 24/7
+                          
+                          Ở từ 2-4 người, cho nuôi thú cưng</td>
+                          <td><a href="../assets/images/50canho/can4.jpg" target="_blank"><img src="../assets/images/50canho/can4.jpg" height="100" width="90" alt=""></a></td>
+                        <td><a onclick="return confirm('Xóa căn hộ?')" href="#"><i class="fa-solid fa-trash"></i></a></td>
+                      </tr><tr>
+                        <td>5</td>
+                        <td>Bán căn hộ chung cư TOPAZ GARDEN, Hoà Thạnh, Tân Phú</td>
+                        <td>1</td>
+                        <td>12/05/2023</td>
+                        <td>2</td>
+                        <td>2</td>
+                        <td>1,05 tỷ</td>
+                        <td>20 triệu</td>
+                        <td>Chung cư an bình, dĩ an, bình dương</td>
+                        <td>50m2</td>
+                        <td>Kết cấu: 2 phòng ngủ,1 phòng tắm, 1 khu vực đa năng
+
+                          Thiết kế tiện nghi, nội thất cao cấp sang trọng
+                          
+                          Nội thất đầy đủ, Thang máy, hầm xe bảo vệ 24/7
+                          
+                          Ở từ 2-4 người, cho nuôi thú cưng</td>
+                          <td><a href="../assets/images/50canho/can5.jpg" target="_blank"><img src="../assets/images/50canho/can5.jpg" height="100" width="90" alt=""></a></td>
+                        <td><a onclick="return confirm('Xóa căn hộ?')" href="#"><i class="fa-solid fa-trash"></i></a></td>
+                      </tr><tr>
+                        <td>6</td>
+                        <td>Căn Hộ TT quận 9, trả trước 900 triệu nhận nhà/tặng full nội thất</td>
+                        <td>1</td>
+                        <td>28/03/2023</td>
+                        <td>2</td>
+                        <td>2</td>
+                        <td>900 triệu</td>
+                        <td>20 triệu</td>
+                        <td>Chung cư an bình, dĩ an, bình dương</td>
+                        <td>50m2</td>
+                        <td>Kết cấu: 2 phòng ngủ,1 phòng tắm, 1 khu vực đa năng
+
+                          Thiết kế tiện nghi, nội thất cao cấp sang trọng
+                          
+                          Nội thất đầy đủ, Thang máy, hầm xe bảo vệ 24/7
+                          
+                          Ở từ 2-4 người, cho nuôi thú cưng</td>
+                          <td><a href="../assets/images/50canho/can6.jpg" target="_blank"><img src="../assets/images/50canho/can6.jpg" height="100" width="90" alt=""></a></td>
+                        <td><a onclick="return confirm('Xóa căn hộ?')" href="#"><i class="fa-solid fa-trash"></i></a></td>
+                      </tr><tr>
+                        <td>7</td>
+                        <td>Căn hộ 2PNCộng Hòa giá 860tr_sổ riêng lâu dài_ở liền</td>
+                        <td>1</td>
+                        <td>28/03/2023</td>
+                        <td>2</td>
+                        <td>2</td>
+                        <td>860 triệu</td>
+                        <td>20 triệu</td>
+                        <td>Chung cư an bình, dĩ an, bình dương</td>
+                        <td>50m2</td>
+                        <td>Kết cấu: 2 phòng ngủ,1 phòng tắm, 1 khu vực đa năng
+
+                          Thiết kế tiện nghi, nội thất cao cấp sang trọng
+                          
+                          Nội thất đầy đủ, Thang máy, hầm xe bảo vệ 24/7
+                          
+                          Ở từ 2-4 người, cho nuôi thú cưng</td>
+                          <td><a href="../assets/images/50canho/can7.jpg" target="_blank"><img src="../assets/images/50canho/can7.jpg" height="100" width="90" alt=""></a></td>
+                        <td><a onclick="return confirm('Xóa căn hộ?')" href="#"><i class="fa-solid fa-trash"></i></a></td>
+                      </tr><tr>
+                        <td>8</td>
+                        <td>Bán căn hộ Saigonsouth Residences, tầng cao view sông</td>
+                        <td>1</td>
+                        <td>01/01/2023</td>
+                        <td>2</td>
+                        <td>2</td>
+                        <td>5,4 tỷ</td>
+                        <td>20 triệu</td>
+                        <td>Chung cư an bình, dĩ an, bình dương</td>
+                        <td>50m2</td>
+                        <td>Kết cấu: 2 phòng ngủ,1 phòng tắm, 1 khu vực đa năng
+
+                          Thiết kế tiện nghi, nội thất cao cấp sang trọng
+                          
+                          Nội thất đầy đủ, Thang máy, hầm xe bảo vệ 24/7
+                          
+                          Ở từ 2-4 người, cho nuôi thú cưng</td>
+                          <td><a href="../assets/images/50canho/can8.jpg" target="_blank"><img src="../assets/images/50canho/can8.jpg" height="100" width="90" alt=""></a></td>
+                        <td><a onclick="return confirm('Xóa căn hộ?')" href="#"><i class="fa-solid fa-trash"></i></a></td>
+                      </tr><tr>
+                        <td>9</td>
+                        <td>Kẹt tiền bán căn 2PN Q7 SG Riverside Complex giá 2 tỷ550</td>
+                        <td>1</td>
+                        <td>24/12/2022</td>
+                        <td>2</td>
+                        <td>2</td>
+                        <td>2,550 tỷ</td>
+                        <td>20 triệu</td>
+                        <td>Chung cư an bình, dĩ an, bình dương</td>
+                        <td>50m2</td>
+                        <td>Kết cấu: 2 phòng ngủ,1 phòng tắm, 1 khu vực đa năng
+
+                          Thiết kế tiện nghi, nội thất cao cấp sang trọng
+                          
+                          Nội thất đầy đủ, Thang máy, hầm xe bảo vệ 24/7
+                          
+                          Ở từ 2-4 người, cho nuôi thú cưng</td>
+                          <td><a href="../assets/images/50canho/can9.jpg" target="_blank"><img src="../assets/images/50canho/can9.jpg" height="100" width="90" alt=""></a></td>
+                        <td><a onclick="return confirm('Xóa căn hộ?')" href="#"><i class="fa-solid fa-trash"></i></a></td>
+                      </tr><tr>
+                        <td>10</td>
+                        <td>Bán Căn Hộ Chung Cư Anh Tuấn Nhà Bè DT 63.0 m2, Giá 1.05</td>
+                        <td>1</td>
+                        <td>02/11/2022</td>
+                        <td>2</td>
+                        <td>2</td>
+                        <td>1,05 tỷ</td>
+                        <td>20 triệu</td>
+                        <td>Chung cư an bình, dĩ an, bình dương</td>
+                        <td>50m2</td>
+                        <td>Kết cấu: 2 phòng ngủ,1 phòng tắm, 1 khu vực đa năng
+
+                          Thiết kế tiện nghi, nội thất cao cấp sang trọng
+                          
+                          Nội thất đầy đủ, Thang máy, hầm xe bảo vệ 24/7
+                          
+                          Ở từ 2-4 người, cho nuôi thú cưng</td>
+                          <td><a href="../assets/images/50canho/can10.jpg" target="_blank"><img src="../assets/images/50canho/can10.jpg" height="100" width="90" alt=""></a></td>
+                        <td><a onclick="return confirm('Xóa căn hộ?')" href="#"><i class="fa-solid fa-trash"></i></a></td>
+                      </tr><tr>
+                        <td>11</td>
+                        <td>CHÍNH CHỦ BÁN CHCC Q7 SÀI GÒN RIVERSIDE HƯNG THỊNH 2 TỶ 550</td>
+                        <td>1</td>
+                        <td>31/10/2022</td>
+                        <td>2</td>
+                        <td>2</td>
+                        <td>2,550 tỷ</td>
+                        <td>20 triệu</td>
+                        <td>Chung cư an bình, dĩ an, bình dương</td>
+                        <td>50m2</td>
+                        <td>Kết cấu: 2 phòng ngủ,1 phòng tắm, 1 khu vực đa năng
+
+                          Thiết kế tiện nghi, nội thất cao cấp sang trọng
+                          
+                          Nội thất đầy đủ, Thang máy, hầm xe bảo vệ 24/7
+                          
+                          Ở từ 2-4 người, cho nuôi thú cưng</td>
+                          <td><a href="../assets/images/50canho/can11.jpg" target="_blank"><img src="../assets/images/50canho/can11.jpg" height="100" width="90" alt=""></a></td>
+                        <td><a onclick="return confirm('Xóa căn hộ?')" href="#"><i class="fa-solid fa-trash"></i></a></td>
+                      </tr><tr>
+                        <td>12</td>
+                        <td>Bán Căn Hộ The Parkland (Đã Có Sổ), vị trí trung tâm Quận 12</td>
+                        <td>1</td>
+                        <td>22/09/2022</td>
+                        <td>2</td>
+                        <td>2</td>
+                        <td>2 tỷ</td>
+                        <td>20 triệu</td>
+                        <td>Chung cư an bình, dĩ an, bình dương</td>
+                        <td>50m2</td>
+                        <td>Kết cấu: 2 phòng ngủ,1 phòng tắm, 1 khu vực đa năng
+
+                          Thiết kế tiện nghi, nội thất cao cấp sang trọng
+                          
+                          Nội thất đầy đủ, Thang máy, hầm xe bảo vệ 24/7
+                          
+                          Ở từ 2-4 người, cho nuôi thú cưng</td>
+                          <td><a href="../assets/images/50canho/can12.jpg" target="_blank"><img src="../assets/images/50canho/can12.jpg" height="100" width="90" alt=""></a></td>
+                        <td><a onclick="return confirm('Xóa căn hộ?')" href="#"><i class="fa-solid fa-trash"></i></a></td>
+                      </tr><tr>
+                        <td>13</td>
+                        <td>Chính chủ bán nhanh trong tuần 1.75 tỷ LOVERA VISTA bao thuế</td>
+                        <td>1</td>
+                        <td>21/05/2022</td>
+                        <td>2</td>
+                        <td>2</td>
+                        <td>2 tỷ</td>
+                        <td>20 triệu</td>
+                        <td>Chung cư an bình, dĩ an, bình dương</td>
+                        <td>50m2</td>
+                        <td>Kết cấu: 2 phòng ngủ,1 phòng tắm, 1 khu vực đa năng
+
+                          Thiết kế tiện nghi, nội thất cao cấp sang trọng
+                          
+                          Nội thất đầy đủ, Thang máy, hầm xe bảo vệ 24/7
+                          
+                          Ở từ 2-4 người, cho nuôi thú cưng</td>
+                          <td><a href="../assets/images/50canho/can13.jpg" target="_blank"><img src="../assets/images/50canho/can13.jpg" height="100" width="90" alt=""></a></td>
+                        <td><a onclick="return confirm('Xóa căn hộ?')" href="#"><i class="fa-solid fa-trash"></i></a></td>
+                      </tr><tr>
+                        <td>14</td>
+                        <td>CĂN HỘ HYBRID NỘI THẤT ĐỨC, CTY NHẬT QLÝ, TỪ 42 triệu 30%</td>
+                        <td>1</td>
+                        <td>28/03/2022</td>
+                        <td>2</td>
+                        <td>2</td>
+                        <td>2 tỷ</td>
+                        <td>20 triệu</td>
+                        <td>Chung cư an bình, dĩ an, bình dương</td>
+                        <td>50m2</td>
+                        <td>Kết cấu: 2 phòng ngủ,1 phòng tắm, 1 khu vực đa năng
+
+                          Thiết kế tiện nghi, nội thất cao cấp sang trọng
+                          
+                          Nội thất đầy đủ, Thang máy, hầm xe bảo vệ 24/7
+                          
+                          Ở từ 2-4 người, cho nuôi thú cưng</td>
+                          <td><a href="../assets/images/50canho/can14.jpg" target="_blank"><img src="../assets/images/50canho/can14.jpg" height="100" width="90" alt=""></a></td>
+                        <td><a onclick="return confirm('Xóa căn hộ?')" href="#"><i class="fa-solid fa-trash"></i></a></td>
+                      </tr><tr>
+                        <td>15</td>
+                        <td>BÁN CĂN HỘ CHUNG CƯ CAO CẤP SKY 89 QUẬN 7, TPHCM</td>
+                        <td>1</td>
+                        <td>28/02/2022</td>
+                        <td>2</td>
+                        <td>2</td>
+                        <td>2 tỷ</td>
+                        <td>20 triệu</td>
+                        <td>Chung cư an bình, dĩ an, bình dương</td>
+                        <td>50m2</td>
+                        <td>Kết cấu: 2 phòng ngủ,1 phòng tắm, 1 khu vực đa năng
+
+                          Thiết kế tiện nghi, nội thất cao cấp sang trọng
+                          
+                          Nội thất đầy đủ, Thang máy, hầm xe bảo vệ 24/7
+                          
+                          Ở từ 2-4 người, cho nuôi thú cưng</td>
+                          <td><a href="../assets/images/50canho/can15.jpg" target="_blank"><img src="../assets/images/50canho/can15.jpg" height="100" width="90" alt=""></a></td>
+                        <td><a onclick="return confirm('Xóa căn hộ?')" href="#"><i class="fa-solid fa-trash"></i></a></td>
+                      </tr><tr>
+                        <td>16</td>
+                        <td>Bán Căn Hộ Sunny plaza Quận Gò Vấp cách vòng xoay 300m</td>
+                        <td>1</td>
+                        <td>10/01/2022</td>
+                        <td>2</td>
+                        <td>2</td>
+                        <td>2 tỷ</td>
+                        <td>20 triệu</td>
+                        <td>Chung cư an bình, dĩ an, bình dương</td>
+                        <td>50m2</td>
+                        <td>Kết cấu: 2 phòng ngủ,1 phòng tắm, 1 khu vực đa năng
+
+                          Thiết kế tiện nghi, nội thất cao cấp sang trọng
+                          
+                          Nội thất đầy đủ, Thang máy, hầm xe bảo vệ 24/7
+                          
+                          Ở từ 2-4 người, cho nuôi thú cưng</td>
+                          <td><a href="../assets/images/50canho/can16.jpg" target="_blank"><img src="../assets/images/50canho/can16.jpg" height="100" width="90" alt=""></a></td>
+                        <td><a onclick="return confirm('Xóa căn hộ?')" href="#"><i class="fa-solid fa-trash"></i></a></td>
+                      </tr>
+                     
+                      
+                  </table>
+                </div>
+                <!-- /.card-body -->
+              </div>
+              <!-- /.card -->
+
+
+              <!-- /.card -->
+            </div>
+            <!-- /.col -->
+          </div>
+          <!-- /.row -->
+        </div>
+        <!-- /.container-fluid -->
+      </section>
+      <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+    <footer class="main-footer">
+       
+      <strong>Hệ thống cung cấp căn hộ cao cấp và kí gửi căn hộ của bạn <a href="https://adminlte.io">$Apartment</a></strong>
+       
+     </footer>
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+      <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
+  </div>
+  <!-- ./wrapper -->
+
+  <!-- jQuery -->
+  <script src="../assets/css/admin/plugins/jquery/jquery.min.js"></script>
+  <!-- jQuery UI 1.11.4 -->
+  <script src="../assets/css/admin/plugins/jquery-ui/jquery-ui.min.js"></script>
+  <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+  <script>
+    $.widget.bridge('uibutton', $.ui.button)
+  </script>
+  <!-- Bootstrap 4 -->
+  <script src="../assets/css/admin/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- ChartJS -->
+  <script src="../assets/css/admin/plugins/chart.js/Chart.min.js"></script>
+  <!-- Sparkline -->
+  <script src="../assets/css/admin/plugins/sparklines/sparkline.js"></script>
+  <!-- JQVMap -->
+  <script src="../assets/css/admin/plugins/jqvmap/jquery.vmap.min.js"></script>
+  <script src="../assets/css/admin/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
+  <!-- jQuery Knob Chart -->
+  <script src="../assets/css/admin/plugins/jquery-knob/jquery.knob.min.js"></script>
+  <!-- daterangepicker -->
+  <script src="../assets/css/admin/plugins/moment/moment.min.js"></script>
+  <script src="../assets/css/admin/plugins/daterangepicker/daterangepicker.js"></script>
+  <!-- Tempusdominus Bootstrap 4 -->
+  <script src="../assets/css/admin/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+  <!-- Summernote -->
+  <script src="../assets/css/admin/plugins/summernote/summernote-bs4.min.js"></script>
+  <!-- overlayScrollbars -->
+  <script src="../assets/css/admin/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+  <!-- AdminLTE App -->
+  <script src="../assets/css/admin/dist/js/adminlte.js"></script>
+  <!-- AdminLTE for demo purposes -->
+  <!-- <script src="../assets/css/admin/dist/js/demo.js"></script> -->
+  <!-- bo? dong nay de load lai trang ko xuat hien alert -->
+  <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+  <script src="../assets/css/admin/plugins/datatables/jquery.dataTables.min.js"></script>
+  <script src="../assets/css/admin/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+  <script src="../assets/css/admin/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+  <script src="../assets/css/admin/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+  <script src="../assets/css/admin/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+  <script src="../assets/css/admin/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+  <script src="../assets/css/admin/plugins/jszip/jszip.min.js"></script>
+  <script src="../assets/css/admin/plugins/pdfmake/pdfmake.min.js"></script>
+  <script src="../assets/css/admin/plugins/pdfmake/vfs_fonts.js"></script>
+  <script src="../assets/css/admin/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+  <script src="../assets/css/admin/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+  <script src="../assets/css/admin/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+  <script>
+    $(function () {
+      $("#example1").DataTable({
+        "responsive": true, "lengthChange": false, "autoWidth": false,
+        "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+      }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+      $('#example2').DataTable({
+        "paging": true,
+        "lengthChange": false,
+        "searching": false,
+        "ordering": false,
+        "info": true,
+        "autoWidth": false,
+        "responsive": true,
+      });
+    });
+  </script>
+</body>
+
+</html>
