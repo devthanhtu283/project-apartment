@@ -2,6 +2,8 @@ package com.demo.servlet;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -87,7 +89,8 @@ public class LoginServlet extends HttpServlet {
 			throws ServletException, IOException {
 		request.getSession().removeAttribute("accountAdmin");
 		request.getSession().removeAttribute("accountdetails");
-		request.getSession().removeAttribute("account");
+		request.getSession().removeAttribute("accounts");
+		request.getSession().removeAttribute("posts");
 		request.getRequestDispatcher("/WEB-INF/views/login/login.jsp").forward(request, response);
 	}
 	protected void doGet_Account(HttpServletRequest request, HttpServletResponse response)
@@ -146,6 +149,12 @@ public class LoginServlet extends HttpServlet {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		String email = request.getParameter("email");
+		String regexEmail = "^(.+)@(.+)$";
+		String regexPass = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{8,20}$";
+		Pattern patternEmail = Pattern.compile(regexEmail);
+		Pattern patternPassword = Pattern.compile(regexPass);
+		Matcher matcherEmail = patternEmail.matcher(email);
+		Matcher matcherPassword = patternPassword.matcher(password);
 		String securityCode = RandomStringHelper.generateRandomString(6);
 		Account account = new Account();
 		account.setUsername(new String(username.getBytes("ISO-8859-1"), "UTF-8") );
@@ -157,14 +166,17 @@ public class LoginServlet extends HttpServlet {
 		account.setRole(1);
 		account.setSecurityCode(securityCode);
 		AccountModel accountModel = new AccountModel();
-		if(accountModel.register(account)) {
-			request.getSession().setAttribute("msg", "Đã đăng kí tài khoản thành công. Xin vui lòng đăng nhập tài khoản");
-			String content = "Xin chào, đây là email từ $Apartment! Vui lòng nhấp vào <a href='http://localhost:8080/projectGroup2/login?action=verify&username=" + new String(username.getBytes("ISO-8859-1"), "UTF-8") + "&email=" + email +"&securityCode=" + securityCode + "'>Liên kết</a> để xác nhận tài khoản của bạn.";
-			MailHelper.MailHelper(email, "Xác nhận tài khoản - $Apartment", content);
-			response.sendRedirect("login?action=message");
-		} else {
-			request.getSession().setAttribute("msg", "Đăng kí không thành công do đã tồn tại người dùng.");
-			response.sendRedirect("login");
+		if(matcherEmail.matches() && matcherPassword.matches()) {
+			if(accountModel.register(account)) {
+				request.getSession().setAttribute("msg", "Đã đăng kí tài khoản thành công. Xin vui lòng đăng nhập tài khoản");
+				String content = "Xin chào, đây là email từ $Apartment! Vui lòng nhấp vào <a href='http://localhost:8080/projectGroup2/login?action=verify&username=" + new String(username.getBytes("ISO-8859-1"), "UTF-8") + "&email=" + email +"&securityCode=" + securityCode + "'>Liên kết</a> để xác nhận tài khoản của bạn.";
+				MailHelper.MailHelper(email, "Xác nhận tài khoản - $Apartment", content);
+				response.sendRedirect("login?action=message");
+			} else {
+				request.getSession().setAttribute("msg", "Đăng kí không thành công do đã tồn tại người dùng.");
+				response.sendRedirect("login");
+			}
+			
 		}
 		
 	

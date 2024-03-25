@@ -52,6 +52,8 @@ public class UserApartmentServlet extends HttpServlet {
 			doGet_SearchByArea(request, response);
 		} else if(action.equalsIgnoreCase("deletePost")) {
 			doGet_DeletePost(request, response);
+		} else if(action.equalsIgnoreCase("searchByDistrict1")) {
+			doGet_SearchByDistrict1(request, response);
 		}
 	}
 	protected void doGet_Index(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -87,6 +89,17 @@ public class UserApartmentServlet extends HttpServlet {
 	}
 	
 	protected void doGet_SearchByDistrict(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType("application/json; charset=utf-8");
+		request.setCharacterEncoding("utf-8");
+		PrintWriter writer = response.getWriter();
+		String district = request.getParameter("district");
+		PostModel postModel = new PostModel();
+		Gson gson = new Gson();
+		writer.print(gson.toJson(postModel.findPostByDistrict(district)));
+		
+
+	}
+	protected void doGet_SearchByDistrict1(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("application/json; charset=utf-8");
 		request.setCharacterEncoding("utf-8");
 		PrintWriter writer = response.getWriter();

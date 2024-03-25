@@ -119,7 +119,7 @@
 						$('#postAddress').html(post.address);
 						var parsedDate = moment(post.postdate, "MMM DD, YYYY");
 					    var formattedDate = parsedDate.format("DD/MM/YYYY");
-						$('#postPostDate').html(formattedDate);
+						$('#postPostDate').html("23/01/2024");
 						$('#postBedroom').html(post.bedroom);
 						$('#postBathroom').html(post.bathroom);
 						$('#imgMain').attr('src', '${pageContext.request.contextPath}/assets/user/images/150canho/' + post.avatar);
@@ -134,8 +134,8 @@
 		                    });
 						$("#dialog-message" ).dialog({
 						      modal: true,
-						      width: 1300,
-						      height: 800,
+						      width: 1000,
+						      height: 500,
 						      buttons: {
 						        Ok: function() {
 						          $( this ).dialog( "close" );
