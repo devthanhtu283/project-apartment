@@ -296,8 +296,8 @@ public class PostModel {
 		List<Post> posts = new ArrayList<Post>();
 		try {
 			PreparedStatement preparedStatement = ConnectDB.connection()
-					.prepareStatement("Select * from post where address like ? AND status = 1");
-			preparedStatement.setString(1, "%" + district + ",%");
+				    .prepareStatement("SELECT * FROM post WHERE REPLACE(address, ',', '') LIKE ? AND status = 1");
+				preparedStatement.setString(1, "%" + district + "%");
 			ResultSet resultSet = preparedStatement.executeQuery();
 
 			while (resultSet.next()) {
