@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.mindrot.jbcrypt.BCrypt;
 
+
 import com.demo.entities.Account;
 import com.demo.helpers.MailHelper;
 import com.demo.helpers.RandomStringHelper;
@@ -27,7 +28,7 @@ import com.demo.models.FeedbackModel;
  */
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -143,6 +144,8 @@ public class LoginServlet extends HttpServlet {
 			request.getSession().setAttribute("msg", "Tài khoản hoặc mật khẩu không đúng");
 			response.sendRedirect("login");
 		}
+		
+		
 	}
 	protected void doPost_Register(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
