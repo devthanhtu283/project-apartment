@@ -73,6 +73,12 @@
   	<description></description>
   	<servlet-class>com.demo.servlet.admin.OwnersAdminServlet</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>LanguageServlet</servlet-name>
+  	<display-name>LanguageServlet</display-name>
+  	<description></description>
+  	<servlet-class>com.demo.servlet.LanguageServlet</servlet-class>
+  </servlet>
   <servlet-mapping>
   	<servlet-name>LoginServlet</servlet-name>
   	<url-pattern>/LoginServlet</url-pattern>
@@ -104,6 +110,10 @@
   <servlet-mapping>
   	<servlet-name>OwnersAdminServlet</servlet-name>
   	<url-pattern>/OwnersAdminServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>LanguageServlet</servlet-name>
+  	<url-pattern>/LanguageServlet</url-pattern>
   </servlet-mapping>
 
 </web-app>
