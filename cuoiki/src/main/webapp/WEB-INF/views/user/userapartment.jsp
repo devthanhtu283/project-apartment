@@ -1,13 +1,33 @@
+<%@page import="com.demo.models.LanguageModel"%>
+<%@page import="com.demo.models.PostLanguageModel"%>
+<%@page import="com.demo.models.PostModel"%>
+<%@page import="com.demo.entities.Post"%>
+<%@page import="com.demo.entities.PostLanguage"%>
+<%@page import="java.util.ResourceBundle"%>
+<%@page import="java.util.Locale"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>   
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%
+	
+	HttpSession httpSession = request.getSession();
+	if(httpSession.getAttribute("language")== null){
+		request.getSession().setAttribute("language", "vi");
+		
+	}
+	String language = httpSession.getAttribute("language").toString();
+	ResourceBundle messages = ResourceBundle.getBundle("messages", new Locale(language));
+	PostLanguageModel postLanguageModel = new PostLanguageModel();
+	PostModel postModel = new PostModel();
+	LanguageModel languageModel = new LanguageModel();
+%>
   <div class="page-heading header-text">
     <div class="container">
       <div class="row">
         <div class="col-lg-12">
-          <span class="breadcrumb"><a href="${pageContext.request.contextPath }/home">Trang chủ</a> / Căn hộ khác</span>
-          <h3>Căn hộ khác</h3>
+          <span class="breadcrumb"><a href="${pageContext.request.contextPath }/home"><%= messages.getString("trang_chu") %></a> / <%= messages.getString("can_ho_khac") %></span>
+          <h3><%= messages.getString("can_ho_khac") %></h3>
         </div>
       </div>
     </div>
@@ -771,18 +791,18 @@
   <div class="section properties">
     <div class="container" id="toHeader" >
       <div class="input-group mb-3" style="width: 600px; margin: auto; margin-top: -60px;">
-        <input type="text" class="form-control" id="keyword" placeholder="Nhập căn hộ mà bạn muốn tìm .." aria-label="Recipient's username" aria-describedby="button-addon2">
+        <input type="text" class="form-control" id="keyword" placeholder="<%= messages.getString("nhap_can_ho_ma_ban_muon_tim") %>" aria-label="Recipient's username" aria-describedby="button-addon2">
         <button class="btn btn-outline-secondary" type="button" id="button-addon2"><i class="fa-solid fa-magnifying-glass"></i></button>
       </div>
       <br> <br>
       <div style="display: flex; margin-left: 200px; margin-bottom: 20px;" >
         <div class="dropdown" style="width: 300px;">
-          <input type="text" id="autocomplete" class="form-control" placeholder="Nhập địa điểm" aria-label="Recipient's username" aria-describedby="button-addon2">
+          <input type="text" id="autocomplete" class="form-control" placeholder="<%= messages.getString("nhap_dia_diem") %>" aria-label="Recipient's username" aria-describedby="button-addon2">
         
         </div>
         <div class="dropdown" style="margin-left: 50px;">
           <button style="width: 160px;" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Theo giá
+            <%= messages.getString("theo_gia") %>
           </button>
           <ul class="dropdown-menu">
             <li><input type="button" class="dropdown-item" value="Dưới 1 tỷ" id="price1"></li>
@@ -795,7 +815,7 @@
         </div>
         <div class="dropdown" style="margin-left: 50px;">
           <button style="width: 160px;" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Số phòng ngủ
+            <%= messages.getString("phong_ngu") %>
           </button>
           <ul class="dropdown-menu">
             <li><input type="button" class="dropdown-item" value="1 phòng" id="bedroom1"></li>
@@ -818,7 +838,7 @@
           </ul>
         </div> -->
        
-       		<label for="customRange2" class="form-label text-secondary fs-5 mx-4" style="position: relative;top: -35px;left: 90px;">Diện tích</label>
+       		<label for="customRange2" class="form-label text-secondary fs-5 mx-4" style="position: relative;top: -35px;left: 90px;"><%= messages.getString("dien_tich") %></label>
 			<input id="rangeArea" class="range" type="range" min="0" max="100" value="0" step="1" onmousemove="rangevalue1.value=value" style="width: 300px;margin-left:-10px;"/>
 			<output id="rangevalue1" style="margin-top: 21px;margin-left: 2px; "></output>
 			
@@ -826,30 +846,31 @@
       </div>
     
       <div class="row properties-box" id="result">
-      
-        <c:forEach var="post" items="${posts }">
+      	<% for(Post post : postModel.findAll()) {%>
+   
         	  <div class="col-lg-4 col-md-6 align-self-center mb-30 properties-items col-md-6">
                 <div class="item">
-                  <a href="${pageContext.request.contextPath}/userapartmentdetails?id=${post.id}"><img src="${pageContext.request.contextPath}/assets/user/images/150canho/${post.avatar}" alt="" width="356" height="267"></a>
-                  <a href="${pageContext.request.contextPath}/wishlist?action=wishlist&id=${post.id}"><span class="category"><i class="fa-solid fa-heart-circle-plus" style="color:#f35525;font-size: 20px;"></i></span></a>
+                  <a href="${pageContext.request.contextPath}/userapartmentdetails?id=<%= post.getId() %>"><img src="${pageContext.request.contextPath}/assets/user/images/150canho/<%= post.getAvatar() %>" alt="" width="356" height="267"></a>
+                  <a href="${pageContext.request.contextPath}/wishlist?action=wishlist&id=<%= post.getId() %>"><span class="category"><i class="fa-solid fa-heart-circle-plus" style="color:#f35525;font-size: 20px;"></i></span></a>
                   
-                  <h6>${post.price } tỷ VNĐ</h6>
-                  <h4><a href="${pageContext.request.contextPath}/userapartmentdetails?id=${post.id}">${post.subject }</a></h4>
+                  <h6><%= post.getPrice() %> <%= messages.getString("ty") %> VNĐ</h6>
+                  <h4><a href="${pageContext.request.contextPath}/userapartmentdetails?id=<%= post.getId() %>"> <%= postLanguageModel.find((int) post.getId(), languageModel.findByLanguageID(language).getId()) != null ? postLanguageModel.find((int) post.getId(), languageModel.findByLanguageID(language).getId()).getSubject() : post.getSubject() %></a></h4>
                   <ul>
-                     <li>Phòng ngủ: <span>${post.bedroom}</span></li>
-              <li>Phòng tắm: <span>${post.bathroom}</span></li>
-              <li>Diện tích: <span>${post.area} m2</span></li>
-              <li>Ngày đăng: <span><f:formatDate value="${post.postdate }"
+                     <li><%= messages.getString("phong_ngu") %>: <span><%= post.getBedroom() %></span></li>
+              <li><%= messages.getString("phong_tam") %>: <span><%= post.getBathroom() %></span></li>
+              <li><%= messages.getString("dien_tich") %>: <span><%= post.getArea() %> m2</span></li>
+              <li><%= messages.getString("ngay_dang") %>: <span><f:formatDate value="<%= post.getPostdate()%>"
 													pattern="dd-MM-yyyy" var="postdate" /> ${postdate }</span></li>
-              <li>Địa chỉ: <span>${post.address}</span></li>
+              <li><%= messages.getString("dia_chi") %>: <span> <%= postLanguageModel.find((int) post.getId(), languageModel.findByLanguageID(language).getId()) != null ? postLanguageModel.find((int) post.getId(), languageModel.findByLanguageID(language).getId()).getAddress() : post.getAddress() %></span></li>
                   </ul>
                   <div class="main-button">
-                    <a href="${pageContext.request.contextPath}/userapartmentdetails?id=${post.id}">Chi tiết</a>
+                    <a href="${pageContext.request.contextPath}/userapartmentdetails?id=<%= post.getId() %>"><%= messages.getString("chi_tiet") %></a>
                   </div>
                 </div>
           </div>
-        </c:forEach>
-         
+          
+          <% } %>
+     
           </div>
         </div>
         <div class="row">

@@ -15,12 +15,19 @@ import org.mindrot.jbcrypt.BCrypt;
 
 
 import com.demo.entities.Account;
+import com.demo.entities.Log;
+import com.demo.ex.ConfigLog;
+import com.demo.ex.LogService;
+import com.demo.ex.LoginLogServiceImpl;
+import com.demo.helpers.IP2LocationService;
+import com.demo.helpers.IPAddressUtil;
 import com.demo.helpers.MailHelper;
 import com.demo.helpers.RandomStringHelper;
 import com.demo.models.AccountDetailsModel;
 import com.demo.models.AccountModel;
 import com.demo.models.ContactModel;
 import com.demo.models.FeedbackModel;
+import com.ip2location.IPResult;
 
 @WebServlet("/login")
 /**
@@ -122,7 +129,12 @@ public class LoginServlet extends HttpServlet {
 		Account account = accountModel.findAccountByUsername(new String(username.getBytes("ISO-8859-1"), "UTF-8"));
 		FeedbackModel feedbackModel = new FeedbackModel();
 		ContactModel contactModel = new ContactModel();
+
+		ConfigLog configLog = new ConfigLog();
+	
+		
 		if(accountModel.login(new String(username.getBytes("ISO-8859-1"), "UTF-8"), password)) {
+			System.out.println(LoginLogServiceImpl.login(new Log(configLog.clientPublicIP, "aa", new ConfigLog().ipconfig(request).getCountryLong(), new java.util.Date(), null, null)));
 			if(account.getRole() == 0) {
 				request.getSession().setAttribute("accountAdmin", account);
 				request.getSession().removeAttribute("accountdetails");

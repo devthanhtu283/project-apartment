@@ -1,25 +1,37 @@
+<%@page import="java.util.Locale"%>
+<%@page import="java.util.ResourceBundle"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" isELIgnored="false"%>
  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
  <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
+ <%
+	
+	HttpSession httpSession = request.getSession();
+	if(httpSession.getAttribute("language")== null){
+		request.getSession().setAttribute("language", "vi");
+		
+	}
+	String language = httpSession.getAttribute("language").toString();
+	ResourceBundle messages = ResourceBundle.getBundle("messages", new Locale(language));
+%>
   <div class="main-banner">
     <div class="owl-carousel owl-banner">
       <div class="item item-1">
         <div class="header-text">
-          <span class="category"><em>CĂN HỘ CỦA CHÚNG TÔI</em></span>
-          <h2>ApaRTMENT!<br>Cung cấp những căn hộ cao cấp nhất!</h2>
+          <span class="category"><em><%= messages.getString("can_ho_cua_chung_toi") %></em></span>
+          <h2>ApaRTMENT!<br><%= messages.getString("cung_cap_nhung_can_ho_cao_cap_nhat") %></h2>
         </div>
       </div>
       <div class="item item-2">
         <div class="header-text">
-          <span class="category"><em>CÁC CĂN HỘ KHÁC</em></span>
-          <h2>Chúng tôi<br>cung cấp các căn hộ cao cấp, uy tín khác!</h2>
+          <span class="category"><em><%= messages.getString("cac_can_ho_khac") %></em></span>
+          <h2><%= messages.getString("chung_toi") %><br><%= messages.getString("cung_cap_cac_can_ho_cao_cap_uy_tin_khac") %></h2>
         </div>
       </div>
       <div class="item item-3">
         <div class="header-text">
-          <span class="category"><em>SÀN MÔI GIỚI</em></span>
-          <h2>Sàn môi giới<br>kí gửi các căn hộ của bạn!</h2>
+          <span class="category"><em><%= messages.getString("san_moi_gioi") %></em></span>
+          <h2><%= messages.getString("san_moi_gioi") %><br><%= messages.getString("ky_gui_cac_can_ho_cua_ban") %></h2>
         </div>
       </div>
      
@@ -37,42 +49,42 @@
         </div>
         <div class="col-lg-5">
           <div class="section-heading">
-            <h6>| Về Apartment</h6>
-            <h2>Dịch vụ cung cấp căn hộ tốt nhất</h2>
+            <h6>| <%= messages.getString("ve_apartment") %></h6>
+            <h2><%= messages.getString("dich_vu_cung_cap_can_ho_tot_nhat") %></h2>
           </div>
           <div class="accordion" id="accordionExample">
             <div class="accordion-item">
               <h2 class="accordion-header" id="headingOne">
                 <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                  *Các căn hộ của chúng tôi
+                  *<%= messages.getString("cac_can_ho_cua_chung_toi") %>.
                 </button>
               </h2>
               <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                Chúng tôi <strong>chuyên cung cấp và quản lý</strong> các căn hộ cao cấp trên địa bàn TP. Hồ Chí Minh.  <span style="color: blue;">Phân phối và quản lý hơn 100 căn hộ thuộc hệ thống Apartment, </span>bước đệm đầu tiên trong tầm nhìn chiến lược vươn tầm quốc tế của Apartment.</div>
+                <%= messages.getString("chung_toi") %> <strong><%= messages.getString("chuyen_cung_cap_va_quan_ly") %></strong> <%= messages.getString("cac_can_ho_cao_cap_tren_dia_ban_TP_Ho_Chi_Minh") %>. <span style="color: blue;"><%= messages.getString("phan_phoi_va_quan_ly_hon_100_can_ho") %>, </span><%= messages.getString("buoc_dem_dau_tien_trong_tam_nhin") %>.</div>
               </div>
             </div>
             <div class="accordion-item">
               <h2 class="accordion-header" id="headingTwo">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                  * Cung cấp những căn hộ khác.
+                  * <%= messages.getString("cung_cap_nhung_can_ho_khac") %>.
                 </button>
               </h2>
               <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                  Ngoài ra, chúng tôi còn cung cấp các căn hộ khác từ những người bán uy tín trên địa bàn TP. Hồ Chí Minh.
+                  <%= messages.getString("ngoai_ra_chung_toi_con_cung_cap") %>.
                 </div>
               </div>
             </div>
             <div class="accordion-item">
               <h2 class="accordion-header" id="headingThree">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                  *Sàn môi giới, kí gửi bất động sản uy tín.
+                  *<%= messages.getString("san_moi_gioi_ky_gui_bat_dong_san_uy_tin") %>.
                 </button>
               </h2>
               <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                  Chúng tôi cung cấp và tư vấn giải pháp quản lý – marketing căn hộ cao cấp trên địa bàn TP HCM. Hãy đăng ký tài khoản và cung cấp cho chúng tôi đầy đủ thông tin về dự án của quý khách.
+                 <%= messages.getString("chung_toi_cung_cap_va_tu_van") %>
                 </div>
               </div>
             </div>
@@ -83,21 +95,21 @@
             <ul>
               <li>
                 <img src="${pageContext.request.contextPath}/assets/user/images/info-icon-03.png" alt="" style="max-width: 52px;">
-                <h4>Căn hộ<br>Cao cấp nhất</h4>
+                <h4><%= messages.getString("can_ho_cao_cap_nhat") %></h4>
               </li>
               <li>
                 <img src="${pageContext.request.contextPath}/assets/user/images/info-icon-01.png" alt="" style="max-width: 52px;">
-                <h4>Trên khắp<br>TPHCM</h4>
+                <h4><%= messages.getString("tren_khap_TPHCM") %></h4>
               </li>
               <li>
                 <img src="${pageContext.request.contextPath}/assets/user/images/info-icon-04.png" alt="" style="max-width: 52px;">
-                <h4>An toàn<br>Và uy tín</h4>
+                <h4><%= messages.getString("an_toan_va_uy_tin") %></h4>
               </li>
             
               
               <li>
                 <img src="${pageContext.request.contextPath}/assets/user/images/info-icon-02.png" alt="" style="max-width: 52px;">
-                <h4>Hợp đồng<br>Nhanh chóng</h4>
+                <h4><%= messages.getString("hop_dong_nhanh_chong") %></h4>
               </li>
             </ul>
           </div>
@@ -111,8 +123,8 @@
       <div class="row">
         <div class="col-lg-4 offset-lg-4">
           <div class="section-heading text-center">
-            <h6>| Video Căn Hộ</h6>
-            <h2>Xem video chi tiết về căn hộ của chúng tôi</h2>
+            <h6>| <%= messages.getString("video_can_ho") %></h6>
+            <h2><%= messages.getString("xem_video_chi_tiet") %></h2>
           </div>
         </div>
       </div>
@@ -141,19 +153,19 @@
               <div class="col-lg-4">
                 <div class="counter">
                   <h2 class="timer count-title count-number" data-to="5" data-speed="1000"></h2>
-                   <p class="count-text ">HỆ THỐNG TRÊN TP.HCM<br></p>
+                   <p class="count-text "><%= messages.getString("he_thong_tren_TP.HCM") %><br></p>
                 </div>
               </div>
               <div class="col-lg-4">
                 <div class="counter">
                   <h2 class="timer count-title count-number" data-to="12" data-speed="1000"></h2>
-                  <p class="count-text ">NĂM THÀNH LẬP</p>
+                  <p class="count-text "><%= messages.getString("nam_thanh_lap") %></p>
                 </div>
               </div>
               <div class="col-lg-4">
                 <div class="counter">
                   <h2 class="timer count-title count-number" data-to="24" data-speed="1000"></h2>
-                  <p class="count-text ">GIẢI THƯỞNG</p>
+                  <p class="count-text "><%= messages.getString("giai_thuong") %></p>
                 </div>
               </div>
             </div>
@@ -168,8 +180,8 @@
       <div class="row">
         <div class="col-lg-4">
           <div class="section-heading">
-            <h6>| Về chúng tôi</h6>
-            <h2>Tìm ngay bây giờ!</h2>
+            <h6>| <%= messages.getString("ve_chung_toi") %></h6>
+            <h2><%= messages.getString("tim_ngay_bay_gio") %></h2>
           </div>
         </div>
         <div class="col-lg-12">
@@ -178,13 +190,13 @@
               <div class="nav-wrapper ">
                 <ul class="nav nav-tabs" role="tablist">
                   <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="appartment-tab" data-bs-toggle="tab" data-bs-target="#appartment" type="button" role="tab" aria-controls="appartment" aria-selected="true">Chi Nhánh</button>
+                    <button class="nav-link active" id="appartment-tab" data-bs-toggle="tab" data-bs-target="#appartment" type="button" role="tab" aria-controls="appartment" aria-selected="true"><%= messages.getString("chi_nhanh") %></button>
                   </li>
                   <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="villa-tab" data-bs-toggle="tab" data-bs-target="#villa" type="button" role="tab" aria-controls="villa" aria-selected="false">Căn Hộ</button>
+                    <button class="nav-link" id="villa-tab" data-bs-toggle="tab" data-bs-target="#villa" type="button" role="tab" aria-controls="villa" aria-selected="false"><%= messages.getString("can_ho") %></button>
                   </li>
                   <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="penthouse-tab" data-bs-toggle="tab" data-bs-target="#penthouse" type="button" role="tab" aria-controls="penthouse" aria-selected="false">Sàn cung cấp</button>
+                    <button class="nav-link" id="penthouse-tab" data-bs-toggle="tab" data-bs-target="#penthouse" type="button" role="tab" aria-controls="penthouse" aria-selected="false"><%= messages.getString("san_cung_cap") %></button>
                   </li>
                 </ul>
               </div>              
@@ -206,11 +218,11 @@
                       <img src="${pageContext.request.contextPath}/assets/user/images/ban-do-tphcm.jpg" alt="">
                     </div>
                     <div class="col-lg-3">
-                      <h4>Apartment - Hệ thống cung cấp căn hộ/chung cư cao cấp</h4>
-                      <p>Phân phối hơn 100 căn hộ/chung cư cao cấp trên địa bàn thành phố Hồ Chí Minh, bước đệm đầu tiên trong tầm nhìn chiến lược vươn tầm quốc tế của Apartment
-                      <br><br>Chúng tôi có 5 hệ thống/chi nhánh Apartment trên địa bàn thành phố Hồ Chí Minh và nhiều căn hộ/ chung cư cao cấp khác từ các người môi giới.</p>
+                      <h4>Apartment - <%= messages.getString("he_thong_cung_cap_can_ho_chung_cu_cao_cap") %></h4>
+                      <p><%= messages.getString("phan_phoi_va_quan_ly_hon_100_can_ho") %>, <%= messages.getString("buoc_dem_dau_tien_trong_tam_nhin") %>.
+                      <br><br><%= messages.getString("chung_toi_co_5_he_thong_chi_nhanh") %>.</p>
                       <div class="icon-button">
-                        <a href="${pageContext.request.contextPath }/contact"><i class="fa fa-calendar"></i>Liên hệ</a>
+                        <a href="${pageContext.request.contextPath }/contact"><i class="fa fa-calendar"></i><%= messages.getString("lien_he") %></a>
                       </div>
                     </div>
                   </div>
@@ -220,11 +232,11 @@
                     <div class="col-lg-3">
                       <div class="info-table">
                         <ul>
-                          <li>Diện tích: <span>Từ 250 m2</span></li>
-                          <li>Số phòng ngủ <span>1-3 phòng</span></li>
-                          <li>Số nhà vệ sinh <span>1-2 phòng</span></li>
-                          <li>Nội thất <span>Đầy đủ</span></li>
-                          <li style="color: red;">Giá <span style="color: red;">Chỉ từ 1 tỷ</span></li>
+                          <li><%= messages.getString("dien_tich") %> <span><%= messages.getString("from") %> 250 m2</span></li>
+                          <li><%= messages.getString("phong_ngu") %> <span>1-3 <%= messages.getString("phong") %></span></li>
+                          <li><%= messages.getString("phong_tam") %> <span>1-2 <%= messages.getString("phong") %></span></li>
+                          <li><%= messages.getString("noi_that") %> <span><%= messages.getString("day_du") %></span></li>
+                          <li style="color: red;"><%= messages.getString("gia") %> <span style="color: red;"><%= messages.getString("chi_tu_1_ty") %></span></li>
                         </ul>
                       </div>
                     </div>
@@ -232,10 +244,10 @@
                       <img src="${pageContext.request.contextPath}/assets/user/images/deal-02.jpg" alt="">
                     </div>
                     <div class="col-lg-3">
-                      <h4>Mô tả chi tiết</h4>
-                      <p>Mỗi hệ thống/chi nhánh Apartment sẽ có 5 tầng, 1 tầng sẽ có 5 phòng với đầy đủ tiện nghi khép kín(siêu thị, hồ bơi, phòng gym, nhà thuốc, cafe, ..)<br><br>Các căn hộ/chung cư trong 1 hệ thống tất cả đều chung 1 thiết kế và full nội thất, thang máy, sảnh lễ tân, hầm xe, bảo vệ 24/7, ở từ 2-4 người, cho nuôi pet. Liên hệ để biết thêm thông tin.</p>
+                      <h4><%= messages.getString("mo_ta_chi_tiet") %></h4>
+                      <p><%= messages.getString("moi_he_thong_co_5_tang") %><br><br><%= messages.getString("cac_can_ho_chung_1_thiet_ke") %>.</p>
                       <div class="icon-button">
-                        <a href="${pageContext.request.contextPath }/systemapartment"><i class="fa fa-calendar"></i> Xem thêm chi tiết</a>
+                        <a href="${pageContext.request.contextPath }/systemapartment"><i class="fa fa-calendar"></i> <%= messages.getString("xem_them_chi_tiet") %></a>
                       </div>
                     </div>
                   </div>
@@ -244,19 +256,19 @@
                   <div class="row">
                     <div class="col-lg-3">
                       <div class="info-table">
-                        - Bạn cần phải cung cấp đầy đủ thông tin về căn hộ của bạn theo mẫu có sẵn như địa chỉ/ vị trí, mô tả (giá tiền, số phòng ngủ, số phòng vệ sinh, ban công,..), các dịch vụ, tiện ích liên quan, thông tin cá nhân, thông tin liên lạc,...
+                        - <%= messages.getString("ban_can_cung_cap_day_du_thong_tin") %>
                         <br>
-                        - Các giấy tờ pháp lý liên quan nếu bạn là chủ sở hữu, còn nếu bạn là người môi giới thì cần cung cấp được thông tin liên lạc với chủ sở hữu hoặc giấy ủy quyền mua bán nhà đất, ...
+                        - <%= messages.getString("cac_giay_to_phap_ly") %>
                       </div>
                     </div>
                     <div class="col-lg-6">
                       <img src="${pageContext.request.contextPath}/assets/user/images/deal-03.jpg" alt="">
                     </div>
                     <div class="col-lg-3">
-                      <h4>Dịch vụ kí gửi/môi giới căn hộ/chung cư</h4>
-                      <p>Chúng tôi cung cấp và tư vấn giải pháp quản lý – marketing căn hộ dịch vụ và phòng cao cấp cho thuê trên địa bàn TP HCM. <br><br>Cung cấp cho chúng tôi đầy đủ thông tin về dự án của quý khách, chuyên viên của chúng tôi sẽ tổng hợp tất cả các thông tin của quý khách từ đó xây dựng kế hoạch marketing, quảng cáo và chăm sóc HOÀN TOÀN MIỄN PHÍ căn hộ của quý khách trong vòng 24h kể từ khi nhận được yêu cầu ký gửi.</p>
+                      <h4><%= messages.getString("dich_vu_ky_gui_moi_gioi") %></h4>
+                      <p><%= messages.getString("cung_cap_quan_ly_marketing") %> <br><br><%= messages.getString("cung_cap_thong_tin_du_an") %>.</p>
                       <div class="icon-button">
-                        <a href="${pageContext.request.contextPath }/postapartment"><i class="fa fa-calendar"></i> Ký gửi ngay!</a>
+                        <a href="${pageContext.request.contextPath }/postapartment"><i class="fa fa-calendar"></i> <%= messages.getString("ky_gui_ngay") %></a>
                       </div>
                     </div>
                   </div>
@@ -274,8 +286,8 @@
       <div class="row">
         <div class="col-lg-4 offset-lg-4">
           <div class="section-heading text-center">
-            <h6>| Các căn hộ khác</h6>
-            <h2>Các căn hộ cao cấp khác</h2>
+            <h6>| <%= messages.getString("cac_can_ho_khac") %></h6>
+            <h2><%= messages.getString("cac_can_ho_cao_cap_khac") %></h2>
           </div>
         </div>
       </div>
@@ -313,8 +325,8 @@
       <div class="row">
         <div class="col-lg-4 offset-lg-4">
           <div class="section-heading text-center">
-            <h6>| Hãy để lại đánh giá của bạn</h6>
-            <h2>Để chúng tôi hoàn thiện hơn</h2>
+            <h6>| <%= messages.getString("hay_de_lai_danh_gia_cua_ban") %></h6>
+            <h2><%= messages.getString("de_chung_toi_hoan_thien_hon") %></h2>
           </div>
         </div>
       </div>
@@ -332,7 +344,7 @@
             <div class="col-lg-6">
               <div class="item phone">
                 <img src="${pageContext.request.contextPath}/assets/user/images/phone-icon.png" alt="" style="max-width: 52px;">
-                <h6>18001515<br><span>Đường dây nóng</span></h6>
+                <h6>18001515<br><span><%= messages.getString("duong_day_nong") %></span></h6>
               </div>
             </div>
             <div class="col-lg-6">
@@ -348,31 +360,31 @@
             <div class="row">
               <div class="col-lg-12">
                 <fieldset>
-                  <label for="name">Họ và tên</label>
-                  <input type="name" name="name" id="name" placeholder="Nhập tên của bạn..." autocomplete="on" required>
+                  <label for="name"><%= messages.getString("ho_va_ten") %></label>
+                  <input type="name" name="name" id="name" placeholder="<%= messages.getString("nhap_ten_cua_ban") %>" autocomplete="on" required>
                 </fieldset>
               </div>
               <div class="col-lg-12">
                 <fieldset>
-                  <label for="email">Email của bạn</label>
-                  <input type="text" name="email" id="email" pattern="[^ @]*@[^ @]*" placeholder="Nhập thư điện tử ..." required>
+                  <label for="email"><%= messages.getString("email_cua_ban") %></label>
+                  <input type="text" name="email" id="email" pattern="[^ @]*@[^ @]*" placeholder="<%= messages.getString("nhap_thu_dien_tu") %>" required>
                 </fieldset>
               </div>
               <div class="col-lg-12">
                 <fieldset>
-                  <label for="subject">Tiêu đề</label>
-                  <input type="subject" name="subject" id="subject" placeholder="Tiêu đề" autocomplete="on" >
+                  <label for="subject"><%= messages.getString("tieu_de") %></label>
+                  <input type="subject" name="subject" id="subject" placeholder="<%= messages.getString("tieu_de") %>" autocomplete="on" >
                 </fieldset>
               </div>
               <div class="col-lg-12">
                 <fieldset>
-                  <label for="message">Đánh giá</label>
-                  <textarea name="message" id="message" placeholder="Đánh giá của bạn"></textarea>
+                  <label for="message"><%= messages.getString("danh_gia") %></label>
+                  <textarea name="message" id="message" placeholder="<%= messages.getString("danh_gia_cua_ban") %>"></textarea>
                 </fieldset>
               </div>
               <div class="col-lg-12">
                 <fieldset>
-                  <button type="submit" id="form-submit" class="orange-button">Gửi</button>
+                  <button type="submit" id="form-submit" class="orange-button"><%= messages.getString("gui") %></button>
                 </fieldset>
                 <br>
                  <%
