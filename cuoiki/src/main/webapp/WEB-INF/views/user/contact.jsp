@@ -1,12 +1,24 @@
+<%@page import="java.util.ResourceBundle"%>
+<%@page import="java.util.Locale"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" isELIgnored="false"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%
+	
+	HttpSession httpSession = request.getSession();
+	if(httpSession.getAttribute("language")== null){
+		request.getSession().setAttribute("language", "vi");
+		
+	}
+	String language = httpSession.getAttribute("language").toString();
+	ResourceBundle messages = ResourceBundle.getBundle("messages", new Locale(language));
+%>
   <div class="page-heading header-text">
     <div class="container">
       <div class="row">
         <div class="col-lg-12">
-          <span class="breadcrumb"><a href="${pageContext.request.contextPath}/home">Trang chủ</a></span>
-          <h3> Liên Hệ Chúng Tôi</h3>
+          <span class="breadcrumb"><a href="${pageContext.request.contextPath}/home"><%= messages.getString("trang_chu") %></a></span>
+          <h3> <%= messages.getString("lien_he_chung_toi") %></h3>
         </div>
       </div>
     </div>
@@ -17,21 +29,21 @@
       <div class="row">
         <div class="col-lg-6">
           <div class="section-heading">
-            <h6>| Liên hệ với chúng tôi</h6>
-            <h2>Đừng ngần ngại xin hãy liên hệ</h2>
+            <h6>| <%= messages.getString("lien_he_voi_chung_toi") %></h6>
+            <h2><%= messages.getString("dung_ngan_ngai") %></h2>
           </div>
-          <p>Hệ thống nhà ở Apartment xin cảm ơn bạn đã ghé thăm và liên hệ với chúng tôi. Là một thành viên trong ngành tuy còn mới nhưng chúng tôi tin rằng sẽ đem đến những điều tốt đẹp nhất đến với khách hàng và cộng đồng. Nếu bạn cần chúng tôi tìm kiếm căn hộ phù hợp với nhu cầu của bạn, đừng ngần ngại hãy liên hệ theo thông tin bên dưới</p>
+          <p><%= messages.getString("he_thong_nha_o_cam_on") %></p>
           <div class="row">
             <div class="col-lg-12">
               <div class="item phone">
                 <img src="${pageContext.request.contextPath}/assets/user/images/phone-icon.png" alt="" style="max-width: 52px;">
-                <h6>18001515<br><span>Đường dây nóng</span></h6>
+                <h6>18001515<br><span><%= messages.getString("duong_day_nong") %></span></h6>
               </div>
             </div>
             <div class="col-lg-12">
               <div class="item email">
                 <img src="${pageContext.request.contextPath}/assets/user/images/email-icon.png" alt="" style="max-width: 52px;">
-                <h6>apart@gmail.com<br><span>Email của chúng tôi</span></h6>
+                <h6>apart@gmail.com<br><span><%= messages.getString("email_cua_chung_toi") %></span></h6>
               </div>
             </div>
           </div>
@@ -41,37 +53,37 @@
             <div class="row">
               <div class="col-lg-12">
                 <fieldset>
-                  <span style="color: red;">* </span><label for="name">Họ tên</label>
-                  <input type="name" name="name" id="name" placeholder="Vui lòng nhập họ tên" autocomplete="on" required>
+                  <span style="color: red;">* </span><label for="name"><%= messages.getString("ho_va_ten") %></label>
+                  <input type="name" name="name" id="name" placeholder="<%= messages.getString("nhap_ten_cua_ban") %>" autocomplete="on" required>
                 </fieldset>
               </div>
                <div class="col-lg-12">
                 <fieldset>
-                  <span style="color: red;">* </span><label for="email">Số điện thoại</label>
-                  <input type="text" name="phoneNumber" id="phoneNumber" pattern="(\(\+[0-9]{2}\)|0)([0-9]{9,10})" type="tel" placeholder="Nhập số điện thoại của bạn" required>
+                  <span style="color: red;">* </span><label for="email"><%= messages.getString("phone") %></label>
+                  <input type="text" name="phoneNumber" id="phoneNumber" pattern="(\(\+[0-9]{2}\)|0)([0-9]{9,10})" type="tel" placeholder="<%= messages.getString("nhap_phone") %>" required>
                 </fieldset>
               </div>
               <div class="col-lg-12">
                 <fieldset>
-                  <span style="color: red;">* </span><label for="email">Địa chỉ email</label>
-                  <input type="text" name="email" id="email" pattern="[^ @]*@[^ @]*" placeholder="Vui lòng nhập email" required="">
+                  <span style="color: red;">* </span><label for="email"><%= messages.getString("email_cua_ban") %></label>
+                  <input type="text" name="email" id="email" pattern="[^ @]*@[^ @]*" placeholder="<%= messages.getString("nhap_thu_dien_tu") %>" required="">
                 </fieldset>
               </div>
               <div class="col-lg-12">
                 <fieldset>
-                  <label for="subject">Tiêu đề</label>
-                  <input type="subject" name="subject" id="subject" placeholder="Vui lòng nhập tiêu đề" autocomplete="on" required="">
+                  <label for="subject"><%= messages.getString("tieu_de") %></label>
+                  <input type="subject" name="subject" id="subject" placeholder="<%= messages.getString("nhap_tieu_de") %>" autocomplete="on" required="">
                 </fieldset>
               </div>
               <div class="col-lg-12">
                 <fieldset>
-                  <label for="message">Thông điệp</label>
-                  <textarea name="message" id="message" required="" placeholder="Vui lòng nhập thông điệp"></textarea>
+                  <label for="message"><%= messages.getString("thong_diep") %></label>
+                  <textarea name="message" id="message" required="" placeholder="<%= messages.getString("nhap_thong_diep") %>"></textarea>
                 </fieldset>
               </div>
               <div class="col-lg-12">
                 <fieldset>
-                  <button type="submit" id="form-submit" class="orange-button">Gửi</button>
+                  <button type="submit" id="form-submit" class="orange-button"><%= messages.getString("gui") %></button>
                 </fieldset>
                 <br>
                 <%

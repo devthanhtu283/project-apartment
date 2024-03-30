@@ -71,6 +71,7 @@ public class ChangePasswordServlet extends HttpServlet {
 		} else {
 			request.getSession().setAttribute("msg", "Đã đổi mật khẩu thành công. Xin vui lòng đăng nhập lại tài khoản");
 			response.sendRedirect("login");
+			
 		}
 	}
 

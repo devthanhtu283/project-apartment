@@ -68,6 +68,7 @@ public class ClientFilter extends HttpFilter implements Filter {
 			System.out.println("IP2Location Result: " + result);
 			System.out.println("Country Short: " + result.getCountryShort());
 			System.out.println("Country Long: " + result.getCountryLong());
+			
 		} else {
 			System.out.println("IP2Location Result is null");
 		}

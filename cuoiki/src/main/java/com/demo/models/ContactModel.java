@@ -110,7 +110,7 @@ public class ContactModel {
 			preparedStatement.setString(5, contact.getEmail());
 			preparedStatement.setDate(6, new Date(contact.getCreated().getTime()));
 			preparedStatement.setBoolean(7, contact.isStatus());
-			
+	
 			status = preparedStatement.executeUpdate() > 0;
 			
 			
