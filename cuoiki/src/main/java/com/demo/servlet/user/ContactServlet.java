@@ -80,6 +80,7 @@ public class ContactServlet extends HttpServlet {
 		contact.setEmail(email);
 		contact.setStatus(false);
 		contact.setCreated(new Date());
+	
 		if (contactModel.create(contact)) {
 			request.getSession().setAttribute("success",
 					"Cảm ơn đã đóng góp ý kiến cho hệ thống.Kính chúc quý khách một ngày tốt lành");

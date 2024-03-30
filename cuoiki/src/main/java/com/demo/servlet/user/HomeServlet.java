@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.demo.entities.Account;
 import com.demo.entities.Feedback;
+import com.demo.ex.CreateLogService;
 import com.demo.models.FeedbackModel;
 import com.demo.models.PostModel;
 //import com.demo.models.PostModel;
@@ -39,6 +40,7 @@ public class HomeServlet extends HttpServlet {
 		}
 	}
 	protected void doGet_Index(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		PostModel postModel = new PostModel();
 		request.setAttribute("posts", postModel.findTopSix());
 		request.setAttribute("activeHome", "active");
@@ -60,7 +62,7 @@ public class HomeServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		Account account = (Account) request.getSession().getAttribute("account");
 		if(account != null ) {
-		
+			
 			FeedbackModel feedBackModel = new FeedbackModel();
 			String name = request.getParameter("name");
 			String email = request.getParameter("email");
@@ -72,6 +74,7 @@ public class HomeServlet extends HttpServlet {
 			feedback.setDescription(new String(message.getBytes("ISO-8859-1"), "UTF-8"));
 			feedback.setSubject(new String(subject.getBytes("ISO-8859-1"), "UTF-8"));
 			if(feedBackModel.submitFeedback(feedback)) {
+				CreateLogService.create(email, subject, message, null);
 				request.getSession().setAttribute("msg","Cảm ơn đã đóng góp ý kiến cho hệ thống.Kính chúc quý khách một ngày tốt lành");
 				response.sendRedirect("home#form-submit");
 			} else {
