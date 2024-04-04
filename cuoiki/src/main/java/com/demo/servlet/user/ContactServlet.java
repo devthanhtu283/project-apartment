@@ -1,6 +1,7 @@
 package com.demo.servlet.user;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.Date;
 
 import javax.servlet.ServletException;
@@ -12,7 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 import com.demo.entities.Account;
 import com.demo.entities.Accountdetails;
 import com.demo.entities.Contact;
+import com.demo.entities.Log;
+import com.demo.ex.ConfigLog;
+import com.demo.helpers.IPAddressUtil;
 import com.demo.models.ContactModel;
+import com.demo.models.LogModel;
 
 @WebServlet("/contact")
 /**
@@ -64,8 +69,8 @@ public class ContactServlet extends HttpServlet {
 	protected void doPost_Contact(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
 
+		LogModel logModel = new LogModel();
 		String name = request.getParameter("name");
 		String phoneNumber = request.getParameter("phoneNumber");
 		String email = request.getParameter("email");
@@ -82,6 +87,7 @@ public class ContactServlet extends HttpServlet {
 		contact.setCreated(new Date());
 	
 		if (contactModel.create(contact)) {
+			logModel.create(new Log(IPAddressUtil.getPublicIPAddress(), "alert",ConfigLog.ipconfig(request).getCountryLong(), new Timestamp(new Date().getTime()), null, null));
 			request.getSession().setAttribute("success",
 					"Cảm ơn đã đóng góp ý kiến cho hệ thống.Kính chúc quý khách một ngày tốt lành");
 			response.sendRedirect("contact#contact-form");

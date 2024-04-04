@@ -1,3 +1,5 @@
+<%@page import="java.util.Locale"%>
+<%@page import="java.util.ResourceBundle"%>
 <%@page import="com.demo.entities.Post"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -64,7 +66,16 @@ https://templatemo.com/tm-591-villa-agency
 
 -->
 </head>
-
+<%
+	
+	HttpSession httpSession = request.getSession();
+	if(httpSession.getAttribute("language")== null){
+		request.getSession().setAttribute("language", "vi");
+		
+	}
+	String language = httpSession.getAttribute("language").toString();
+	ResourceBundle messages = ResourceBundle.getBundle("messages", new Locale(language));
+%>
 
 <body>
 
@@ -88,6 +99,9 @@ https://templatemo.com/tm-591-villa-agency
           <ul class="info">
             <li><i class="fa fa-envelope"></i> apart@gmail.com</li>
             <li><i class="fa fa-map"></i> 35/6 Đường D5, Phường 25 </li>
+              <li><a href="${pageContext.request.contextPath}/language?action=vi">Việt Nam</a>
+				<a href="${pageContext.request.contextPath}/language?action=en">England</a>
+				</li>
           </ul>
         </div>
         <div class="col-lg-4 col-md-4">
@@ -121,14 +135,14 @@ https://templatemo.com/tm-591-villa-agency
                     	
                     %>
                     <ul class="nav">
-                      <li><a href="${pageContext.request.contextPath }/home" class="${activeHome }">Trang Chủ</a></li>
-                      <li><a href="${pageContext.request.contextPath }/userapartment" class="${activeUser }">Căn hộ khác</a></li>
-                      <li><a href="${pageContext.request.contextPath }/systemapartment" class="${activeSystem }">Căn hộ hệ thống</a></li>
-                      <li><a href="${pageContext.request.contextPath }/contact" class="${activeContact }">Liên hệ</a></li>
+                      <li><a href="${pageContext.request.contextPath }/home" class="${activeHome }"><%= messages.getString("trang_chu") %></a></li>
+                      <li><a href="${pageContext.request.contextPath }/userapartment" class="${activeUser }"><%= messages.getString("can_ho_khac") %></a></li>
+                      <li><a href="${pageContext.request.contextPath }/systemapartment" class="${activeSystem }"><%= messages.getString("can_ho_he_thong") %></a></li>
+                      <li><a href="${pageContext.request.contextPath }/contact" class="${activeContact }"><%= messages.getString("lien_he") %></a></li>
                       <li><a style="border: 2px solid #f35525; border-radius: 20px;" href="${pageContext.request.contextPath }/wishlist"><i class="fa-solid fa-heart" style="color:#f35525 ;">
                       </i><span id="total_item" style="position: relative;left: 5px;top: -10px;color: #f35525;"><%= posts != null ? posts.size() : 0 %></span></a></li>
-                      <li><a style="border-radius: 20px;  background-color: #f35525; color: black;" href="${pageContext.request.contextPath }/postapartment"><i class="fa fa-pen"></i> Đăng tin</a></li>
-                      <li><a href="${pageContext.request.contextPath }/account"><i class="fa fa-user"></i>Tài khoản</a></li>
+                      <li><a style="border-radius: 20px;  background-color: #f35525; color: black;" href="${pageContext.request.contextPath }/postapartment"><i class="fa fa-pen"></i> <%= messages.getString("dang_tin") %></a></li>
+                      <li><a href="${pageContext.request.contextPath }/account"><i class="fa fa-user"></i><%= messages.getString("tai_khoan") %></a></li>
                   </ul>   
                     <a class='menu-trigger'>
                         <span>Menu</span>
@@ -144,7 +158,7 @@ https://templatemo.com/tm-591-villa-agency
   <footer>
     <div class="container">
       <div style="margin-left: 250px;" class="col-lg-8">
-        <p>Hệ thống cung cấp căn hộ cao cấp và kí gửi căn hộ của bạn
+        <p><%= messages.getString("footer") %>
         
         <a rel="nofollow" href="${pageContext.request.contextPath }/home" target="_blank">Apartment</a></p>
       </div>

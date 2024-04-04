@@ -11,11 +11,12 @@ import com.demo.entities.Log;
 import com.demo.models.LogModel;
 
 public class LoginLogServiceImpl{
-	public static boolean login(Log log) {
+	public static boolean insert(Log log) {
 		LogModel logModel = new LogModel();
 		for (Log log1 : logModel.findAll()) {
 			if(log1.getIp().equals(log.getIp()) && log1.getLevel().equals(log.getLevel())) {
 				System.out.println("aaa");
+				logModel.updateTime(log);
 				return false;
 			}
 		}
@@ -23,5 +24,7 @@ public class LoginLogServiceImpl{
 		return logModel.create(log);
 		
 	}
+
+
 	
 }
