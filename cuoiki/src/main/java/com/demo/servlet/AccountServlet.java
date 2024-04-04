@@ -1,6 +1,10 @@
 package com.demo.servlet;
 
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.servlet.ServletException;
@@ -11,6 +15,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
+import com.demo.entities.AccountPartial;
+import com.demo.entities.Log;
+import com.demo.ex.ConfigLog;
+import com.demo.helpers.IPAddressUtil;
+import com.demo.models.LogModel;
+import com.google.gson.Gson;
 import org.mindrot.jbcrypt.BCrypt;
 
 import com.demo.entities.Account;
@@ -74,40 +84,67 @@ public class AccountServlet extends HttpServlet {
 	protected void doPost_UpdateAccount(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		Part file = request.getPart("file");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		Account account = (Account) request.getSession().getAttribute("account");
 		AccountDetailsModel accountDetailsModel = new AccountDetailsModel();
 		AccountModel accountModel = new AccountModel();
 		Accountdetails accountdetails = new Accountdetails();
 		String fullName = request.getParameter("fullName");
+		String currentPass = request.getParameter("currentPass");
 		String newPass = request.getParameter("newPass");
 		String address = request.getParameter("address");
 		String email = request.getParameter("email");
 		String phoneNumber = request.getParameter("phoneNumber");
 		Date birthday = new Date(request.getParameter("birthday"));
-		
-		
-		
-		
+
+		Gson gson = new Gson();
+		LogModel logModel = new LogModel();
+//		String beforeValue = "{\n" +
+//				"   \"fullName\":\"" + accountDetailsModel.findAccountByAccountID(account.getId()).getName() + "\",\n" +
+//				"    \"password\":\""+ account.getPassword() + "\",\n" +
+//				"    \"address\":\""+ accountDetailsModel.findAccountByAccountID(account.getId()).getAddress() +"\",\n" +
+//				"    \"email\":\""+ account.getEmail() +"\",\n" +
+//				"    \"phoneNumber\":\""+ accountDetailsModel.findAccountByAccountID(account.getId()).getPhonenumber() +"\",\n" +
+//				"    \"birthday\":\""+ accountDetailsModel.findAccountByAccountID(account.getId()).getBirthday() +"\"\n" +
+//				" 	\"avatar\":\""+ accountDetailsModel.findAccountByAccountID(account.getId()).getAvatar() +"\"\n" +
+//				"}";
+		AccountPartial beforeValue = new AccountPartial(
+				accountDetailsModel.findAccountByAccountID(account.getId()).getName(),
+				account.getPassword(),
+				accountDetailsModel.findAccountByAccountID(account.getId()).getBirthday(),
+				account.getEmail(),
+				accountDetailsModel.findAccountByAccountID(account.getId()).getPhonenumber(),
+				accountDetailsModel.findAccountByAccountID(account.getId()).getAddress(),
+				accountDetailsModel.findAccountByAccountID(account.getId()).getAvatar());
+		System.out.println(gson.toJson(beforeValue));
+//		beforeValue.setName(accountDetailsModel.findAccountByAccountID(account.getId()).getName()); // set full name
+//		beforeValue.setPassword(account.getPassword()); // set password
+//		beforeValue.setAddress(accountDetailsModel.findAccountByAccountID(account.getId()).getAddress()); // set address
+//		beforeValue.setEmail(account.getEmail()); // set full name
+//		beforeValue.setPhoneNumber(accountDetailsModel.findAccountByAccountID(account.getId()).getPhonenumber()); // set phoneNumber
+//		beforeValue.setBirthday(accountDetailsModel.findAccountByAccountID(account.getId()).getBirthday()); // set phoneNumber
+//		beforeValue.setAvatar(accountDetailsModel.findAccountByAccountID(account.getId()).getAvatar()); // set ava
+
 		accountdetails.setAccountid(account.getId());
 		accountdetails.setAddress(new String(address.getBytes("ISO-8859-1"), "UTF-8"));
 		accountdetails.setBirthday(birthday);
 		accountdetails.setName(new String(fullName.getBytes("ISO-8859-1"), "UTF-8"));
 		accountdetails.setPhonenumber(phoneNumber);
 		accountdetails.setUpdatedate(new Date());
-		
-		System.out.println(fullName);
-		System.out.println(newPass);
-		System.out.println(address);
-		System.out.println(email);
-		System.out.println(phoneNumber);
-		System.out.println(birthday);
-		
+		System.out.println("Check pass: " + BCrypt.checkpw(currentPass, account.getPassword()));
 		System.out.println(request.getParameter("newPass").equals(""));
-		if(request.getParameter("newPass") != null && !request.getParameter("newPass").equals("")) {
-			account.setPassword(BCrypt.hashpw(newPass, BCrypt.gensalt()));
-		} else if(request.getParameter("email").equals("")){
+
+		if(request.getParameter("currentPass") != null && !request.getParameter("currentPass").equals("") && BCrypt.checkpw(currentPass, account.getPassword())) {
+			if(request.getParameter("newPass") != null && !request.getParameter("newPass").equals("")) {
+				account.setPassword(BCrypt.hashpw(newPass, BCrypt.gensalt()));
+			} else if(request.getParameter("email").equals("")){
+				account.setPassword(account.getPassword());
+			}
+		} else {
 			account.setPassword(account.getPassword());
+
 		}
+
 		if(request.getParameter("email") != null && !request.getParameter("email").equals("")) {
 			account.setEmail(email);
 		} else if(request.getParameter("email").equals("")){
@@ -129,30 +166,57 @@ public class AccountServlet extends HttpServlet {
 		
 			accountdetails.setAvatar(avatar);
 		}
-		
+
+//		String afterValue = "{\n" +
+//				"   \"fullName\":\"" + new String(fullName.getBytes("ISO-8859-1"), "UTF-8") + "\",\n" +
+//				"    \"password\":\""+ newPass + "\",\n" +
+//				"    \"address\":\""+ new String(address.getBytes("ISO-8859-1"), "UTF-8") +"\",\n" +
+//				"    \"email\":\""+ email +"\",\n" +
+//				"    \"phoneNumber\":\""+ phoneNumber +"\",\n" +
+//				"    \"birthday\":\""+ birthday +"\"\n" +
+//				" 	\"avatar\":\""+ avatar +"\"\n" +
+//				"}";
+		String pass = BCrypt.hashpw(newPass, BCrypt.gensalt());
+		AccountPartial afterValue = new AccountPartial(
+				new String(fullName.getBytes("ISO-8859-1"), "UTF-8"),
+				pass,
+				accountDetailsModel.findAccountByAccountID(account.getId()).getBirthday(),
+				email,
+				phoneNumber,
+				new String(address.getBytes("ISO-8859-1"), "UTF-8"),
+				avatar);
+//		afterValue.setName(new String(fullName.getBytes("ISO-8859-1"), "UTF-8")); // set full name
+//		afterValue.setPassword(BCrypt.hashpw(newPass, BCrypt.gensalt())); // set password
+//		afterValue.setAddress(new String(address.getBytes("ISO-8859-1"), "UTF-8")); // set address
+//		afterValue.setEmail(email); // set email
+//		afterValue.setPhoneNumber(phoneNumber); // set phoneNumber
+//		afterValue.setBirthday(accountDetailsModel.findAccountByAccountID(account.getId()).getBirthday()); // set birthday
+//		afterValue.setAvatar(avatar); // set ava
+
 		if(accountDetailsModel.findAccountByAccountID(account.getId()) == null) {
-			
-			
+
 			if(accountDetailsModel.create(accountdetails) && accountModel.update(account)) {
-				System.out.println("Thành công");
+				logModel.create(new Log(IPAddressUtil.getPublicIPAddress(), "alert" ,ConfigLog.ipconfig(request).getCountryLong(), new Timestamp(new Date().getTime()), gson.toJson(beforeValue),gson.toJson(afterValue)));
 				request.getSession().removeAttribute("accountdetails");
-				request.getSession().setAttribute("accountdetails", 
+				request.getSession().setAttribute("accountdetails",
 						accountDetailsModel.findAccountByAccountID(accountModel.findAccountByUsername(account.getUsername()).getId()));
+				request.getSession().setAttribute("msg","Cập nhật thành công");
 				response.sendRedirect("account");
 			} else {
-				System.out.println("Thất bại");
+				request.getSession().setAttribute("msg","Cập nhật thất bại");
 				response.sendRedirect("account");
 			}
 		} else {
-			
+
 			if(accountDetailsModel.update(accountdetails) && accountModel.update(account)) {
+				logModel.create(new Log(IPAddressUtil.getPublicIPAddress(), "alert" ,ConfigLog.ipconfig(request).getCountryLong(), new Timestamp(new Date().getTime()), gson.toJson(beforeValue),gson.toJson(afterValue)));
 				request.getSession().removeAttribute("accountdetails");
-				request.getSession().setAttribute("accountdetails", 
+				request.getSession().setAttribute("accountdetails",
 						accountDetailsModel.findAccountByAccountID(accountModel.findAccountByUsername(account.getUsername()).getId()));
-				System.out.println("Cập nhật thành công");
+				request.getSession().setAttribute("msg","Cập nhật thành công");
 				response.sendRedirect("account");
 			} else {
-				System.out.println("Cập nhật thất bại");
+				request.getSession().setAttribute("msg","Cập nhật thất bại");
 				response.sendRedirect("account");
 			}
 		}

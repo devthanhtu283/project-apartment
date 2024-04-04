@@ -32,7 +32,9 @@
 								$('#submit').prop('disabled', 'true');
 								alert('Phòng này đã được bán');
 							} else {
+								
 								alert('Còn phòng');
+								$('#submit').removeAttr('disabled');
 							}
 						}
 				});
@@ -75,7 +77,7 @@
                 </div>
                 <div class="form-group">
                   <label for="inputName">Ngày tạo hợp đồng</label>
-                  <input type="text" id="datepicker" name="created" class="form-control" value="28/03/2023">
+                  <input type="text" id="datepicker" name="created" class="form-control" value="23/01/2024">
                 </div>
                 <div class="form-group">
                   <label for="inputStatus">Chi nhánh</label>

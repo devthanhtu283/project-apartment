@@ -393,7 +393,7 @@
 		$('#totalNotiNumber').html((parseInt(newNumberContact) + parseInt(newNumberFeedback)));
 		
 	}
-	setInterval(getAllNoti, 10000);
+	setInterval(getAllNoti, 500);
 		function notificationFeedback() {
 			
 			var oldFeedback = $('#feedbackNumber').val();
@@ -424,7 +424,7 @@
 				
 				
 		}
-		setInterval(notificationFeedback, 10000);
+		setInterval(notificationFeedback, 500);
 		
 						function notificationContact() {
 									var oldContact = $('#contactNumber').val();
@@ -456,7 +456,7 @@
 												});
 										
 								}
-						setInterval(notificationContact, 10000);
+						setInterval(notificationContact, 500);
 		
 		$(document).ready(function() {
 			

@@ -1,9 +1,21 @@
+<%@page import="java.util.ResourceBundle"%>
+<%@page import="java.util.Locale"%>
 <%@page import="com.demo.entities.Systemapartment"%>
 <%@page import="com.demo.models.SystemApartmentModel"%>
 <%@page import="com.demo.models.BranchModel"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" isELIgnored="false"%>
          <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
+         <%
+	
+	HttpSession httpSession = request.getSession();
+	if(httpSession.getAttribute("language")== null){
+		request.getSession().setAttribute("language", "vi");
+		
+	}
+	String language = httpSession.getAttribute("language").toString();
+	ResourceBundle messages = ResourceBundle.getBundle("messages", new Locale(language));
+%>
  <%
    BranchModel branchModel = new BranchModel();
    SystemApartmentModel systemapartment = new SystemApartmentModel();
@@ -13,8 +25,8 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-12">
-          <span class="breadcrumb"><a href="${pageContext.request.contextPath}/home">Trang chủ</a> / Căn hộ hệ thống</span>
-          <h3>Căn hộ hệ thống</h3>
+          <span class="breadcrumb"><a href="${pageContext.request.contextPath}/home"><%= messages.getString("trang_chu") %></a> / <%= messages.getString("can_ho_he_thong") %></span>
+          <h3><%= messages.getString("can_ho_he_thong") %></h3>
         </div>
       </div>
     </div>
@@ -826,7 +838,7 @@ $(document).ready(function(){
       <div style="display: flex; margin-left: 250px; margin-bottom: 20px;" >
         <div class="dropdown">
           <button style="width: 160px;" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Vị trí
+            <%= messages.getString("vi_tri") %>
           </button>
           <ul class="dropdown-menu">
             <li><input type="button" class="dropdown-item" value="Quận 1" id="district1"></li>
@@ -838,7 +850,7 @@ $(document).ready(function(){
         </div>
         <div class="dropdown" style="margin-left: 50px;">
           <button style="width: 160px;" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Theo giá
+            <%= messages.getString("theo_gia") %>
           </button>
           <ul class="dropdown-menu">
             <li><input type="button" class="dropdown-item" value="Dưới 1 tỷ" id="price1"></li>
@@ -851,15 +863,15 @@ $(document).ready(function(){
         </div>
         <div class="dropdown" style="margin-left: 50px;">
           <button style="width: 160px;" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Số phòng ngủ
+            <%= messages.getString("phong_ngu") %>
           </button>
           <ul class="dropdown-menu">
-            <li><input type="button" class="dropdown-item" value="1 phòng" id="bedroom1"></li>
-            <li><input type="button" class="dropdown-item" value="2 phòng" id="bedroom2"></li>
-            <li><input type="button" class="dropdown-item" value="3 phòng" id="bedroom3"></li>
+            <li><input type="button" class="dropdown-item" value="1 <%= messages.getString("phong") %>" id="bedroom1"></li>
+            <li><input type="button" class="dropdown-item" value="2 <%= messages.getString("phong") %>" id="bedroom2"></li>
+            <li><input type="button" class="dropdown-item" value="3 <%= messages.getString("phong") %>" id="bedroom3"></li>
           </ul>
         </div>
-       <label for="customRange2" class="form-label text-secondary fs-5 mx-4" style="position: relative;top: -35px;left: 90px;">Diện tích</label>
+       <label for="customRange2" class="form-label text-secondary fs-5 mx-4" style="position: relative;top: -35px;left: 90px;"><%= messages.getString("dien_tich") %></label>
 	   <input id="rangeArea" class="range" type="range" min="0" max="100" value="0" step="1" onmousemove="rangevalue1.value=value" style="width: 300px;margin-left:-10px;"/>
 	   <output id="rangevalue1" style="margin-top: 21px;margin-left: 2px; "></output>
 			
@@ -872,17 +884,17 @@ $(document).ready(function(){
                   <a href="${pageContext.request.contextPath}/systemapartmentdetails?id=<%= system.getId() %>"><img src="${pageContext.request.contextPath}/assets/user/images/150canho/<%=system.getAvatar() %>" alt=""></a>
                   <span class="category"><i class="fa-solid fa-building" style="color:#f35525;font-size: 20px;"></i></span></a>
                   
-                  <h6><%= system.getPrice() %> tỷ VNĐ</h6>
+                  <h6><%= system.getPrice() %> <%= messages.getString("ty") %> VNĐ</h6>
                   <h4><a href="${pageContext.request.contextPath}/systemapartmentdetails?id=<%= system.getId() %>"><%= system.getSubject() %></a></h4>
                   <ul>
-                  <li>Số phòng: <span><%= system.getFloorid() %> 0 <%= system.getRoomid() %></span></li>
-                     <li>Phòng ngủ: <span><%= system.getBedroom() %></span></li>
-              <li>Phòng tắm: <span><%= system.getBathroom() %></span></li>
-              <li>Diện tích: <span><%= system.getArea() %> m2</span></li>
-              <li>Địa chỉ: <span><%= branchModel.findBranchByID(system.getBranchid()).getAddress() %></span></li>
+                  <li><%= messages.getString("so_phong") %>: <span><%= system.getFloorid() %> 0 <%= system.getRoomid() %></span></li>
+                     <li><%= messages.getString("phong_ngu") %>: <span><%= system.getBedroom() %></span></li>
+              <li><%= messages.getString("phong_tam") %>: <span><%= system.getBathroom() %></span></li>
+              <li><%= messages.getString("dien_tich") %>: <span><%= system.getArea() %> m2</span></li>
+              <li><%= messages.getString("dia_chi") %>: <span><%= branchModel.findBranchByID(system.getBranchid()).getAddress() %></span></li>
                   </ul>
                   <div class="main-button">
-                    <a href="${pageContext.request.contextPath}/systemapartmentdetails?id=<%= system.getId() %>">Chi tiết</a>
+                    <a href="${pageContext.request.contextPath}/systemapartmentdetails?id=<%= system.getId() %>"><%= messages.getString("chi_tiet") %></a>
                   </div>
                 </div>
           </div>

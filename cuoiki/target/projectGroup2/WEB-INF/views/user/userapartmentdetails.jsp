@@ -1,14 +1,25 @@
-
+<%@page import="java.util.Locale"%>
+<%@page import="java.util.ResourceBundle"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%
+	
+	HttpSession httpSession = request.getSession();
+	if(httpSession.getAttribute("language")== null){
+		request.getSession().setAttribute("language", "vi");
+		
+	}
+	String language = httpSession.getAttribute("language").toString();
+	ResourceBundle messages = ResourceBundle.getBundle("messages", new Locale(language));
+%>
    <div class="page-heading header-text">
     <div class="container">
       <div class="row">
         <div class="col-lg-12">
-          <span class="breadcrumb"><a href="index.html">Trang chủ</a> / Chi tiết căn hộ</span>
-          <h3>Chi tiết căn hộ</h3>
+          <span class="breadcrumb"><a href="index.html"><%= messages.getString("trang_chu") %></a> / <%= messages.getString("chi_tiet_can_ho") %></span>
+          <h3><%= messages.getString("chi_tiet_can_ho") %></h3>
         </div>
       </div>
     </div>
@@ -45,17 +56,17 @@
           </div>
           <div class="main-content">
           <a href="${pageContext.request.contextPath}/wishlist?action=wishlist&id=${post.id}"><span class="category"><i class="fa-solid fa-heart-circle-plus" style="color:#f35525;font-size: 20px;"></i></span></a> <br>
-            <span class="category" style="margin-top: 8px;">Đã đăng vào ngày <f:formatDate value="${post.postdate }"
+            <span class="category" style="margin-top: 8px;"><%= messages.getString("da_dang_vao") %> <f:formatDate value="${post.postdate }"
 													pattern="dd/MM/yyyy" var="postdate" /> ${postdate }</span>
             <h4>${post.subject}</h4>
-            <h5 style="margin-bottom: -25px;">Giá: ${post.price} tỷ</h5>
+            <h5 style="margin-bottom: -25px;"><%= messages.getString("gia") %>: ${post.price} <%= messages.getString("ty") %></h5>
           </div>
           <div class="accordion" id="accordionExample">
             <div class="accordion-item">
               <h2 class="accordion-header" id="headingOne">
                 <button disabled class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
                   aria-expanded="true" aria-controls="collapseOne">
-                  <h6>Chi tiết căn hộ</h6>
+                  <h6><%= messages.getString("chi_tiet_can_ho") %></h6>
                 </button>
               </h2>
               <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
@@ -65,38 +76,38 @@
                     <div class="col">
                       <ul>
                         <li>
-                         <strong>Khu vực: </strong>
-                          <span>TP. Hồ Chí Minh</span>
+                         <strong><%= messages.getString("khu_vuc") %>: </strong>
+                          <span><%= messages.getString("tphcm") %></span>
                         </li>
                         <li>
                           <strong>
                             <i class="fa-solid fa-bed" style="color: #e57010;"></i>
                           </strong>
-                          <span>${post.bedroom} Phòng ngủ</span>
+                          <span>${post.bedroom} <%= messages.getString("phong_ngu") %></span>
                         </li>
                         <li>
                           <strong>
                             <i class="fa-solid fa-person" style="color: #e57010;"></i>
                           </strong>
-                          <span>3-4 Người</span>
+                          <span>3-4 <%= messages.getString("nguoi") %></span>
                         </li>
                         <li>
-                          <strong>Đặt cọc</strong>
-                          <span>${post.deposit} triệu</span>
+                          <strong><%= messages.getString("dat_coc") %></strong>
+                          <span>${post.deposit} <%= messages.getString("trieu") %></span>
                         </li>
                       </ul>
                     </div>
                     <div class="col">
                       <ul>
                         <li>
-                         <strong>Địa chỉ: </strong>
+                         <strong><%= messages.getString("dia_chi") %>: </strong>
                           <span>${post.address}</span>
                         </li>
                         <li>
                           <strong>
                             <i class="fa-solid fa-bath" style="color: #e57010;"></i>
                           </strong>
-                          <span>${post.bathroom} Phòng tắm</span>
+                          <span>${post.bathroom} <%= messages.getString("phong_tam") %></span>
                         </li>
                         <li>
                           <strong>
@@ -106,7 +117,7 @@
                         </li>
                         <li>
                           <i class="fa-solid fa-square-parking" style="color: #e57010;"></i>
-                          <span>Rộng rãi cho xe máy và cả xe hơi</span>
+                          <span><%= messages.getString("rong_rai_cho_xe_may_va_xe_hoi") %></span>
                         </li>
                       </ul>
                     </div>
@@ -118,7 +129,7 @@
               <h2 class="accordion-header" id="headingTwo">
                 <button disabled class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                   data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                  <h6>Tiện nghi và Tiện ích</h6>
+                  <h6><%= messages.getString("tien_nghi_va_tien_ich") %></h6>
                 </button>
               </h2>
               <div id="collapseTwo" class="accordion-collapse collapse show" aria-labelledby="headingTwo"
@@ -131,19 +142,19 @@
                          <strong>
                           <i class="fa-solid fa-circle-check" style="color: #e57010;"></i>
                          </strong>
-                          <span>Thang máy</span>
+                          <span><%= messages.getString("thang_may") %></span>
                         </li>
                         <li>
                           <strong>
                            <i class="fa-solid fa-circle-check" style="color: #e57010;"></i>
                           </strong>
-                           <span>Chỗ đậu xe</span>
+                           <span><%= messages.getString("cho_dau_xe") %></span>
                          </li>
                          <li>
                           <strong>
                            <i class="fa-solid fa-circle-check" style="color: #e57010;"></i>
                           </strong>
-                           <span>Hồ bơi</span>
+                           <span><%= messages.getString("ho_boi") %></span>
                          </li>
                       </ul>
                     </div>
@@ -153,19 +164,19 @@
                          <strong>
                           <i class="fa-solid fa-circle-check" style="color: #e57010;"></i>
                          </strong>
-                          <span>Camera An Ninh</span>
+                          <span><%= messages.getString("camera_an_ninh") %></span>
                         </li>
                         <li>
                           <strong>
                            <i class="fa-solid fa-circle-check" style="color: #e57010;"></i>
                           </strong>
-                           <span>PCCC đạt tiêu chuẩn</span>
+                           <span><%= messages.getString("pccc") %></span>
                          </li>
                          <li>
                           <strong>
                            <i class="fa-solid fa-circle-check" style="color: #e57010;"></i>
                           </strong>
-                           <span>Phòng gym</span>
+                           <span><%= messages.getString("gym") %></span>
                          </li>
                       </ul>
                     </div>
@@ -175,19 +186,19 @@
                          <strong>
                           <i class="fa-solid fa-circle-check" style="color: #e57010;"></i>
                          </strong>
-                          <span>Mặt tiền đường</span>
+                          <span><%= messages.getString("mat_tien") %></span>
                         </li>
                         <li>
                           <strong>
                            <i class="fa-solid fa-circle-check" style="color: #e57010;"></i>
                           </strong>
-                           <span>Bảo vệ 24/7</span>
+                           <span><%= messages.getString("bao_ve") %></span>
                          </li>
                          <li>
                           <strong>
                            <i class="fa-solid fa-circle-check" style="color: #e57010;"></i>
                           </strong>
-                           <span>Siêu thị tiện lợi</span>
+                           <span><%= messages.getString("sieu_thi") %></span>
                          </li>
                       </ul>
                     </div>
@@ -199,7 +210,7 @@
               <h2 class="accordion-header" id="headingThree">
                 <button disabled class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                   data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                  <h6>Ưu điểm căn hộ</h6>
+                  <h6><%= messages.getString("uu_diem") %></h6>
                 </button>
               </h2>
               <div id="collapseThree" class="accordion-collapse collapse show" aria-labelledby="headingThree"
@@ -209,7 +220,7 @@
                     <div class="col">
                       <ul>
                         <li>
-                          <p style="font-size: 15px;color: #000;font-weight: bold;margin-bottom: 100px;">Đặc điểm nổi bật</p>
+                          <p style="font-size: 15px;color: #000;font-weight: bold;margin-bottom: 100px;"><%= messages.getString("dac_diem_noi_bat") %></p>
                         </li>
                       </ul>
                     </div>
@@ -230,14 +241,14 @@
         <div class="col-lg-4">
           <div class="card bg-light d-flex flex-fill">
             <div style="text-align: center;" class="card-header text-muted border-bottom-0 bg-primary">
-              <span style="color: white;">THÔNG TIN CHỦ SỞ HỮU</span>
+              <span style="color: white;"><%= messages.getString("thong_tin_chu") %></span>
               
             </div>
             <div class="card-body pt-0 mt-3">
               <div class="row">
                 <div class="col-7">
                   <h2 class="lead mb-3" style="font-weight: bold;"><b>${account.name }</b></h2>
-                  <p class="text-muted text-sm">Số điện thoại: ${account.phonenumber } </p>
+                  <p class="text-muted text-sm"><%= messages.getString("phone") %>: ${account.phonenumber } </p>
                   <p class="text-muted text-sm">Email: ${account1.email } </p>
              
                   

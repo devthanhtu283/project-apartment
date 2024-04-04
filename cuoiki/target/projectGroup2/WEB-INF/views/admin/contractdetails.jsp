@@ -185,7 +185,7 @@ Branch branch = branchModel.findBranchByID(systemapartment.getBranchid());
 					&nbsp;Ngày tạo hợp đồng</strong>
 
 				<p class="text-muted">
-					<span><%=simpleDateFormat.format(contract.getCreated())%>
+					<span>23/01/2024
 				</p>
 
 				<hr>
