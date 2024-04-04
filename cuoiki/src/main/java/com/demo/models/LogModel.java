@@ -1,9 +1,6 @@
 package com.demo.models;
 
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,6 +60,48 @@ public class LogModel {
 		
 		return logs;
 	}
+
+	public boolean update(Log log) {
+		boolean status = true;
+		try {
+			PreparedStatement preparedStatement = ConnectDB.connection().prepareStatement(
+					"UPDATE log set ip = ?,level = ?, nation = ?, time = ?, beforeValue = ?, afterValue = ? where id = ?");
+			preparedStatement.setString(1, log.getIp());
+			preparedStatement.setString(2, log.getLevel());
+			preparedStatement.setString(3, log.getNational());
+			preparedStatement.setTimestamp(4, new Timestamp(log.getTime().getTime()));
+			preparedStatement.setString(5, log.getBeforeValue());
+			preparedStatement.setString(6, log.getAfterValue());
+			preparedStatement.setInt(7, log.getId());
+
+			status = preparedStatement.executeUpdate() > 0;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return status;
+	}
+
+	public boolean updateTime(Log log) {
+		boolean status = true;
+		try {
+			PreparedStatement preparedStatement = ConnectDB.connection().prepareStatement(
+					"UPDATE log set time = ? where ip = ? AND level LIKE 'info'");
+
+			preparedStatement.setTimestamp(1, new Timestamp(log.getTime().getTime()));
+			preparedStatement.setString(2, log.getIp());
+
+
+			status = preparedStatement.executeUpdate() > 0;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return status;
+	}
+
 	public static void main(String[] args) {
 		System.out.println(new LogModel().findAll());
 	}

@@ -70,11 +70,11 @@
                       		branchModel.findBranchByID(systemApartmentModel.findSystemApartmentByID(contract.getSystemapartmentid()).getBranchid()).getName() + " Phòng " + 
                       		systemApartmentModel.findSystemApartmentByID(contract.getSystemapartmentid()).getFloorid() + "0" + systemApartmentModel.findSystemApartmentByID(contract.getSystemapartmentid()).getRoomid()
                       %></td>
-                      <td><%= simpleDateFormat.format(contract.getCreated()) %></td>
+                      <td>23/01/2024</td>
                       <td><%= contract.getOwnerid() + " - " + ownerModel.findById(contract.getOwnerid()).getName() %></td>
                       <td><%= contract.isStatus() ? "Có hiệu lực" : "Không có hiệu lực"%></td>
                       <td><a href="${pageContext.request.contextPath}/admin/contractdetails?id=<%= contract.getId() %>">Xem chi tiết</a></td>
-                      <td><a onclick="return confirm('Sửa hợp đồng?')" href="${pageContext.request.contextPath}/admin/editcontract"><i class="fa-solid fa-file-pen"></i></a> &nbsp;  <a onclick="return confirm('Vô hiệu hóa?')" href="#"><i class="fa-solid fa-xmark"></i></a></td>
+                      <td> <a onclick="return confirm('Vô hiệu hóa?')" href=""><i class="fa-solid fa-xmark"></i></a></td>
                     </tr>
                    	
                    	<% } %> 
