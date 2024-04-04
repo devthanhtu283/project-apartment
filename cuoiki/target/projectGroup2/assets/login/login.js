@@ -43,7 +43,7 @@ var checkValidateName = function (selectorQuery,  selectorError) {
 
 // Hàm kiểm tra tính hợp lệ của password
 var checkValidatePassword = function (selectorQuery,  selectorError) {
-  var regexPass = /^((?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{6,20})$/u;
+  var regexPass = /^((?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{8,20})$/u;
   var input = document.getElementById(selectorQuery).value.trim();
   var empty = document.getElementById(selectorEmpty);
   var error = document.getElementById(selectorError);
@@ -53,7 +53,7 @@ var checkValidatePassword = function (selectorQuery,  selectorError) {
     empty.style.display = "none";
     error.style.display = "block";
     error.innerHTML =
-    "Mật khẩu phải chứa kí tự đặc biệt, viết hoa, có số và có đội dài từ 6-20.";
+    "Mật khẩu phải chứa kí tự đặc biệt, viết hoa, có số và có đội dài từ 8-20.";
     return false;
   }
 };

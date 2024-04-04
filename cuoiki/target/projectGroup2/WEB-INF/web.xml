@@ -11,9 +11,19 @@
   	<description></description>
   	<filter-class>com.demo.servlet.admin.AdminFilter</filter-class>
   </filter>
+  <filter>
+  	<filter-name>ClientFilter</filter-name>
+  	<display-name>ClientFilter</display-name>
+  	<description></description>
+  	<filter-class>com.demo.helpers.ClientFilter</filter-class>
+  </filter>
   <filter-mapping>
   	<filter-name>AdminFilter</filter-name>
   	<url-pattern>/AdminFilter</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+  	<filter-name>ClientFilter</filter-name>
+  	<url-pattern>/ClientFilter</url-pattern>
   </filter-mapping>
   <servlet>
   	<servlet-name>LoginServlet</servlet-name>
@@ -63,6 +73,12 @@
   	<description></description>
   	<servlet-class>com.demo.servlet.admin.OwnersAdminServlet</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>LanguageServlet</servlet-name>
+  	<display-name>LanguageServlet</display-name>
+  	<description></description>
+  	<servlet-class>com.demo.servlet.LanguageServlet</servlet-class>
+  </servlet>
   <servlet-mapping>
   	<servlet-name>LoginServlet</servlet-name>
   	<url-pattern>/LoginServlet</url-pattern>
@@ -94,6 +110,10 @@
   <servlet-mapping>
   	<servlet-name>OwnersAdminServlet</servlet-name>
   	<url-pattern>/OwnersAdminServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>LanguageServlet</servlet-name>
+  	<url-pattern>/LanguageServlet</url-pattern>
   </servlet-mapping>
 
 </web-app>

@@ -6,11 +6,16 @@ public class AccountPartial {
 	private int id;
 	private String username;
 	private String name;
+
+	private String password;
 	private Date birthday;
 	private String email;
 	private String phoneNumber;
 	private String address;
 	private Date created;
+
+
+
 	private String avatar;
 	private boolean status;
 	private boolean verify;
@@ -44,6 +49,35 @@ public class AccountPartial {
 		this.role = role;
 	}
 
+	public AccountPartial(String name, String password, Date birthday, String email, String phoneNumber, String address,
+			String avatar) {
+		super();
+		this.name = name;
+		this.password = password;
+		this.birthday = birthday;
+		this.email = email;
+		this.phoneNumber = phoneNumber;
+		this.address = address;
+		this.avatar = avatar;
+	}
+
+	public AccountPartial(String username, String name, Date birthday, String email, String phoneNumber, String address, Date created, String avatar) {
+		this.username = username;
+		this.name = name;
+		this.birthday = birthday;
+		this.email = email;
+		this.phoneNumber = phoneNumber;
+		this.address = address;
+		this.created = created;
+		this.avatar = avatar;
+	}
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
 	public int getId() {
 		return id;
 	}

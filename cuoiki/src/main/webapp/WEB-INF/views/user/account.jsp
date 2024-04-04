@@ -68,6 +68,10 @@
                         <label class="small mb-1" for="inputUsername"><span style="color: red;">*</span> <%= messages.getString("ho_va_ten") %> </label>
                         <input class="form-control" name="fullName" id="inputUsername" value="${sessionScope.accountdetails != null ? sessionScope.accountdetails.name : "" }" type="text" placeholder="<%= messages.getString("nhap_ten_cua_ban") %>" required>
                     </div>
+                <div class="mb-3">
+                    <label class="small mb-1" for="inputCurrentPass"><%= messages.getString("mk_hien_tai") %></label>
+                    <input class="form-control" name="currentPass" id="inputCurrentPass"   type="password" placeholder="<%= messages.getString("nhap_mk_hien_tai") %>">
+                </div>
                     <div class="mb-3">
                       <label class="small mb-1" for="inputPassword"><%= messages.getString("mk_moi") %></label>
                       <input class="form-control" name="newPass" id="inputPassword"  pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{8,}" type="password" placeholder="<%= messages.getString("nhap_mk_moi") %>">
@@ -109,7 +113,7 @@
                         </div>
                         <!-- Form Group (birthday)-->
                         <div class="col-md-6">
-                            <label class="small mb-1" for="inputBirthday"><span style="color: red;">*</span> <%= messages.getString("ngay_sinh") %></label>
+                            <label class="small mb-1"><span style="color: red;">*</span> <%= messages.getString("ngay_sinh") %></label>
                             <f:formatDate value="${sessionScope.accountdetails.birthday }" pattern="dd/MM/yyyy" var="birthday" />
                             <input class="form-control" id="datepicker" value="${sessionScope.accountdetails != null ? birthday : "" }"  type="text" name="birthday" placeholder="<%= messages.getString("nhap_dob") %>" required>
                         </div>
