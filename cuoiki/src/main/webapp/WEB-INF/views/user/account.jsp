@@ -70,6 +70,7 @@
                     </div>
                 <div class="mb-3">
                     <label class="small mb-1" for="inputCurrentPass"><%= messages.getString("mk_hien_tai") %></label>
+                    <span class="small mb-1" style="color: orange;">(<%= messages.getString("mk_mac_dinh") %>)</span>
                     <input class="form-control" name="currentPass" id="inputCurrentPass"   type="password" placeholder="<%= messages.getString("nhap_mk_hien_tai") %>">
                 </div>
                     <div class="mb-3">
