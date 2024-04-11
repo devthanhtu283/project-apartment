@@ -12,6 +12,10 @@
 <body>
 	<h1><%=pojo.getId() %> </h1>
 	<h1> <%= pojo.getEmail() %></h1>
+	<h1><%= pojo.getFamily_name() %></h1>
+	<h1> <%= pojo.getName() %></h1>
+	<h1> <%= pojo.isVerified_email() %></h1>
+	
 	
 	 <h1>Index</h1>
  

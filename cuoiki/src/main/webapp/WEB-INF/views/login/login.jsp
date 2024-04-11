@@ -105,6 +105,15 @@
               <div class="text sign-up-text">
                 Bạn chưa có tài khoản? <label for="flip">Đăng ký ngay!</label>
               </div>
+              <a style="text-decoration: none" href="https://accounts.google.com/o/oauth2/auth?
+	scope=email&redirect_uri=http://localhost:8080/projectGroup2/login-google&
+	response_type=code&client_id=818352606855-64naicbsoagu0cdmr6af6n1hmrv37a8q.apps.googleusercontent.com
+	&approval_prompt=force">
+	              <div class="text sign-up-text" style="width: 45%;border: 1px solid #d4d1d3;border-radius: 7px;display: flex;justify-content: center;transform: translateX(50%);cursor: pointer">
+	              	<p style="margin: auto;font-weight: bold;">Google</p>
+	              	<img class="rounded  d-block rounded-circle" style="margin: 6px 20px 8px 0;" src="${pageContext.request.contextPath }/assets/user/images/google.png" width="30" height="30">
+	              </div>
+              </a>
             </div>
           </form>
         </div>
@@ -142,8 +151,17 @@
                 <input type="submit" value="Đăng ký" onclick="return checkSignIn();" id="submitRegister"/>
               </div>
               <div class="text sign-up-text">
-                Bạn đã có tài khoản chưa ? <label for="flip">Đăng nhập ngay</label>
+                Bạn đã có tài khoản ? <label for="flip">Đăng nhập ngay</label>
               </div>
+                <a style="text-decoration: none" href="https://accounts.google.com/o/oauth2/auth?
+	scope=email&redirect_uri=http://localhost:8080/projectGroup2/signup-google&
+	response_type=code&client_id=818352606855-64naicbsoagu0cdmr6af6n1hmrv37a8q.apps.googleusercontent.com
+	&approval_prompt=force">
+	              <div class="text sign-up-text" style="width: 45%;border: 1px solid #d4d1d3;border-radius: 7px;display: flex;justify-content: center;transform: translateX(50%);cursor: pointer">
+	              	<p style="margin: auto;font-weight: bold;">Google</p>
+	              	<img class="rounded  d-block rounded-circle" style="margin: 6px 20px 8px 0;" src="${pageContext.request.contextPath }/assets/user/images/google.png" width="30" height="30">
+	              </div>
+              </a>
             </div>
           </form>
         </div>
