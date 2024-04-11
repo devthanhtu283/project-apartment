@@ -12,6 +12,8 @@ public class Account {
 	private String securityCode;
 	private boolean status;
 	private int role;
+	private int gmailID;
+	
 	public int getId() {
 		return id;
 	}
@@ -66,6 +68,12 @@ public class Account {
 	public void setRole(int role) {
 		this.role = role;
 	}
+	public int getGmailID() {
+		return gmailID;
+	}
+	public void setGmailID(int gmailID) {
+		this.gmailID = gmailID;
+	}
 	public Account(int id, String username, String password, String email, Date created, boolean verify,
 			String securityCode, boolean status, int role) {
 		super();
@@ -82,11 +90,25 @@ public class Account {
 	public Account() {
 		super();
 	}
+	public Account(int id, String username, String password, String email, Date created, boolean verify,
+			String securityCode, boolean status, int role, int gmailID) {
+		super();
+		this.id = id;
+		this.username = username;
+		this.password = password;
+		this.email = email;
+		this.created = created;
+		this.verify = verify;
+		this.securityCode = securityCode;
+		this.status = status;
+		this.role = role;
+		this.gmailID = gmailID;
+	}
 	@Override
 	public String toString() {
 		return "Account [id=" + id + ", username=" + username + ", password=" + password + ", email=" + email
 				+ ", created=" + created + ", verify=" + verify + ", securityCode=" + securityCode + ", status="
-				+ status + ", role=" + role + "]";
+				+ status + ", role=" + role + ", gmailID=" + gmailID + "]";
 	}
-	
+
 }

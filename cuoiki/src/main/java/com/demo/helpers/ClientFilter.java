@@ -50,8 +50,7 @@ public class ClientFilter extends HttpFilter implements Filter {
 		HttpSession session = httpRequest.getSession();
 
 		String clientPublicIP = IPAddressUtil.getPublicIPAddress();
-		System.out.println("Client IP: " + clientPublicIP);
-
+		
 		String dbPath = getServletContext().getRealPath("/WEB-INF/IP2LOCATION-LITE-DB11.BIN");
 		System.out.println("DB Path: " + dbPath); // Kiểm tra đường dẫn
 		ip2LocationService = new IP2LocationService(dbPath);
