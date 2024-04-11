@@ -29,6 +29,7 @@ public class AccountModel {
 				account.setSecurityCode(resultSet.getString("securitycode"));
 				account.setStatus(resultSet.getBoolean("status"));
 				account.setRole(resultSet.getInt("role"));
+				account.setGmailID(resultSet.getInt("gmailid"));
 				accounts.add(account);
 			}
 		} catch (Exception e) {
@@ -58,6 +59,38 @@ public class AccountModel {
 				account.setSecurityCode(resultSet.getString("securitycode"));
 				account.setStatus(resultSet.getBoolean("status"));
 				account.setRole(resultSet.getInt("role"));
+				account.setGmailID(resultSet.getInt("gmailid"));
+				
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			account = null;
+			// TODO: handle exception
+		} finally {
+			ConnectDB.disconnect();
+		}
+		return account;
+	}
+	
+	
+	public Account findAccountByGmailID(int gmailId) {
+		Account account = null;
+		try {
+			PreparedStatement preparedStatement = ConnectDB.connection().prepareStatement("select * from account where gmailid = ?");
+			preparedStatement.setInt(1, gmailId);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			while(resultSet.next()) {
+				account = new Account();
+				account.setId(resultSet.getInt("id"));
+				account.setUsername(resultSet.getString("username"));
+				account.setPassword(resultSet.getString("password"));
+				account.setEmail(resultSet.getString("email"));
+				account.setCreated(resultSet.getDate("created"));
+				account.setVerify(resultSet.getBoolean("verify"));
+				account.setSecurityCode(resultSet.getString("securitycode"));
+				account.setStatus(resultSet.getBoolean("status"));
+				account.setRole(resultSet.getInt("role"));
+				account.setGmailID(resultSet.getInt("gmailid"));
 				
 			}
 		} catch (Exception e) {
@@ -87,6 +120,7 @@ public class AccountModel {
 				account.setSecurityCode(resultSet.getString("securitycode"));
 				account.setStatus(resultSet.getBoolean("status"));
 				account.setRole(resultSet.getInt("role"));
+				account.setGmailID(resultSet.getInt("gmailid"));
 				
 			}
 		} catch (Exception e) {
@@ -115,7 +149,7 @@ public class AccountModel {
 				account.setSecurityCode(resultSet.getString("securitycode"));
 				account.setStatus(resultSet.getBoolean("status"));
 				account.setRole(resultSet.getInt("role"));
-				
+				account.setGmailID(resultSet.getInt("gmailid"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -141,7 +175,7 @@ public class AccountModel {
 		boolean status = true;
 		try {
 			PreparedStatement preparedStatement = ConnectDB.connection()
-			.prepareStatement("insert into account(username,password,email,created,verify,securitycode,status,role) values(?, ?, ?, ?, ?, ?, ?, ?)");
+			.prepareStatement("insert into account(username,password,email,created,verify,securitycode,status,role,gmailid) values(?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			preparedStatement.setString(1, account.getUsername());
 			preparedStatement.setString(2, account.getPassword());
 			preparedStatement.setString(3, account.getEmail());
@@ -150,6 +184,7 @@ public class AccountModel {
 			preparedStatement.setString(6, account.getSecurityCode());
 			preparedStatement.setBoolean(7, account.isStatus());
 			preparedStatement.setInt(8, account.getRole());
+			preparedStatement.setInt(9, account.getGmailID());
 			
 			status = preparedStatement.executeUpdate() > 0;
 			
@@ -167,7 +202,7 @@ public class AccountModel {
 		boolean status = true;
 		try {
 			PreparedStatement preparedStatement = ConnectDB.connection()
-			.prepareStatement("update account set username = ?, password = ?, email = ?, created = ?, verify = ?, securitycode = ?, status = ?, role = ? where id = ?");
+			.prepareStatement("update account set username = ?, password = ?, email = ?, created = ?, verify = ?, securitycode = ?, status = ?, role = ?, gmailID = ? where id = ?");
 			preparedStatement.setString(1, account.getUsername());
 			preparedStatement.setString(2, account.getPassword());
 			preparedStatement.setString(3, account.getEmail());
@@ -176,7 +211,8 @@ public class AccountModel {
 			preparedStatement.setString(6, account.getSecurityCode());
 			preparedStatement.setBoolean(7, account.isStatus());
 			preparedStatement.setInt(8, account.getRole());
-			preparedStatement.setInt(9, account.getId());
+			preparedStatement.setInt(9, account.getGmailID());
+			preparedStatement.setInt(10, account.getId());
 			status = preparedStatement.executeUpdate() > 0;
 			
 			
@@ -193,6 +229,6 @@ public class AccountModel {
 	public static void main(String[] args) {
 		AccountModel accountModel = new AccountModel();
 		Account account = accountModel.findAccountByUsername("Hoàng Tú");
-		System.out.println(account);
+		System.out.println(accountModel.findAccountByGmailID(2));
 	}
 }
