@@ -137,7 +137,7 @@ https://templatemo.com/tm-591-villa-agency
                     <ul class="nav">
                       <li><a href="${pageContext.request.contextPath }/home" class="${activeHome }"><%= messages.getString("trang_chu") %></a></li>
                       <li><a href="${pageContext.request.contextPath }/userapartment" class="${activeUser }"><%= messages.getString("can_ho_khac") %></a></li>
-                      <li><a href="${pageContext.request.contextPath }/systemapartment" class="${activeSystem }"><%= messages.getString("nhan_tin") %></a></li>
+                      <li><a href="${pageContext.request.contextPath }/chatuser" class="${activeSystem }"><%= messages.getString("nhan_tin") %></a></li>
                       <li><a href="${pageContext.request.contextPath }/contact" class="${activeContact }"><%= messages.getString("lien_he") %></a></li>
                       <li><a href="${pageContext.request.contextPath }/plan" class="${activePlan }"><%= messages.getString("dich_vu") %></a></li>
                       <li><a style="border: 2px solid #f35525; border-radius: 20px;" href="${pageContext.request.contextPath }/wishlist"><i class="fa-solid fa-heart" style="color:#f35525 ;">

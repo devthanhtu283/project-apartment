@@ -11,8 +11,9 @@ public class Accountdetails {
 	private String phonenumber;
 	private String avatar;
 	private Date updatedate;
+	private double balance;
 	public Accountdetails(int id, int accountid, String name, Date birthday, String address, String phonenumber,
-			String avatar, Date updatedate) {
+			String avatar, Date updatedate, double balance) {
 		super();
 		this.id = id;
 		this.accountid = accountid;
@@ -22,6 +23,10 @@ public class Accountdetails {
 		this.phonenumber = phonenumber;
 		this.avatar = avatar;
 		this.updatedate = updatedate;
+		this.balance = balance;
+	}
+	public Accountdetails() {
+		super();
 	}
 	public int getId() {
 		return id;
@@ -71,14 +76,17 @@ public class Accountdetails {
 	public void setUpdatedate(Date updatedate) {
 		this.updatedate = updatedate;
 	}
-	public Accountdetails() {
-		super();
+	public double getBalance() {
+		return balance;
+	}
+	public void setBalance(double balance) {
+		this.balance = balance;
 	}
 	@Override
 	public String toString() {
 		return "Accountdetails [id=" + id + ", accountid=" + accountid + ", name=" + name + ", birthday=" + birthday
 				+ ", address=" + address + ", phonenumber=" + phonenumber + ", avatar=" + avatar + ", updatedate="
-				+ updatedate + "]";
+				+ updatedate + ", balance=" + balance + "]";
 	}
 	
 }

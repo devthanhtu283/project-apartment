@@ -124,7 +124,7 @@
   	
   		<div class="col-6" style="border: 1px solid #ccc;">
   			<table id="chatAdmin">
-  			
+  				
   			</table>
   		</div>
   	

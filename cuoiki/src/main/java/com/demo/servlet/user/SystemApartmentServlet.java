@@ -28,7 +28,7 @@ import com.demo.models.BranchModel;
 import com.demo.models.ChatModel;
 import com.demo.models.SystemApartmentModel;
 import com.google.gson.Gson;
-@WebServlet("/systemapartment")
+@WebServlet("/chatuser")
 
 /**
  * Servlet implementation class HomeServlet
@@ -60,7 +60,7 @@ public class SystemApartmentServlet extends HttpServlet {
 		System.out.println(account);
 		request.setAttribute("systemapartments", systemApartmentModel.findAll());
 		request.setAttribute("activeSystem", "active");
-		request.setAttribute("p", "../user/systemapartment.jsp");
+		request.setAttribute("p", "../user/chatuser.jsp");
 		request.getRequestDispatcher("/WEB-INF/views/layout/user.jsp").forward(request, response);
 	}
 	
