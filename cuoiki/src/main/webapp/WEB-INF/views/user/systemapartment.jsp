@@ -89,20 +89,24 @@
    <div class="content-wrapper">
 
 <div class="container">
-	
   <div class="row">
-  
-  	
-  	
-  		<div id="boxchat" class="col-6" style="border: 1px solid #ccc; height: 500px; overflow: auto;">
-  			<table id="chatAdmin" border="1">
-  			
-  			</table>
-  		</div>
-  	
+    <div id="boxchat" class="col-6" style="border: 1px solid #ccc; height: 500px; overflow: auto;">
+      <table id="chatAdmin" class="table table-bordered">
+        <!-- Bảng chatAdmin -->
+      </table>
+    </div>
   </div>
 </div>
-   	<br><br>
-    <input type="text" id="message" placeholder="Type your message">
-    <button onclick="sendMessage()">Send</button>
+
+<br><br>
+
+<div class="container">
+  <div class="row">
+    <div class="col-6">
+      <input type="text" id="message" class="form-control" placeholder="Type your message">
+    </div>
+    <div class="col-6">
+      <button onclick="sendMessage()" class="btn btn-primary">Send</button>
+    </div>
+  </div>
 </div>
