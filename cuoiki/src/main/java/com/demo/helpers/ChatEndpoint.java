@@ -40,7 +40,7 @@ public class ChatEndpoint {
     
     	ChatModel chatModel = new ChatModel();
     	Chat chat = new Chat();
-//    	chat.setAdminID(29);
+    	chat.setAdminID(29);
 
     	chat.setTime(new Date());
     	System.out.println(message);

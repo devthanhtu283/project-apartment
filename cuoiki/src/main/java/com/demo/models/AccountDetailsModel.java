@@ -25,6 +25,7 @@ public class AccountDetailsModel {
 				account.setPhonenumber(resultSet.getString("phonenumber"));
 				account.setUpdatedate(resultSet.getDate("updatedate"));
 				account.setName(resultSet.getString("name"));
+				account.setBalance(resultSet.getDouble("balance"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -87,10 +88,32 @@ public class AccountDetailsModel {
 		}
 		return status;
 	}
+	public boolean updateBalance(Accountdetails accountdetails) {
+		boolean status = true;
+		try {
+			PreparedStatement preparedStatement = ConnectDB.connection()
+			.prepareStatement("update accountdetails set balance = ? where id = ?");
+			preparedStatement.setDouble(1, accountdetails.getBalance());
+			preparedStatement.setInt(2, accountdetails.getAccountid());
+			
+			status = preparedStatement.executeUpdate() > 0;
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			status = false;
+			// TODO: handle exception
+		} finally {
+			ConnectDB.disconnect();
+		}
+		return status;
+	}
 	
 	public static void main(String[] args) {
 		AccountDetailsModel accountDetailsModel = new AccountDetailsModel();
-		System.out.println(accountDetailsModel.update(new Accountdetails(1, 2, "Hoàng Tú", new java.util.Date(),"Hà Nội" ,"0916700827", "hoangtu.jpg", new java.util.Date())));
-		System.out.println("Lê Thanh Tú");
+		Accountdetails accountdetails = accountDetailsModel.findAccountByAccountID(2);
+		accountdetails.setBalance(10000);
+		System.out.println(accountDetailsModel.updateBalance(accountdetails));
+		
 	}
 }
