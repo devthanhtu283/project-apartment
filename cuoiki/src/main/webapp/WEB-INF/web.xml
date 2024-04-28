@@ -85,6 +85,12 @@
   	<description></description>
   	<servlet-class>com.demo.servlet.user.LoginGoogleHandler</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>ServiceServlet</servlet-name>
+  	<display-name>ServiceServlet</display-name>
+  	<description></description>
+  	<servlet-class>com.demo.servlet.user.ServiceServlet</servlet-class>
+  </servlet>
   <servlet-mapping>
   	<servlet-name>LoginServlet</servlet-name>
   	<url-pattern>/LoginServlet</url-pattern>
@@ -124,6 +130,10 @@
   <servlet-mapping>
   	<servlet-name>LoginGoogleHandler</servlet-name>
   	<url-pattern>/LoginGoogleHandler</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>ServiceServlet</servlet-name>
+  	<url-pattern>/ServiceServlet</url-pattern>
   </servlet-mapping>
 
 </web-app>
