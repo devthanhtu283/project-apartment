@@ -13,6 +13,13 @@
 
 %>
 <body>
+	<br>
+	<br>
+	<form action="${pageContext.request.contextPath}/payment" method="post">
+		<input type="number" name="amount">
+		<input type="submit" value="Submit">
+	</form>
+	
 <div class="wrapper">
 		<div class="pricing-content">
 			<div class="PageWidth">

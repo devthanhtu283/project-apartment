@@ -67,6 +67,40 @@ public class ChatModel {
 		
 		return chats;
 	}
+	public List<Chat> findChatByUserID(int userID, int n){
+		List<Chat> chats = new ArrayList<Chat>();
+		try {
+			PreparedStatement preparedStatement = ConnectDB.connection().prepareStatement("SELECT * FROM (\n"
+					+ "    SELECT * FROM chat\n"
+					+ "    WHERE userID = ?\n"
+					+ "    ORDER BY id DESC\n"
+					+ "    LIMIT 7 OFFSET ?\n"
+					+ ") AS subquery\n"
+					+ "ORDER BY id ASC;");
+			preparedStatement.setInt(1, userID);
+			preparedStatement.setInt(2, n);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			while(resultSet.next()) {
+				Chat chat = new Chat();
+				chat.setId(resultSet.getInt("id"));
+				chat.setUserID(resultSet.getInt("userID"));
+				chat.setAdminID(resultSet.getInt("adminID"));
+				chat.setMessage(resultSet.getString("message"));
+				chat.setRole(resultSet.getInt("role"));
+				chat.setTime(resultSet.getTimestamp("time"));
+				chats.add(chat);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			chats = null;
+			// TODO: handle exception
+		} finally {
+			ConnectDB.disconnect();
+		}
+		
+		
+		return chats;
+	}
 	public List<Chat> listUser(){
 		List<Chat> chats = new ArrayList<Chat>();
 		try {
@@ -122,6 +156,6 @@ public class ChatModel {
 	
 	
 	public static void main(String[] args) {
-		System.out.println(new ChatModel().listUser());
+	
 	}
 }
