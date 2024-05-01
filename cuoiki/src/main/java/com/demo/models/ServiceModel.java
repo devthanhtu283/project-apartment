@@ -36,8 +36,36 @@ public class ServiceModel {
 		return services;
 	}
 	
+	public Service findByID(int id) {
+		Service service = null;
+		try {
+			PreparedStatement preparedStatement = ConnectDB.connection().prepareStatement("select * from service where id = ?");
+			preparedStatement.setInt(1, id);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			while(resultSet.next()) {
+				service = new Service();
+				service.setId(resultSet.getInt("id"));
+				service.setName(resultSet.getString("name"));
+				service.setIntroduction(resultSet.getString("introduction"));
+				service.setPrice(resultSet.getInt("price"));
+				service.setDescription(resultSet.getString("description"));
+				service.setStatus(resultSet.getBoolean("status"));
+				service.setCreated(resultSet.getDate("created"));
+				
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			service = null;
+			// TODO: handle exception
+		} finally {
+			ConnectDB.disconnect();
+		}
+		
+		return service;
+	}
+	
 	public static void main(String[] args) {
 		ServiceModel serivceModel = new ServiceModel();
-		System.out.println(serivceModel.findAll());
+		System.out.println(serivceModel.findByID(1).getName());
 	}
 }
