@@ -9,6 +9,9 @@
  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
  <%
  	HttpSession httpSession = request.getSession();
+ 	String msg = (String) httpSession.getAttribute("msg");
+ 	String msg1 = msg;
+ 	httpSession.removeAttribute("msg");
  	Account account = null;
  	if(httpSession.getAttribute("account") != null){
  		account = (Account) httpSession.getAttribute("account");
@@ -16,7 +19,158 @@
  	ChatModel chatModel = new ChatModel();
  	int n = 0;
  %>
+ <c:if test="<%= msg1 == null %>">
+ 	<script>
+		alert('<%= msg1 %>');
+ 	</script>
+ </c:if>
+ <style>
+ tr{
+    	height: 70px;
+    }
+    td{
+    	width:270px;
+    }
+     .chat-box {
+    border-radius: 10px;
+    padding: 10px;
+    background-color: #f8f9fa; /* Màu nền */
+    overflow: auto;
+  }
+
+  .table {
+    margin-bottom: 0; /* Loại bỏ khoảng cách dưới cùng của table */
+    
+  }
+
+  .receiver {
+    background-color: #f0f0f0; /* Màu nền của tin nhắn nhận */
+  }
+
+  .sender {
+    background-color: #007bff; /* Màu nền của tin nhắn gửi */
+    color: #fff; /* Màu chữ của tin nhắn gửi */
+  }
+  .message-container {
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    padding: 5px;
+    width: 74%;
+    position: relative;
+    left: 21em;
+  }
+
+   .message-input {
+    width: calc(100% - 40%);
+    border-radius: 5px 0 0 5px;
+  }
+
+  .send-button {
+    border-radius: 0 5px 5px 0;
+  }
+  .load-more-btn,
+  .reload-btn {
+    border-radius: 20px;
+    padding: 10px 20px;
+    margin-right: 10px;
+  }
+
+
+
+.card-holder-name label {
+    text-transform: uppercase;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.42);
+}
+
+.card-holder-name {
+    flex: 1;
+}
+
+.card-valid label {
+    text-transform: uppercase;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.42);
+}
+
+.card-no-text {
+    font-weight: 600;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.42);
+}
+
+.card-text {
+    color: #fff;
+    font-size: 15px;
+}
+
+.invoice-date.inv-mar-10 {
+    margin-left: 0px;
+}
+
+.invoice-all-download a {
+    display: flex;
+    background: #f2f4f8;
+    padding: 5px 10px;
+    border-radius: 3px;
+    transition: all .3s;
+    color: #333;
+    text-decoration: none;
+}
+
+.invoice-all-download a:hover {
+    background: #2f69d4;
+    color: #fff;
+}
+
+table.invoices-table {
+    width: 100%;
+    font-size: 15px;
+    color: #707070;
+    border-spacing: 0;
+}
+
+table.invoices-table tr th {
+    text-align: left;
+    padding: 8px 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+table.invoices-table tr td {
+    padding: 8px 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+table.invoices-table tr td:nth-child(5), table.invoices-table tr th:nth-child(5) {justify-content: flex-end;display: flex;}
+
+table.invoices-table tr td:nth-child(1), table.invoices-table tr th:nth-child(1) {
+    width: 30%;
+}
+.pricing-content-items-tabs{
+    display: flex;
+    flex-direction: column;
+        padding: 50px 0px;
+}
+.pricing-yearly {
+    display: flex;
+    margin-bottom: 50px;
+}
+.pricing-monthly{
+    display: none;
+    margin-bottom: 50px;
+}
+
+.pricing-monthly.active-tab-content{
+    display: flex;
+}
+ </style>
   <script>
+  function scrollMessage() {
+		var chatbox = document.querySelector(".chat-box");
+		chatbox.scrollTop = chatbox.scrollHeight;
+	};
+  
         var socket = new WebSocket("ws://localhost:8080/projectGroup2/chat");
         
         socket.onmessage = function(event) {
@@ -26,7 +180,7 @@
             $('#tableMSG').append(
      				'<tr>' + 
      					'<td  id="td' + (i++) + '1">' + 
-     						message.replace("-ADMIN21042003" + "-" + <%= account != null ? account.getId() : 0%>, "")
+     						message.replace("-ADMIN21042003" + "-" + <%= account != null ? account.getId() : 0 %>, "")
      					+'</td>' +
      					'<td id="td' + (j++) + '2">' + 
      						''
@@ -35,7 +189,7 @@
      				+'</tr>' 
      			);
             
-          
+            scrollMessage();
         };
 
         function sendMessage() {
@@ -55,7 +209,7 @@
      					
      				+'</tr>' 
      			);
-            
+            scrollMessage();
             
         }
         
@@ -93,65 +247,61 @@
 						for(var i = 0; i < chats.length; i++){
 							s+= '<tr>';
 								if(chats[i].role == 0){
-									s+= '<td>' + chats[i].message + '- ' + chats[i].id + '</td>';
+									s+= '<td class="receiver">' + chats[i].message + '- ' + chats[i].id + '</td>';
 									s+= '<td></td>';
 								}
 								if(chats[i].role == 1){
 									s+= '<td></td>';
-									s+= '<td>' + chats[i].message + '- ' + chats[i].id + '</td>';
+									s+= '<td class="sneder">' + chats[i].message + '- ' + chats[i].id + '</td>';
 								}
 							s+= '</tr>';
 						}
-						$('#tableMSG').html(s);
+						$('#tableMSG tbody').html(s); // Thêm vào cuối tbody
 					}
              	});
 			});
      	});
 
+
+     // Sự kiện khi bấm nút enter sẽ gửi tin nhắn
+     document.addEventListener("DOMContentLoaded", function() {
+         // Bắt sự kiện khi người dùng bấm phím trong ô nhập liệu
+         document.getElementById("message").addEventListener("keypress", function(event) {
+           // Kiểm tra xem phím đã bấm có phải là nút "Enter" không (mã ASCII là 13)
+           if (event.code === "Enter") {
+             // Gọi hàm sendMessage() khi người dùng bấm nút "Enter"
+             sendMessage();
+           }
+         });
+     });
      	
      	
     </script>
-  <style>
-    /* Custom CSS */
-   
-    tr{
-    	height: 70px;
-    }
-    td{
-    	width:270px;
-    }
-  </style>
    <div class="content-wrapper">
 <br><br>
 <div class="container">
   <div class="row">
-    <div id="boxchat" class="col-6" style="border: 1px solid #ccc; height: 600px; overflow: auto;">
-      <table id="chatAdmin" class="table table-bordered">
-        <!-- Bảng chatAdmin -->
-      </table>
-    </div>
-     <div class="col-6" style="border: 1px solid #ccc; height: 600px; overflow: auto;">
-     <button id="buttonLoadMore">Load more msg</button>
-      <button onclick="return location.reload();">Reload</button>
-      <table id="tableMSG" class="table table-bordered">
-	  		<%
-	  		for(Chat chat : chatModel.findChatByUserID(account.getId(), n)){ %>
-	  			<tr>
-	  				<% if(chat.getRole() == 0) { %>
-	  					<td>
-	  						<%= chat.getMessage() %> - <%= chat.getId() %>
-	  					</td>
-	  					<td></td>
-	  				<% } %>
-	  				<% if(chat.getRole() == 1) { %>
-	  					<td></td>
-	  					<td><%= chat.getMessage() %> - <%= chat.getId() %> </td>
-	  				<% } %>
-	  			</tr>
-	  		
-  		<% } %>
-  		
-      </table>
+    <div class="col-md-6" style="margin: auto">
+      <div class="card border">
+        <div class="card-body chat-box" style="height: 600px;">
+          <button id="buttonLoadMore" class="btn btn-primary load-more-btn">Xem tin nhắn phía trên</button>
+      <button onclick="location.reload();" class="btn btn-secondary reload-btn"><i class="fa-solid fa-rotate-right"></i></button>
+          <table id="tableMSG" class="table">
+            <% for(Chat chat : chatModel.findChatByUserID(account.getId(), n)) { %>
+              <tr>
+                <% if(chat.getRole() == 0) { %>
+                  <td class="receiver"><%= chat.getMessage() %> - <%= chat.getId() %></td>
+                  <td></td>
+                <% } %>
+                <% if(chat.getRole() == 1) { %>
+                  <td></td>
+                  <td class="sender"><%= chat.getMessage() %> - <%= chat.getId() %></td>
+                <% } %>
+              </tr>
+            <% } %>
+          </table>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -160,11 +310,9 @@
 
 <div class="container">
   <div class="row">
-    <div class="col-6">
-      <input type="text" id="message" class="form-control" placeholder="Type your message">
-    </div>
-    <div class="col-6">
-      <button onclick="sendMessage()" class="btn btn-primary">Send</button>
+    <div class="col-md-12 message-container">
+      <input type="text" id="message" class="form-control message-input" placeholder="Nhập tin nhắn tại đây">
+      <button onclick="sendMessage()" class="btn btn-primary send-button"><i class="fa-solid fa-paper-plane"></i></button>
     </div>
   </div>
 </div>

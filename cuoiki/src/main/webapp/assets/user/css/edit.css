@@ -141,10 +141,10 @@
     margin-top: 20px;
 }
 
-.pricing-item:hover {
-    /* transform: scale(1.01); */
+/*.pricing-item:hover {
+     transform: scale(1.01); 
 }
-
+*/
  .plan-button-blue {
     background: #3069d4;
     color: #fff !important;
@@ -518,89 +518,5 @@ Pricing Working Styles
 }
 
 
-.card-holder-name label {
-    text-transform: uppercase;
-    font-weight: 600;
-    color: rgba(255, 255, 255, 0.42);
-}
-
-.card-holder-name {
-    flex: 1;
-}
-
-.card-valid label {
-    text-transform: uppercase;
-    font-weight: 600;
-    color: rgba(255, 255, 255, 0.42);
-}
-
-.card-no-text {
-    font-weight: 600;
-    text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.42);
-}
-
-.card-text {
-    color: #fff;
-    font-size: 15px;
-}
-
-.invoice-date.inv-mar-10 {
-    margin-left: 0px;
-}
-
-.invoice-all-download a {
-    display: flex;
-    background: #f2f4f8;
-    padding: 5px 10px;
-    border-radius: 3px;
-    transition: all .3s;
-    color: #333;
-    text-decoration: none;
-}
-
-.invoice-all-download a:hover {
-    background: #2f69d4;
-    color: #fff;
-}
-
-table.invoices-table {
-    width: 100%;
-    font-size: 15px;
-    color: #707070;
-    border-spacing: 0;
-}
-
-table.invoices-table tr th {
-    text-align: left;
-    padding: 8px 10px;
-    border-bottom: 1px solid #ddd;
-}
-
-table.invoices-table tr td {
-    padding: 8px 10px;
-    border-bottom: 1px solid #ddd;
-}
-
-table.invoices-table tr td:nth-child(5), table.invoices-table tr th:nth-child(5) {justify-content: flex-end;display: flex;}
-
-table.invoices-table tr td:nth-child(1), table.invoices-table tr th:nth-child(1) {
-    width: 30%;
-}
-.pricing-content-items-tabs{
-    display: flex;
-    flex-direction: column;
-        padding: 50px 0px;
-}
-.pricing-yearly {
-    display: flex;
-    margin-bottom: 50px;
-}
-.pricing-monthly{
-    display: none;
-    margin-bottom: 50px;
-}
-
-.pricing-monthly.active-tab-content{
-    display: flex;
-}
+    /* Custom CSS */
+    

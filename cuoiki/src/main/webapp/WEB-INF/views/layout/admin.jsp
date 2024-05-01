@@ -213,9 +213,9 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="${pageContext.request.contextPath }/admin/systemapartment" class="nav-link ${activeAdminSystem }">
+                  <a href="${pageContext.request.contextPath }/admin/chatadmin" class="nav-link ${activeAdminSystem }">
                     <i class="fa-solid fa-building"></i> &nbsp;
-                    <p>Căn hộ của hệ thống</p>
+                    <p>Chăm sóc khách hàng</p>
                   </a>
                 </li>
                 <li class="nav-item ">
