@@ -33,13 +33,13 @@ import com.google.gson.Gson;
 /**
  * Servlet implementation class HomeServlet
  */
-public class SystemApartmentServlet extends HttpServlet {
+public class ChatUserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public SystemApartmentServlet() {
+    public ChatUserServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -57,11 +57,16 @@ public class SystemApartmentServlet extends HttpServlet {
 		SystemApartmentModel systemApartmentModel = new SystemApartmentModel();
 	
 		account = (Account) request.getSession().getAttribute("account");
-		System.out.println(account);
-		request.setAttribute("systemapartments", systemApartmentModel.findAll());
-		request.setAttribute("activeSystem", "active");
-		request.setAttribute("p", "../user/chatuser.jsp");
-		request.getRequestDispatcher("/WEB-INF/views/layout/user.jsp").forward(request, response);
+		if(account == null) {
+			request.getSession().setAttribute("msg", "Bạn cần phải đăng nhập tài khoản để có thể nhắn tin với hệ thống");
+			response.sendRedirect("home");
+		} else {
+			request.getSession().setAttribute("msg", "ok");
+			request.setAttribute("systemapartments", systemApartmentModel.findAll());
+			request.setAttribute("activeSystem", "active");
+			request.setAttribute("p", "../user/chatuser.jsp");
+			request.getRequestDispatcher("/WEB-INF/views/layout/user.jsp").forward(request, response);
+		}
 	}
 	
 	
