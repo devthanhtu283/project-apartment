@@ -156,6 +156,7 @@ public class ChatModel {
 	
 	
 	public static void main(String[] args) {
-	
+		ChatModel chatModel = new ChatModel();
+		System.out.println(chatModel.findChatByUserID(2, 7).size());
 	}
 }
