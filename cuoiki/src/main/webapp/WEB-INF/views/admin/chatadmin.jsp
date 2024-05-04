@@ -1,3 +1,4 @@
+<%@page import="java.util.List"%>
 <%@page import="com.demo.entities.Chat"%>
 <%@page import="com.demo.models.AccountDetailsModel"%>
 <%@page import="com.demo.models.ChatModel"%>
@@ -10,6 +11,15 @@
  <%
  	ChatModel chatModel = new ChatModel();
  	AccountDetailsModel accountDetailsModel = new AccountDetailsModel();
+ 	int n = 7;
+ 	List<Chat> chats = (List<Chat>) request.getAttribute("chats");
+ 	if(request.getAttribute("n") != null){
+ 		String n1 = (String) request.getAttribute("n") ;
+ 		n = Integer.parseInt(n1)  + 7;
+ 	 	
+ 	}
+
+ 	
  %>
  <style>
  	.userTR{
@@ -18,7 +28,49 @@
  	.backgroundTR {
  		background-color: navy;
  	}
- 	
+ 	.chat-online {
+    color: #34ce57
+}
+
+.chat-offline {
+    color: #e4606d
+}
+
+.chat-messages {
+    display: flex;
+    flex-direction: column;
+    max-height: 800px;
+    overflow-y: scroll
+}
+
+.chat-message-left,
+.chat-message-right {
+    display: flex;
+    flex-shrink: 0
+}
+
+.chat-message-left {
+    margin-right: auto
+}
+
+.chat-message-right {
+    flex-direction: row-reverse;
+    margin-left: auto
+}
+.py-3 {
+    padding-top: 1rem!important;
+    padding-bottom: 1rem!important;
+}
+.px-4 {
+    padding-right: 1.5rem!important;
+    padding-left: 1.5rem!important;
+}
+.flex-grow-0 {
+    flex-grow: 0!important;
+}
+.border-top {
+    border-top: 1px solid #dee2e6!important;
+}
  	
  </style>
   <script>
@@ -26,93 +78,43 @@
   $(document).ready(function(){
 		var i = 1;
 		var j = 1;
-		$('#button').click(function(){
-			
-			$('#chatAdmin').append(
-				'<tr>' + 
-					'<td id="td' + (i++) + '1">' + 
-						'Aaaa'
-					+'</td>' +
-					'<td id="td' + (j++) + '2">' + 
-						'Aaaa'
-					+'</td>'
-					
-				+'</tr>' 
-			);
-		});
-		$('.userTR').click(function() {
-			userID = $(this).attr('data-id');
-			$('.userTR').removeClass('backgroundTR');
-			$(this).addClass('backgroundTR');
-			console.log(userID);
-			/* $.ajax({
-				type: "GET",
-				url: "${pageContext.request.contextPath}/admin/chatadmin",
-				data: {
-					userID: userID,
-					action: 'loadMsg'
-				},
-				success: function(chat){
-					var s = '';
-					console.log(chat.length)
-					for(var i = 0;i < chat.length;i++) {
-						s+= '<tr>';
-						if(chat[i].role == 0) {
-							s+= '<td></td>';
-							s+= '<td>' + chat[i].message +'</td>';
-							console.log(chat[i].message);
-						}
-						if(chat[i].role == 1) {
-							s+= '<td>' + chat[i].message +'</td>';
-							s+= '<td></td>';
-						}
-						s+='</tr>';
-					}
-					$('#chatAdmin tbody').html(s);
-				}
-			}); */
-		});
+		
+		
 		
 	});
         var socket = new WebSocket("ws://localhost:8080/projectGroup2/chat");
         
         socket.onmessage = function(event) {
+        	var nameUser = $('#nameUser').val();
+        	var avatarUser = $('#avatarUser').val();
+        	console.log(avatarUser);
+        	var now = new Date();
+        	var hours = now.getHours();
+        	var minutes = now.getMinutes();
         	var i = 1;
      		var j = 1;
             var message = event.data;
             $('#chatAdmin').append(
-     				'<tr>' + 
-     					'<td id="td' + (i++) + '1">' + 
-     						message.replace("-USER21042003" + "-" + userID  , "")
-     					+'</td>' +
-     					'<td id="td' + (j++) + '2">' + 
-     						''
- 						+'</td>'
-     					
-     				+'</tr>' 
+     				'<div class="chat-message-left pb-4"><div><img src="${pageContext.request.contextPath}/assets/user/images/' + avatarUser + '" class="rounded-circle mr-1" alt="Sharon Lessman" width="40" height="40"><div class="text-muted small text-nowrap mt-2">' + hours + ':' + minutes + '</div></div><div class="flex-shrink-1 bg-light rounded py-2 px-3 ml-3"><div class="font-weight-bold mb-1">' + nameUser + '</div>' + message.replace("-USER21042003" + "-${userID}", "") + '</div></div>'
      			);
+       
             
           
         };
 
         function sendMessage() {
+        	var now = new Date();
+        	var hours = now.getHours();
+        	var minutes = now.getMinutes();
         	var i = 1;
      		var j = 1;
             var message = $("#message").val();
-            socket.send(message + "-ADMIN21042003" + "-" + userID);
+            socket.send(message + "-ADMIN21042003" + "-${userID}");
             $("#message").val("");
             $('#chatAdmin').append(
-     				'<tr>' + 
-     					'<td id="td' + (i++) + '1">' + 
-     						''
-     					+'</td>' +
-     					'<td id="td' + (j++) + '2">' + 
-     					message
- 						+'</td>'
-     					
-     				+'</tr>' 
+            		'<div class="chat-message-right pb-4"><div><img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="rounded-circle mr-1" alt="Chris Wood" width="40" height="40"><div class="text-muted small text-nowrap mt-2">' + hours + ':' + minutes + '</div></div><div class="flex-shrink-1 bg-light rounded py-2 px-3 mr-3"><div class="font-weight-bold mb-1">Tôi</div>' + message + '</div></div>'
      			);
-            
+           
             
         }
 
@@ -129,47 +131,108 @@
     }
   </style>
 <div class="content-wrapper">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        <table class="table">
-                            <% for(Chat chat : chatModel.listUser()) { %>
-                            <tr class="userTR" data-id="<%= chat.getUserID() %>">
-                                <td>
-                                    <img class="rounded-circle" src="${pageContext.request.contextPath }/assets/user/images/<%= accountDetailsModel.findAccountByAccountID(chat.getUserID()).getAvatar() %>" height="50" width="50" alt="User Avatar">
-                                    <%= accountDetailsModel.findAccountByAccountID(chat.getUserID()).getName() %>
-                                </td>
-                            </tr>
+
+<input type="hidden" id="nameUser" value="<%= accountDetailsModel.findAccountByAccountID(chats.get(0).getUserID()).getName() %>">
+<input type="hidden" id="avatarUser" value="<%= accountDetailsModel.findAccountByAccountID(chats.get(0).getUserID()).getAvatar() %>">
+<main class="content">
+    <div class="container p-0">
+
+		<h1 class="h3 mb-3">Messages</h1>
+
+		<div class="card">
+			<div class="row g-0">
+				<div class="col-12 col-lg-5 col-xl-3 border-right">
+
+					<div class="px-4 d-none d-md-block">
+						<div class="d-flex align-items-center">
+							<div class="flex-grow-1">
+								<input type="text" class="form-control my-3" placeholder="Search...">
+							</div>
+						</div>
+					</div>
+					   <% for(Chat chat : chatModel.listUser()) { %>
+					   		<a href="${pageContext.request.contextPath}/admin/chatadmin?id=<%= chat.getUserID() %>" class="list-group-item list-group-item-action border-0 userTR" data-id="<%= chat.getUserID() %>">
+								<div class="badge bg-success float-right">5</div>
+								<div class="d-flex align-items-start">
+									<img src="${pageContext.request.contextPath }/assets/user/images/<%= accountDetailsModel.findAccountByAccountID(chat.getUserID()).getAvatar() %>" class="rounded-circle mr-1" alt="Vanessa Tucker" width="40" height="40">
+									<div class="flex-grow-1 ml-3">
+										 <%= accountDetailsModel.findAccountByAccountID(chat.getUserID()).getName() %>
+										<div class="small"><span class="fas fa-circle chat-online"></span> Online</div>
+									</div>
+								</div>
+						</a>
+					   
+                          
                             <% } %>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2"></div>
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-body">
-                        <table id="chatAdmin" class="table">
-                            
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <br><br>
-    </div>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="input-group">
-                    <input type="text" id="message" class="form-control" placeholder="Type your message">
-                    <div class="input-group-append">
-                        <button onclick="sendMessage()" class="btn btn-primary">Send</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+					
+				
+				
+					<hr class="d-block d-lg-none mt-1 mb-0">
+				</div>
+				<div class="col-12 col-lg-7 col-xl-9">
+					<div class="py-2 px-4 border-bottom d-none d-lg-block">
+						<div class="d-flex align-items-center py-1">
+							<div class="position-relative">
+								<img src="${pageContext.request.contextPath }/assets/user/images/<%= accountDetailsModel.findAccountByAccountID(chats.get(0).getUserID()).getAvatar() %>" class="rounded-circle mr-1" alt="Sharon Lessman" width="40" height="40">
+							</div>
+							<div class="flex-grow-1 pl-3">
+								<strong><%= accountDetailsModel.findAccountByAccountID(chats.get(0).getUserID()).getName() %></strong>
+								<div class="text-muted small"><em>Typing...</em></div>
+							</div>
+							<div>
+								<button class="btn btn-primary btn-lg mr-1 px-3"><a href="${pageContext.request.contextPath}/admin/chatadmin?id=${userID}&n=<%= n %>">Load Them</a></button>
+								 <button class="btn btn-secondary reload-btn"><a href="${pageContext.request.contextPath}/admin/chatadmin?id=${userID}"><i class="fa-solid fa-rotate-right"></i></a></button>
+								<button class="btn btn-light border btn-lg px-3"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal feather-lg"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg></button>
+							</div>
+						</div>
+					</div>
+
+					<div class="position-relative">
+						<div class="chat-messages p-4" id="chatAdmin">
+							<% for(Chat chat : chats){ %>
+								<% if(chat.getRole() == 0){ %>
+										<div class="chat-message-right pb-4">
+									<div>
+										<img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="rounded-circle mr-1" alt="Chris Wood" width="40" height="40">
+										<div class="text-muted small text-nowrap mt-2"><%= chat.getTime().getHours() %> : <%= chat.getTime().getMinutes() %></div>
+									</div>
+									<div class="flex-shrink-1 bg-light rounded py-2 px-3 mr-3">
+										<div class="font-weight-bold mb-1">Tôi</div>
+										<%= chat.getMessage() %>
+									</div>
+								</div>
+								<% } %>
+								<% if(chat.getRole() == 1){ %>
+									<div class="chat-message-left pb-4">
+								<div>
+									<img src="${pageContext.request.contextPath }/assets/user/images/<%= accountDetailsModel.findAccountByAccountID(chats.get(0).getUserID()).getAvatar() %>" class="rounded-circle mr-1" alt="Sharon Lessman" width="40" height="40">
+									<div class="text-muted small text-nowrap mt-2"><%= chat.getTime().getHours() %> : <%= chat.getTime().getMinutes() %></div>
+								</div>
+								<div class="flex-shrink-1 bg-light rounded py-2 px-3 ml-3">
+									<div class="font-weight-bold mb-1"><%= accountDetailsModel.findAccountByAccountID(chats.get(0).getUserID()).getName() %></div>
+									<%= chat.getMessage() %>
+								</div>
+							</div>
+								<% } %>
+							<% } %>
+
+							
+
+						
+						</div>
+					</div>
+
+					<div class="flex-grow-0 py-3 px-4 border-top">
+						<div class="input-group">
+							<input type="text" id="message" class="form-control" placeholder="Type your message">
+							<button onclick="sendMessage()" class="btn btn-primary">Send</button>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</main>
+   
 </div>
