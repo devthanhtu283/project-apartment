@@ -3,6 +3,7 @@ package com.demo.models;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Types;
 import java.util.ArrayList;
 
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.List;
 import org.mindrot.jbcrypt.BCrypt;
 
 import com.demo.entities.Account;
+import com.demo.entities.AccountGmail;
 import com.demo.entities.ConnectDB;
 
 public class AccountModel {
@@ -184,7 +186,7 @@ public class AccountModel {
 			preparedStatement.setString(6, account.getSecurityCode());
 			preparedStatement.setBoolean(7, account.isStatus());
 			preparedStatement.setInt(8, account.getRole());
-			preparedStatement.setInt(9, account.getGmailID());
+			preparedStatement.setNull(9, Types.INTEGER);
 			
 			status = preparedStatement.executeUpdate() > 0;
 			
@@ -211,7 +213,7 @@ public class AccountModel {
 			preparedStatement.setString(6, account.getSecurityCode());
 			preparedStatement.setBoolean(7, account.isStatus());
 			preparedStatement.setInt(8, account.getRole());
-			preparedStatement.setInt(9, account.getGmailID());
+			preparedStatement.setNull(9, Types.INTEGER);
 			preparedStatement.setInt(10, account.getId());
 			status = preparedStatement.executeUpdate() > 0;
 			
@@ -228,7 +230,15 @@ public class AccountModel {
 	
 	public static void main(String[] args) {
 		AccountModel accountModel = new AccountModel();
-		Account account = accountModel.findAccountByUsername("Hoàng Tú");
-		System.out.println(accountModel.findAccountByGmailID(2));
+		Account account = new Account();
+		account.setUsername("acc4");
+		account.setPassword("Thiengabap222@");
+		account.setEmail("neverabc2003@gmail.com");
+		account.setCreated(new java.util.Date());
+		account.setRole(1);
+		account.setSecurityCode("123455");
+		account.setStatus(false);
+		account.setVerify(true);
+		System.out.println(accountModel.register(account));
 	}
 }

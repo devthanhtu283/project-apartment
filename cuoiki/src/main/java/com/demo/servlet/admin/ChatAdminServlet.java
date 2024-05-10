@@ -41,8 +41,21 @@ public class ChatAdminServlet extends HttpServlet {
 		} 
 	}
 	protected void doGet_Index(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		ChatModel chatModel = new ChatModel();
 		request.setAttribute("admin", "../admin/chatadmin.jsp");
 		request.setAttribute("activeAdminSystem", "active");
+		String id = request.getParameter("id");
+		String n = request.getParameter("n");
+		if(id == null) {
+			id  = String.valueOf(chatModel.listUser().get(0).getUserID());
+		}
+		if(n == null) {
+			n = String.valueOf("0");
+		}
+		request.setAttribute("chats", chatModel.findChatByUserID(Integer.parseInt(id), Integer.parseInt(n)));
+		request.setAttribute("userID", chatModel.findChatByUserID(Integer.parseInt(id), 0).get(0).getUserID());
+		request.setAttribute("n", n);
+		System.out.println(id);
 		request.getRequestDispatcher("/WEB-INF/views/layout/admin.jsp").forward(request, response);
 	}	
 	protected void doGet_LoadMsg(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
