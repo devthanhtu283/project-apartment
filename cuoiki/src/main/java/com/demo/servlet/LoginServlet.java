@@ -72,11 +72,14 @@ public class LoginServlet extends HttpServlet {
 		System.out.println(account);
 		if(account.getUsername().equalsIgnoreCase(new String(username.getBytes("ISO-8859-1"), "UTF-8")) && account.getSecurityCode().equalsIgnoreCase(securityCode)) {
 			account.setVerify(true);
+			System.out.println("Đã cập nhật verify");
 			if(accountModel.update(account)) {
+				System.out.println("đã cập nhật thành công");
 				response.sendRedirect("login");
 			}
 			
 		} else {
+			System.out.println("cập nhật thất bại");
 			request.getSession().setAttribute("content", "aaaaa");
 			response.sendRedirect("login?action=message");
 		}
@@ -185,6 +188,7 @@ public class LoginServlet extends HttpServlet {
 		account.setRole(1);
 		account.setSecurityCode(securityCode);
 		AccountModel accountModel = new AccountModel();
+		AccountGmailModel accountGmailModel = new AccountGmailModel();
 		if(matcherEmail.matches() && matcherPassword.matches()) {
 			if(accountModel.register(account)) {
 				request.getSession().setAttribute("msg", "Đã đăng kí tài khoản thành công. Xin vui lòng đăng nhập tài khoản");
