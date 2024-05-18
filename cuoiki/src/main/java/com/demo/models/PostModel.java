@@ -115,6 +115,26 @@ public class PostModel {
 		return posts;
 	}
 	
+	public List<Integer> listAccountID() {
+		List<Integer> listAccountID = new ArrayList<Integer>();
+		try {
+			PreparedStatement preparedStatement = ConnectDB.connection()
+					.prepareStatement("select accountiD from post group by accountid");
+			ResultSet resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				listAccountID.add(resultSet.getInt("accountid"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			listAccountID = null;
+			// TODO: handle exception
+		} finally {
+			ConnectDB.disconnect();
+		}
+
+		return listAccountID;
+	}
+	
 	public List<Post> findAllInAdmin() {
 		List<Post> posts = new ArrayList<Post>();
 		try {
@@ -522,9 +542,9 @@ public class PostModel {
 		boolean status = true;
 		try {
 			PreparedStatement preparedStatement = ConnectDB.connection()
-			.prepareStatement("UPDATE post set status = 1 where id = ?");
-
-			preparedStatement.setInt(1, post.getId());
+			.prepareStatement("UPDATE post set status = ? where id = ?");
+			preparedStatement.setBoolean(1, post.isStatus());
+			preparedStatement.setInt(2, post.getId());
 			
 			status = preparedStatement.executeUpdate() > 0;
 			
@@ -564,6 +584,6 @@ public class PostModel {
 		PostModel postModel = new PostModel();
 //		System.out.println(postModel.update(postModel.findPostByID(159)));
 //		System.out.println(postModel.findPostByID(159));
-		System.out.println(postModel.findTopSixAdmin());
+		System.out.println(postModel.findAll());
 	}
 }
