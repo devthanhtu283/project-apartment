@@ -15,16 +15,16 @@ import javax.servlet.http.HttpSession;
 
 import com.demo.entities.Account;
 import com.demo.models.FeedbackModel;
-@WebFilter(urlPatterns = {"/admin/*"})
+@WebFilter(urlPatterns = {"/superadmin/*"})
 /**
  * Servlet Filter implementation class AdminFilter
  */
-public class AdminFilter extends HttpFilter implements Filter {
+public class SuperAdminFilter extends HttpFilter implements Filter {
        
     /**
      * @see HttpFilter#HttpFilter()
      */
-    public AdminFilter() {
+    public SuperAdminFilter() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -46,7 +46,7 @@ public class AdminFilter extends HttpFilter implements Filter {
 		HttpSession session = httpRequest.getSession();
 		Account account = (Account) session.getAttribute("accountAdmin");
 		
-		if(account != null && (account.getRole() == 0 ||account.getRole() == 2) ) {
+		if(account != null && account.getRole() == 2) {
 			chain.doFilter(request, response);
 		
 		} else {

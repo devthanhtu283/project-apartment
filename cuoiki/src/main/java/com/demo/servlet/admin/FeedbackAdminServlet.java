@@ -13,7 +13,7 @@ import com.demo.entities.Account;
 import com.demo.models.AccountModel;
 import com.demo.models.FeedbackModel;
 import com.google.gson.Gson;
-@WebServlet({"/admin/feedback"})
+@WebServlet({"/superadmin/feedback"})
 /**
  * Servlet implementation class AccountAdminServlet
  */

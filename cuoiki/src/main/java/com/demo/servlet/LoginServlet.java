@@ -142,7 +142,7 @@ public class LoginServlet extends HttpServlet {
 		
 		if(accountModel.login(new String(username.getBytes("ISO-8859-1"), "UTF-8"), password)) {
 			System.out.println(logModel.create(new Log(configLog.clientPublicIP, "info", new ConfigLog().ipconfig(request).getCountryLong(), new java.util.Date(), null, null)));
-			if(account.getRole() == 0) {
+			if(account.getRole() == 0 || account.getRole() == 2) {
 				request.getSession().setAttribute("accountAdmin", account);
 				request.getSession().removeAttribute("accountdetails");
 				request.getSession().removeAttribute("account");
