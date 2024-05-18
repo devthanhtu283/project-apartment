@@ -28,6 +28,7 @@ public class LanguageServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter("action");
+		String referer = request.getHeader("referer");
 		if(action == null) {
 			PostModel postModel = new PostModel();
 			request.setAttribute("posts", postModel.findTopSix());
@@ -38,14 +39,22 @@ public class LanguageServlet extends HttpServlet {
 				PostModel postModel = new PostModel();
 				request.setAttribute("posts", postModel.findTopSix());
 				request.getSession().setAttribute("language", "vi");
-				request.setAttribute("p", "../user/home.jsp");
-				request.getRequestDispatcher("/WEB-INF/views/layout/user.jsp").forward(request, response);
+				/*
+				 * request.setAttribute("p", "../user/home.jsp");
+				 * request.getRequestDispatcher("/WEB-INF/views/layout/user.jsp").forward(
+				 * request, response);
+				 */
+				response.sendRedirect(referer);
 			} else if(action.equals("en")){
 				PostModel postModel = new PostModel();
 				request.setAttribute("posts", postModel.findTopSix());
 				request.getSession().setAttribute("language", "en");
-				request.setAttribute("p", "../user/home.jsp");
-				request.getRequestDispatcher("/WEB-INF/views/layout/user.jsp").forward(request, response);
+				response.sendRedirect(referer);
+				/*
+				 * request.setAttribute("p", "../user/home.jsp");
+				 * request.getRequestDispatcher("/WEB-INF/views/layout/user.jsp").forward(
+				 * request, response);
+				 */
 				
 			}
 		}

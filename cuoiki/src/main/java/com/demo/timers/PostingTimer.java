@@ -28,7 +28,7 @@ public class PostingTimer extends TimerTask {
 				}  else if(!isExists(i)){
 				
 					List<Post> posts = postModel.findPostByAccountID(i);
-					System.out.println(posts);
+			
 					for (Post post : posts) {
 						post.setStatus(false);
 						postModel.update(post);
