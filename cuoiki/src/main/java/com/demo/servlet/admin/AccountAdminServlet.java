@@ -15,7 +15,7 @@ import com.demo.models.AccountPartialModel;
 import com.demo.models.FeedbackModel;
 import com.demo.models.SystemApartmentModel;
 import com.google.gson.Gson;
-@WebServlet({"/admin/account"})
+@WebServlet({"/superadmin/account"})
 /**
  * Servlet implementation class AccountAdminServlet
  */
@@ -54,7 +54,7 @@ public class AccountAdminServlet extends HttpServlet {
 		}
 	}
 	protected void doGet_Index(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setAttribute("admin", "../admin/accounts.jsp");
+		request.setAttribute("admin", "../superadmin/accounts.jsp");
 		request.setAttribute("activeAccount", "active");
 		AccountPartialModel accountPartialModel = new AccountPartialModel();
 		request.setAttribute("accounts", accountPartialModel.findAll());
@@ -71,11 +71,11 @@ public class AccountAdminServlet extends HttpServlet {
 		account.setRole(0);
 		if(accountModel.update(account)) {
 			request.getSession().setAttribute("msg", "Đã cấp admin thành công");
-			response.sendRedirect(request.getContextPath() + "/admin/account");
+			response.sendRedirect(request.getContextPath() + "/superadmin/account");
 			
 		} else {
 			System.out.println(1);
-			response.sendRedirect(request.getContextPath() + "/admin/account");
+			response.sendRedirect(request.getContextPath() + "/superadmin/account");
 		}
 
 		
@@ -88,11 +88,11 @@ protected void doGet_UnAdmin(HttpServletRequest request, HttpServletResponse res
 		account.setRole(1);
 		if(accountModel.update(account)) {
 			request.getSession().setAttribute("msg", "Đã gỡ admin thành công");
-			response.sendRedirect(request.getContextPath() + "/admin/account");
+			response.sendRedirect(request.getContextPath() + "/superadmin/account");
 			
 		} else {
 			System.out.println(1);
-			response.sendRedirect(request.getContextPath() + "/admin/account");
+			response.sendRedirect(request.getContextPath() + "/superadmin/account");
 		}
 
 		
@@ -143,11 +143,11 @@ protected void doGet_UnAdmin(HttpServletRequest request, HttpServletResponse res
 		account.setStatus(false);
 		if(accountModel.update(account)) {
 			request.getSession().setAttribute("msg", "Đã chặn thành công");
-			response.sendRedirect(request.getContextPath() + "/admin/account");
+			response.sendRedirect(request.getContextPath() + "/superadmin/account");
 			
 		} else {
 			System.out.println(1);
-			response.sendRedirect(request.getContextPath() + "/admin/account");
+			response.sendRedirect(request.getContextPath() + "/superadmin/account");
 		}
 	}
 	
@@ -158,11 +158,11 @@ protected void doGet_UnAdmin(HttpServletRequest request, HttpServletResponse res
 		account.setStatus(true);
 		if(accountModel.update(account)) {
 			request.getSession().setAttribute("msg2", "Đã gỡ chặn thành công");
-			response.sendRedirect(request.getContextPath() + "/admin/account");
+			response.sendRedirect(request.getContextPath() + "/superadmin/account");
 			
 		} else {
 			System.out.println(1);
-			response.sendRedirect(request.getContextPath() + "/admin/account");
+			response.sendRedirect(request.getContextPath() + "/superadmin/account");
 		}
 	}
 

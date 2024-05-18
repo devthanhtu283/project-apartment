@@ -37,8 +37,10 @@ public class TimerHelper implements ServletContextListener {
      * @see ServletContextListener#contextInitialized(ServletContextEvent)
      */
     public void contextInitialized(ServletContextEvent sce)  { 
-    	PostingTimer postingTimer = new PostingTimer();
-    	timer.scheduleAtFixedRate(postingTimer, 0, 5000);
+		/*
+		 * PostingTimer postingTimer = new PostingTimer();
+		 * timer.scheduleAtFixedRate(postingTimer, 0, 5000);
+		 */
     }
 	
 }
