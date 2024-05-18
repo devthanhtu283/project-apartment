@@ -15,7 +15,7 @@ import com.demo.models.AccountModel;
 import com.demo.models.ContactModel;
 import com.demo.models.FeedbackModel;
 import com.google.gson.Gson;
-@WebServlet({"/admin/contact"})
+@WebServlet({"/superadmin/contact"})
 /**
  * Servlet implementation class AccountAdminServlet
  */
