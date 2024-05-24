@@ -177,19 +177,22 @@ table.invoices-table tr td:nth-child(1), table.invoices-table tr th:nth-child(1)
         	var i = 1;
      		var j = 1;
             var message = event.data;
-            $('#tableMSG').append(
-     				'<tr>' + 
-     					'<td  id="td' + (i++) + '1">' + 
-     						message.replace("-ADMIN21042003" + "-" + <%= account != null ? account.getId() : 0 %>, "")
-     					+'</td>' +
-     					'<td id="td' + (j++) + '2">' + 
-     						''
- 						+'</td>'
-     					
-     				+'</tr>' 
-     			);
-            
-            scrollMessage();
+            if(message.includes("-ADMIN21042003" + "-" + <%= account != null ? account.getId() : 0 %>)){
+            	  $('#tableMSG').append(
+           				'<tr>' + 
+           					'<td  id="td' + (i++) + '1">' + 
+           						message.replace("-ADMIN21042003" + "-" + <%= account != null ? account.getId() : 0 %>, "")
+           					+'</td>' +
+           					'<td id="td' + (j++) + '2">' + 
+           						''
+       						+'</td>'
+           					
+           				+'</tr>' 
+           			);
+                  
+                  scrollMessage();
+            }
+          
         };
 
         function sendMessage() {
@@ -203,7 +206,7 @@ table.invoices-table tr td:nth-child(1), table.invoices-table tr th:nth-child(1)
      					'<td id="td' + (i++) + '1">' + 
      						''
      					+'</td>' +
-     					'<td style="text-align: right;"  id="td' + (j++) + '2">' + 
+     					'<td style="text-align: left;"  id="td' + (j++) + '2">' + 
      					message
  						+'</td>'
      					
@@ -247,12 +250,12 @@ table.invoices-table tr td:nth-child(1), table.invoices-table tr th:nth-child(1)
 						for(var i = 0; i < chats.length; i++){
 							s+= '<tr>';
 								if(chats[i].role == 0){
-									s+= '<td class="receiver">' + chats[i].message + '- ' + chats[i].id + '</td>';
+									s+= '<td class="receiver">' + chats[i].message + '</td>';
 									s+= '<td></td>';
 								}
 								if(chats[i].role == 1){
 									s+= '<td></td>';
-									s+= '<td class="sneder">' + chats[i].message + '- ' + chats[i].id + '</td>';
+									s+= '<td class="sneder">' + chats[i].message + '</td>';
 								}
 							s+= '</tr>';
 						}
@@ -290,12 +293,12 @@ table.invoices-table tr td:nth-child(1), table.invoices-table tr th:nth-child(1)
             <% for(Chat chat : chatModel.findChatByUserID(account.getId(), n)) { %>
               <tr>
                 <% if(chat.getRole() == 0) { %>
-                  <td class="receiver"><%= chat.getMessage() %> - <%= chat.getId() %></td>
+                  <td class="receiver"><%= chat.getMessage() %></td>
                   <td></td>
                 <% } %>
                 <% if(chat.getRole() == 1) { %>
                   <td></td>
-                  <td class="sender"><%= chat.getMessage() %> - <%= chat.getId() %></td>
+                  <td class="sender"><%= chat.getMessage() %></td>
                 <% } %>
               </tr>
             <% } %>

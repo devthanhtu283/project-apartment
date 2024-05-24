@@ -1,3 +1,5 @@
+<%@page import="com.demo.models.AccountServiceModel"%>
+<%@page import="com.demo.entities.AccountService"%>
 <%@page import="com.demo.models.InvoiceModel"%>
 <%@page import="com.demo.entities.Account"%>
 <%@page import="com.demo.entities.Invoice"%>
@@ -10,9 +12,10 @@
 	HttpSession httpSession = request.getSession();
 	ServiceModel serviceModel = new ServiceModel();
 	InvoiceModel invoiceModel = new InvoiceModel();
+	AccountServiceModel accountServiceModel = new AccountServiceModel();
 	Account account = (Account)  httpSession.getAttribute("account") == null ? new Account() : (Account)  httpSession.getAttribute("account");
-	Invoice invoice = invoiceModel.findByID(account.getId(), true);
-	int serviceId = (invoice != null) ? invoice.getServiceId() : 0;
+	AccountService accountService = accountServiceModel.findAccountByAccountId(account.getId());
+	int serviceId = (accountService != null) ? accountService.getServiceID() : 0;
 	String msg = (String) httpSession.getAttribute("msg");
 	String msg1 = msg;
 	httpSession.removeAttribute("msg");

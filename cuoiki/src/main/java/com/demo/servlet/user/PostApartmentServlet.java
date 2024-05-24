@@ -1,6 +1,7 @@
 package com.demo.servlet.user;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -16,6 +17,7 @@ import com.demo.entities.Account;
 import com.demo.entities.Accountdetails;
 import com.demo.entities.Post;
 import com.demo.entities.PostImage;
+import com.demo.helpers.PostHelper;
 import com.demo.helpers.UploadFileHelper;
 import com.demo.models.PostImageModel;
 import com.demo.models.PostModel;
@@ -77,6 +79,7 @@ public class PostApartmentServlet extends HttpServlet {
 	protected void doPost_PostUserApart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		PostModel postModel = new PostModel();
+		PostHelper postHelper = new PostHelper();
 		PostImageModel postImageModel = new PostImageModel();
 		List<Part> parts = (List<Part>) request.getParts();
 		Account account = (Account) request.getSession().getAttribute("account");
@@ -103,23 +106,33 @@ public class PostApartmentServlet extends HttpServlet {
 			post.setAvatar(avatar);
 			post.setPostdate(new Date());
 			post.setStatus(false);
-			if(postModel.create(post)) {
-				for(int i = 9;i < parts.size();i++) {
-					PostImage postImage = new PostImage();
-					postImage.setName(UploadFileHelper.uploadFile("assets/user/images/150canho", request, parts.get(i)));
-					postImage.setCreated(new Date());
-					postImage.setPostid(postModel.lastPost().getId());
-					if(postImageModel.create(postImage)) {
-						System.out.println("Them anh thanh cong");
+			if(postHelper.checkUserBuyService(account.getId())) {
+				if(postHelper.isPostByPlan(account.getId(), new Timestamp(new Date().getTime()))) {
+					if(postModel.create(post)) {
+						for(int i = 9;i < parts.size();i++) {
+							PostImage postImage = new PostImage();
+							postImage.setName(UploadFileHelper.uploadFile("assets/user/images/150canho", request, parts.get(i)));
+							postImage.setCreated(new Date());
+							postImage.setPostid(postModel.lastPost().getId());
+							if(postImageModel.create(postImage)) {
+								System.out.println("Them anh thanh cong");
+							} else {
+								System.out.println("Them anh khong thanh cong");
+							}
+						}
+						request.getSession().setAttribute("msg", "thêm bài đăng thành công");
+						response.sendRedirect("mypost");
 					} else {
-						System.out.println("Them anh khong thanh cong");
+						request.getSession().setAttribute("msg", "thêm bài đăng không thành công");
+						response.sendRedirect("postapartment");
 					}
+				} else if(!postHelper.isPostByPlan(account.getId(), new Timestamp(new Date().getTime()))){
+					request.getSession().setAttribute("msg", "Bạn đã vượt quá số lần đăng bài cho phép");
+					response.sendRedirect("mypost");
 				}
-				request.getSession().setAttribute("msg", "thêm bài đăng thành công");
-				response.sendRedirect("mypost");
 			} else {
-				request.getSession().setAttribute("msg", "thêm bài đăng không thành công");
-				response.sendRedirect("postapartment");
+				request.getSession().setAttribute("msg", "Bạn chưa mua gói dịch vụ để đăng bài.");
+				response.sendRedirect("plan");
 			}
 		} 
 		

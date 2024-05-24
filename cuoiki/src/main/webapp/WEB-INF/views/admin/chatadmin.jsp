@@ -94,9 +94,12 @@
         	var i = 1;
      		var j = 1;
             var message = event.data;
-            $('#chatAdmin').append(
-     				'<div class="chat-message-left pb-4"><div><img src="${pageContext.request.contextPath}/assets/user/images/' + avatarUser + '" class="rounded-circle mr-1" alt="Sharon Lessman" width="40" height="40"><div class="text-muted small text-nowrap mt-2">' + hours + ':' + minutes + '</div></div><div class="flex-shrink-1 bg-light rounded py-2 px-3 ml-3"><div class="font-weight-bold mb-1">' + nameUser + '</div>' + message.replace("-USER21042003" + "-${userID}", "") + '</div></div>'
-     			);
+           	if(message.includes("-USER21042003" + "-${userID}")){
+           	 $('#chatAdmin').append(
+      				'<div class="chat-message-left pb-4"><div><img src="${pageContext.request.contextPath}/assets/user/images/' + avatarUser + '" class="rounded-circle mr-1" alt="Sharon Lessman" width="40" height="40"><div class="text-muted small text-nowrap mt-2">' + hours + ':' + minutes + '</div></div><div class="flex-shrink-1 bg-light rounded py-2 px-3 ml-3"><div class="font-weight-bold mb-1">' + nameUser + '</div>' + message.replace("-USER21042003" + "-${userID}", "") + '</div></div>'
+      			);
+           	}
+           
        
             
           
