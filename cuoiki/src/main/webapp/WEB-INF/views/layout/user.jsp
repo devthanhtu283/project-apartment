@@ -110,7 +110,7 @@ https://templatemo.com/tm-591-villa-agency
            		 <li><img style="border-radius: 25%;" src="${pageContext.request.contextPath}/assets/user/images/${sessionScope.accountdetails.avatar != null ? sessionScope.accountdetails.avatar : "Unknown_person.jpg"}" height="50" width="50" alt=""></li>
             <li>${sessionScope.accountdetails.name!=null ? sessionScope.accountdetails.name : "Chào bạn mới, vui lòng cập nhật tài khoản" }</li>
            	
-            <span style="position: relative;top: 24px;left: -95px;">Số dư: ${sessionScope.accountdetails.balance} VND</span>
+            <span style="position: relative;top: 24px;left: -72px;">Số dư: ${sessionScope.accountdetails.balance} VND</span>
            </c:if>
             
           </ul>
