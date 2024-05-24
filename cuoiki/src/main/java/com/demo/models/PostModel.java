@@ -4,6 +4,8 @@ package com.demo.models;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import java.util.List;
@@ -45,6 +47,24 @@ public class PostModel {
 		}
 
 		return posts;
+	}
+	
+	public int getNumberPostByAccount(int accountid) {
+		int result = 0;
+		try {
+			PreparedStatement preparedStatement = ConnectDB.connection()
+					.prepareStatement("SELECT COUNT(*) AS post_count FROM post where accountid = ? and status = 1 group by accountid");
+			preparedStatement.setInt(1, accountid);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			while(resultSet.next()) {
+				result = resultSet.getInt("post_count");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return result;
 	}
 	
 	public List<Post> findTopSixAdmin() {
@@ -289,7 +309,7 @@ public class PostModel {
 				post.setAccountid(resultSet.getInt("accountid"));
 				post.setSubject(resultSet.getString("subject"));
 				post.setDescription(resultSet.getString("description"));
-				post.setPostdate(resultSet.getDate("postdate"));
+				post.setPostdate(resultSet.getTimestamp("postdate"));
 				post.setBedroom(resultSet.getInt("bedroom"));
 				post.setBathroom(resultSet.getInt("bathroom"));
 				post.setPrice(resultSet.getDouble("price"));
@@ -579,11 +599,47 @@ public class PostModel {
 		}
 		return status;
 	}
+	
+	// Tìm bài post mới nhất của người dùng đó 
+	public Post findNewPostByID(int id) {
+		Post post = null;
+		try {
+			PreparedStatement preparedStatement = ConnectDB.connection()
+					.prepareStatement("select * from post where accountid = ? ORDER BY postdate DESC LIMIT 1");
+			preparedStatement.setInt(1, id);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				post = new Post();
+				post.setId(resultSet.getInt("id"));
+				post.setAccountid(resultSet.getInt("accountid"));
+				post.setSubject(resultSet.getString("subject"));
+				post.setDescription(resultSet.getString("description"));
+				post.setPostdate(resultSet.getTimestamp("postdate"));
+				post.setBedroom(resultSet.getInt("bedroom"));
+				post.setBathroom(resultSet.getInt("bathroom"));
+				post.setPrice(resultSet.getDouble("price"));
+				post.setDeposit(resultSet.getDouble("deposit"));
+				post.setArea(resultSet.getDouble("area"));
+				post.setAddress(resultSet.getString("address"));
+				post.setAvatar(resultSet.getString("avatar"));
+				post.setStatus(resultSet.getBoolean("status"));
+
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			post = null;
+			// TODO: handle exception
+		} finally {
+			ConnectDB.disconnect();
+		}
+
+		return post;
+	}
 
 	public static void main(String[] args) {
 		PostModel postModel = new PostModel();
 //		System.out.println(postModel.update(postModel.findPostByID(159)));
 //		System.out.println(postModel.findPostByID(159));
-		System.out.println(postModel.findAll());
+		System.out.println(postModel.findNewPostByID(1));
 	}
 }

@@ -49,6 +49,7 @@ public class ServiceModel {
 				service.setIntroduction(resultSet.getString("introduction"));
 				service.setPrice(resultSet.getInt("price"));
 				service.setDescription(resultSet.getString("description"));
+				service.setPostNumber(resultSet.getInt("postNumber"));
 				service.setStatus(resultSet.getBoolean("status"));
 				service.setCreated(resultSet.getDate("created"));
 				
@@ -66,6 +67,6 @@ public class ServiceModel {
 	
 	public static void main(String[] args) {
 		ServiceModel serivceModel = new ServiceModel();
-		System.out.println(serivceModel.findByID(1).getName());
+		System.out.println(serivceModel.findByID(1).getPostNumber());
 	}
 }

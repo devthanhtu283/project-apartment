@@ -67,13 +67,22 @@ public class UserApartmentServlet extends HttpServlet {
 	protected void doGet_DeletePost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PostModel postModel = new PostModel();
 		PostImageModel postImageModel = new PostImageModel();
-		
 		int id = Integer.parseInt(request.getParameter("id"));
 		if(postImageModel.delete(id)) {
 			if(postModel.delete(id)) {
-				response.sendRedirect(request.getContextPath() + "/mypost");
+				request.getSession().setAttribute("msg", "Xóa bài đăng thành công");
+				response.sendRedirect("mypost");
 			} else {
-				response.sendRedirect(request.getContextPath() + "/mypost");
+				request.getSession().setAttribute("msg", "Xóa bài đăng không thành công");
+				response.sendRedirect("mypost");
+			}
+		} else {
+			if(postModel.delete(id)) {
+				request.getSession().setAttribute("msg", "Xóa bài đăng thành công");
+				response.sendRedirect("mypost");
+			} else {
+				request.getSession().setAttribute("msg", "Xóa bài đăng không thành công");
+				response.sendRedirect("mypost");
 			}
 		}
 	}
