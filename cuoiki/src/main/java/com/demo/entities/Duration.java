@@ -1,22 +1,17 @@
 package com.demo.entities;
 
-
-import java.util.Date;
-
 public class Duration {
 	private int id;
-	private Date start;
-	private Date end;
 	private boolean status;
-	public Duration() {
-		super();
-	}
-	public Duration(int id, Date start, Date end, boolean status) {
+	private String name;
+	public Duration(int id, boolean status, String name) {
 		super();
 		this.id = id;
-		this.start = start;
-		this.end = end;
 		this.status = status;
+		this.name = name;
+	}
+	public Duration() {
+		super();
 	}
 	public int getId() {
 		return id;
@@ -24,26 +19,22 @@ public class Duration {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public Date getStart() {
-		return start;
-	}
-	public void setStart(Date start) {
-		this.start = start;
-	}
-	public Date getEnd() {
-		return end;
-	}
-	public void setEnd(Date end) {
-		this.end = end;
-	}
 	public boolean isStatus() {
 		return status;
 	}
 	public void setStatus(boolean status) {
 		this.status = status;
 	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
 	@Override
 	public String toString() {
-		return "Duration [id=" + id + ", start=" + start + ", end=" + end + ", status=" + status + "]";
+		return "Duration [id=" + id + ", status=" + status + ", name=" + name + "]";
 	}
+	
+	
 }
