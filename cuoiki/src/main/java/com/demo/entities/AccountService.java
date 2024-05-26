@@ -7,6 +7,7 @@ public class AccountService {
 	private int accountID;
 	private int serviceID;
 	private int durationID;
+	private String description;
 	private Date created;
 	private Date endService;
 	private boolean status;
@@ -14,13 +15,14 @@ public class AccountService {
 	public AccountService() {
 		super();
 	}
-	public AccountService(int id, int accountID, int serviceID, int durationID, Date created, Date endService,
-			boolean status, int saleID) {
+	public AccountService(int id, int accountID, int serviceID, int durationID, String description, Date created,
+			Date endService, boolean status, int saleID) {
 		super();
 		this.id = id;
 		this.accountID = accountID;
 		this.serviceID = serviceID;
 		this.durationID = durationID;
+		this.description = description;
 		this.created = created;
 		this.endService = endService;
 		this.status = status;
@@ -50,6 +52,12 @@ public class AccountService {
 	public void setDurationID(int durationID) {
 		this.durationID = durationID;
 	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
 	public Date getCreated() {
 		return created;
 	}
@@ -77,9 +85,8 @@ public class AccountService {
 	@Override
 	public String toString() {
 		return "AccountService [id=" + id + ", accountID=" + accountID + ", serviceID=" + serviceID + ", durationID="
-				+ durationID + ", created=" + created + ", endService=" + endService + ", status=" + status
-				+ ", saleID=" + saleID + "]";
+				+ durationID + ", description=" + description + ", created=" + created + ", endService=" + endService
+				+ ", status=" + status + ", saleID=" + saleID + "]";
 	}
-	
 	
 }
