@@ -34,6 +34,31 @@ public class DurationModel {
 		return durations;
 	}
 	
+	public Duration findById(int id){
+		Duration duration = null;
+		try {
+			PreparedStatement preparedStatement = ConnectDB.connection().prepareStatement("select * from duration where id = ?");
+			preparedStatement.setInt(1, id);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			while(resultSet.next()) {
+				duration = new Duration();
+				duration.setId(resultSet.getInt("id"));
+				duration.setStatus(resultSet.getBoolean("status"));
+				duration.setName(resultSet.getString("name"));
+				
+
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			duration = null;
+			// TODO: handle exception
+		} finally {
+			ConnectDB.disconnect();
+		}
+		
+		return duration;
+	}
+	
 	public boolean create(Duration duration) {
 		boolean status = true;
 		try {
@@ -77,7 +102,7 @@ public class DurationModel {
 	}
 	
 	public static void main(String[] args) {
-		
+		System.out.println(new DurationModel().findById(12).getName());
 
     }
 }
