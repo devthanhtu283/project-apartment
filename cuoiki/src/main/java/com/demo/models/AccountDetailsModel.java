@@ -67,14 +67,15 @@ public class AccountDetailsModel {
 		boolean status = true;
 		try {
 			PreparedStatement preparedStatement = ConnectDB.connection()
-			.prepareStatement("update accountdetails set name = ?, birthday = ?, address = ?, phonenumber = ?, avatar = ?, updatedate = ? where accountid = ?");
+			.prepareStatement("update accountdetails set name = ?, birthday = ?, address = ?, phonenumber = ?, avatar = ?, updatedate = ?, balance = ? where accountid = ?");
 			preparedStatement.setString(1, accountdetails.getName());
 			preparedStatement.setDate(2, new Date(accountdetails.getBirthday().getTime()));
 			preparedStatement.setString(3, accountdetails.getAddress());
 			preparedStatement.setString(4, accountdetails.getPhonenumber());
 			preparedStatement.setString(5, accountdetails.getAvatar());
 			preparedStatement.setDate(6, new Date(accountdetails.getUpdatedate().getTime()));
-			preparedStatement.setInt(7, accountdetails.getAccountid());
+			preparedStatement.setDouble(7, accountdetails.getBalance());
+			preparedStatement.setInt(8, accountdetails.getAccountid());
 			
 			status = preparedStatement.executeUpdate() > 0;
 			
