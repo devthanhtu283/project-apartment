@@ -1,5 +1,6 @@
 package com.demo.models;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -63,6 +64,32 @@ public class ServiceModel {
 		}
 		
 		return service;
+	}
+	
+	public boolean update(Service service) {
+		boolean status = true;
+		try {
+			PreparedStatement preparedStatement = ConnectDB.connection()
+			.prepareStatement("update service set name = ?, introduction = ?, price = ?, description = ?, postNumber = ?, status = ?, created = ? where id = ?");
+			preparedStatement.setString(1, service.getName());
+			preparedStatement.setString(2, service.getIntroduction());
+			preparedStatement.setInt(3, service.getPrice());
+			preparedStatement.setString(4, service.getDescription());
+			preparedStatement.setInt(5, service.getPostNumber());
+			preparedStatement.setBoolean(6, service.isStatus());
+			preparedStatement.setDate(7, new Date(service.getCreated().getTime()));
+			preparedStatement.setInt(8, service.getId());
+			status = preparedStatement.executeUpdate() > 0;
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			status = false;
+			// TODO: handle exception
+		} finally {
+			ConnectDB.disconnect();
+		}
+		return status;
 	}
 	
 	public static void main(String[] args) {
