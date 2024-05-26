@@ -1,3 +1,5 @@
+<%@page import="com.demo.entities.Duration"%>
+<%@page import="com.demo.models.DurationModel"%>
 <%@page import="com.demo.models.AccountServiceModel"%>
 <%@page import="com.demo.entities.AccountService"%>
 <%@page import="com.demo.models.InvoiceModel"%>
@@ -12,6 +14,7 @@
 	HttpSession httpSession = request.getSession();
 	ServiceModel serviceModel = new ServiceModel();
 	InvoiceModel invoiceModel = new InvoiceModel();
+	DurationModel durationModel = new DurationModel();
 	AccountServiceModel accountServiceModel = new AccountServiceModel();
 	Account account = (Account)  httpSession.getAttribute("account") == null ? new Account() : (Account)  httpSession.getAttribute("account");
 	AccountService accountService = accountServiceModel.findAccountByAccountId(account.getId());
@@ -81,6 +84,51 @@
     border-radius: 5px;
 }
 
+.plan-duration select {
+	width: 100%;
+	padding: 10px;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	background-color: #f9f9f9;
+	color: #333;
+	font-size: 16px;
+	transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.plan-duration select:focus {
+	border-color: #007bff;
+	box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+	outline: none;
+}
+.plan-button input[type="submit"] {
+	display: inline-block;
+	padding: 10px 20px;
+	background-color: #007bff;
+	color: #fff;
+	text-decoration: none;
+	border-radius: 5px;
+	transition: background-color 0.3s;
+	border: none;
+	cursor: pointer;
+}
+
+.plan-button input[type="submit"]:hover {
+	background-color: #0056b3;
+}
+
+.wrapper {
+	width: 100%;
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 20px;
+}
+
+.pricing-yearly {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-around;
+}
+
 </style>
 	<script>
 		$(document).ready(function() {
@@ -118,30 +166,38 @@
 				<div class="pricing-detail-content">
 			
 				<div class="pricing-content-items-tabs">
-					<div class="pricing-yearly" style="display: flex;">
-					<% for(Service service : serviceModel.findAll()) {%>
-					<div class="pricing-item">
-						<div class="pricing-item-box">
-						<c:if test="<%= serviceId  == service.getId() %>">
-							<span class="ribbon"></span>
-						</c:if>
-						<div class="plan-name"><%= service.getName() %></div>
-						<div class="plan-text"><%= service.getIntroduction() %></div>
-
-						<div class="plan-price-content">
-							<div class="plan-price"><%= service.getPrice() %> VND <span class="month-text"> / tháng</span></div>
-							
-						</div>
-
-						<div class="plan-features">
-							<div class="plan-feature-item"><%= service.getDescription() %></div>
-							
-						</div>
-
-						<div class="plan-button"><a href="${pageContext.request.contextPath }/plan?action=buy&id=<%= service.getId()%>">Mua ngay</a></div>
-						</div>
-					</div>
-	               <% } %>
+					<div class="pricing-yearly">
+				<% for(Service service : serviceModel.findAll()) { %>
+						<form action="${pageContext.request.contextPath}/plan" method="get">
+							<input type="hidden" name="action" value="buy">
+							<input type="hidden" name="id" value="<%= service.getId() %>">
+							<div class="pricing-item">
+								<div class="pricing-item-box">
+									<c:if test="<%= serviceId == service.getId() %>">
+										<span class="ribbon"></span>
+									</c:if>
+									<div class="plan-name"><%= service.getName() %></div>
+									<div class="plan-text"><%= service.getIntroduction() %></div>
+									<div class="plan-price-content">
+										<div class="plan-price"><%= service.getPrice() %> VND</div>
+									</div>
+									<div class="plan-features">
+										<div class="plan-feature-item"><%= service.getDescription() %></div>
+									</div>
+									<div class="plan-duration">
+										<select name="duration" required="required">
+											<% for(Duration duration : durationModel.findAll()) { %>
+												<option value="<%= duration.getId() %>"><%= duration.getName() %></option>
+											<% } %>
+										</select>
+									</div>
+									<div class="plan-button">
+										<input type="submit" value="Mua ngay">
+									</div>
+								</div>
+							</div>
+						</form>
+						<% } %>
 
 
 				</div>			

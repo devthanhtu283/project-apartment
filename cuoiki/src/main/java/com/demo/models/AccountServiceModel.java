@@ -13,6 +13,7 @@ import com.demo.entities.Account;
 import com.demo.entities.AccountService;
 import com.demo.entities.Chat;
 import com.demo.entities.ConnectDB;
+import com.demo.entities.Invoice;
 import com.demo.entities.Service;
 
 public class AccountServiceModel {
@@ -27,6 +28,7 @@ public class AccountServiceModel {
 				accountService.setAccountID(resultSet.getInt("accountID"));
 				accountService.setServiceID(resultSet.getInt("serviceID"));
 				accountService.setDurationID(resultSet.getInt("durationID"));
+				accountService.setDescription(resultSet.getString("description"));
 				accountService.setSaleID(resultSet.getInt("saleID"));
 				accountService.setCreated(resultSet.getTimestamp("created"));
 				accountService.setEndService(resultSet.getTimestamp("endService"));
@@ -55,6 +57,7 @@ public class AccountServiceModel {
 				accountService.setAccountID(resultSet.getInt("accountID"));
 				accountService.setServiceID(resultSet.getInt("serviceID"));
 				accountService.setDurationID(resultSet.getInt("durationID"));
+				accountService.setDescription(resultSet.getString("description"));
 				accountService.setSaleID(resultSet.getInt("saleID"));
 				accountService.setCreated(resultSet.getTimestamp("created"));
 				accountService.setEndService(resultSet.getTimestamp("endService"));
@@ -85,6 +88,7 @@ public class AccountServiceModel {
 				accountService.setAccountID(resultSet.getInt("accountID"));
 				accountService.setServiceID(resultSet.getInt("serviceID"));
 				accountService.setDurationID(resultSet.getInt("durationID"));
+				accountService.setDescription(resultSet.getString("description"));
 				accountService.setSaleID(resultSet.getInt("saleID"));
 				accountService.setCreated(resultSet.getTimestamp("created"));
 				accountService.setEndService(resultSet.getTimestamp("endService"));
@@ -114,6 +118,7 @@ public class AccountServiceModel {
 				accountService.setAccountID(resultSet.getInt("accountID"));
 				accountService.setServiceID(resultSet.getInt("serviceID"));
 				accountService.setDurationID(resultSet.getInt("durationID"));
+				accountService.setDescription(resultSet.getString("description"));
 				accountService.setSaleID(resultSet.getInt("saleID"));
 				accountService.setCreated(resultSet.getTimestamp("created"));
 				accountService.setEndService(resultSet.getTimestamp("endService"));
@@ -131,19 +136,48 @@ public class AccountServiceModel {
 		return accountService;
 	}
 	
+	public boolean register(AccountService accountService) {
+		boolean status = true;
+		try {
+			PreparedStatement preparedStatement = ConnectDB.connection()
+			.prepareStatement("insert into account_service(accountID, serviceID, durationID, description, created, endService, status, saleID) values(?, ?, ?, ?, ?, ?, ?, ?)");
+			preparedStatement.setInt(1, accountService.getAccountID());
+			preparedStatement.setInt(2, accountService.getServiceID());
+			preparedStatement.setInt(3, accountService.getDurationID());
+			preparedStatement.setString(4, accountService.getDescription());
+			preparedStatement.setTimestamp(5, new Timestamp(accountService.getCreated().getTime()));
+			preparedStatement.setTimestamp(6, new Timestamp(accountService.getEndService().getTime()));
+			preparedStatement.setBoolean(7, accountService.isStatus());
+			preparedStatement.setInt(8, accountService.getSaleID());
+			
+			status = preparedStatement.executeUpdate() > 0;
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			status = false;
+			// TODO: handle exception
+		} finally {
+			ConnectDB.disconnect();
+		}
+		return status;
+	}
+	
+	
 	public boolean update(AccountService accountService) {
 		boolean status = true;
 		try {
 			PreparedStatement preparedStatement = ConnectDB.connection()
-			.prepareStatement("update account_service set accountID = ?, serviceID = ?, durationID = ?, created = ?, endService = ?, status = ?, saleID = ? where id = ?");
+			.prepareStatement("update account_service set accountID = ?, serviceID = ?, durationID = ?,description = ?, created = ?, endService = ?, status = ?, saleID = ? where id = ?");
 			preparedStatement.setInt(1, accountService.getAccountID());
 			preparedStatement.setInt(2, accountService.getServiceID());
 			preparedStatement.setInt(3, accountService.getDurationID());
-			preparedStatement.setTimestamp(4, new Timestamp(accountService.getCreated().getTime()));
-			preparedStatement.setTimestamp(5, new Timestamp(accountService.getEndService().getTime()));
-			preparedStatement.setBoolean(6, accountService.isStatus());
-			preparedStatement.setInt(7, accountService.getSaleID());
-			preparedStatement.setInt(8, accountService.getId());
+			preparedStatement.setString(4, accountService.getDescription());
+			preparedStatement.setTimestamp(5, new Timestamp(accountService.getCreated().getTime()));
+			preparedStatement.setTimestamp(6, new Timestamp(accountService.getEndService().getTime()));
+			preparedStatement.setBoolean(7, accountService.isStatus());
+			preparedStatement.setInt(8, accountService.getSaleID());
+			preparedStatement.setInt(9, accountService.getId());
 			
 			status = preparedStatement.executeUpdate() > 0;
 			
