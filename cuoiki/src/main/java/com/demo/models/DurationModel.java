@@ -2,16 +2,12 @@ package com.demo.models;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import com.demo.entities.ConnectDB;
 import com.demo.entities.Duration;
-import com.demo.entities.Invoice;
+import com.demo.entities.Sale;
 
 public class DurationModel {
 	public List<Duration> findAll(){
@@ -22,9 +18,8 @@ public class DurationModel {
 			while(resultSet.next()) {
 				Duration duration = new Duration();
 				duration.setId(resultSet.getInt("id"));
-				duration.setStart(resultSet.getDate("start"));
-				duration.setEnd(resultSet.getDate("end"));
 				duration.setStatus(resultSet.getBoolean("status"));
+				duration.setName(resultSet.getString("name"));
 				
 				durations.add(duration);
 			}
@@ -39,14 +34,13 @@ public class DurationModel {
 		return durations;
 	}
 	
-	public boolean register(Duration duration) {
+	public boolean create(Duration duration) {
 		boolean status = true;
 		try {
 			PreparedStatement preparedStatement = ConnectDB.connection()
-			.prepareStatement("insert into duration(start, end, status) values(?, ?, ?)");
-			preparedStatement.setTimestamp(1, new Timestamp(duration.getStart().getTime()));
-			preparedStatement.setTimestamp(2, new Timestamp(duration.getEnd().getTime()));
-			preparedStatement.setBoolean(3, duration.isStatus());
+			.prepareStatement("insert into duration(status, name) values(?, ?)");
+			preparedStatement.setBoolean(1, duration.isStatus());
+			preparedStatement.setString(2, duration.getName());
 			
 			status = preparedStatement.executeUpdate() > 0;
 			
@@ -61,21 +55,29 @@ public class DurationModel {
 		return status;
 	}
 	
+	public boolean update(Duration duration) {
+		boolean status = true;
+		try {
+			PreparedStatement preparedStatement = ConnectDB.connection()
+			.prepareStatement("update duration set status = ?, name = ? where id = ?");
+			preparedStatement.setBoolean(1, duration.isStatus());
+			preparedStatement.setString(2, duration.getName());
+			preparedStatement.setInt(3, duration.getId());
+			status = preparedStatement.executeUpdate() > 0;
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			status = false;
+			// TODO: handle exception
+		} finally {
+			ConnectDB.disconnect();
+		}
+		return status;
+	}
+	
 	public static void main(String[] args) {
-        // Lấy thời điểm hiện tại
-		Duration duration = new Duration();
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-//        Date currentDate = calendar.getTime();
+		
 
-        // Thêm 1 tháng vào thời điểm hiện tại
-        duration.setStart(new Date());
-        calendar.add(Calendar.MONTH, 1);
-        Date endDate = calendar.getTime();
-		duration.setEnd(endDate);
-        // Lấy thời điểm kết thúc
-
-        System.out.println("Thời điểm hiện tại: " + simpleDateFormat.format(duration.getStart()));
-        System.out.println("Thời điểm kết thúc: " + simpleDateFormat.format(duration.getEnd()));
     }
 }
