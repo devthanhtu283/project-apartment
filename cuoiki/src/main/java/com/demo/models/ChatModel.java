@@ -67,6 +67,33 @@ public class ChatModel {
 		
 		return chats;
 	}
+	public List<Chat> findChatByUserID(int userID){
+		List<Chat> chats = new ArrayList<Chat>();
+		try {
+			PreparedStatement preparedStatement = ConnectDB.connection().prepareStatement("select * from chat where userID = ?");
+			preparedStatement.setInt(1, userID);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			while(resultSet.next()) {
+				Chat chat = new Chat();
+				chat.setId(resultSet.getInt("id"));
+				chat.setUserID(resultSet.getInt("userID"));
+				chat.setAdminID(resultSet.getInt("adminID"));
+				chat.setMessage(resultSet.getString("message"));
+				chat.setRole(resultSet.getInt("role"));
+				chat.setTime(resultSet.getTimestamp("time"));
+				chats.add(chat);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			chats = null;
+			// TODO: handle exception
+		} finally {
+			ConnectDB.disconnect();
+		}
+		
+		
+		return chats;
+	}
 	public List<Chat> findChatByUserID(int userID, int n){
 		List<Chat> chats = new ArrayList<Chat>();
 		try {

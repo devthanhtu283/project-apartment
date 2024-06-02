@@ -138,7 +138,7 @@ public class LoginServlet extends HttpServlet {
 		ContactModel contactModel = new ContactModel();
 		LogModel logModel = new LogModel();
 		ConfigLog configLog = new ConfigLog();
-	
+		ChatModel chatModel = new ChatModel();
 		
 		if(accountModel.login(new String(username.getBytes("ISO-8859-1"), "UTF-8"), password)) {
 			System.out.println(logModel.create(new Log(configLog.clientPublicIP, "info", new ConfigLog().ipconfig(request).getCountryLong(), new java.util.Date(), null, null)));
@@ -153,7 +153,7 @@ public class LoginServlet extends HttpServlet {
 				request.getSession().setAttribute("accountdetails", 
 						accountDetailsModel.findAccountByAccountID(accountModel.findAccountByUsername(new String(username.getBytes("ISO-8859-1"), "UTF-8")).getId()));
 				request.getSession().setAttribute("account", accountModel.findAccountByUsername(new String(username.getBytes("ISO-8859-1"), "UTF-8")));
-				
+				request.getSession().setAttribute("msgNoti", chatModel.findChat(account.getId(), 0).size());
 				request.getSession().removeAttribute("accountAdmin");
 				response.sendRedirect("account");
 			}
