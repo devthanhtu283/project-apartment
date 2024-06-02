@@ -57,6 +57,15 @@ public class Chat {
 	public void setTime(Date time) {
 		this.time = time;
 	}
+	
+	public Chat(int userID, int adminID, String message, int role, Date time) {
+		super();
+		this.userID = userID;
+		this.adminID = adminID;
+		this.message = message;
+		this.role = role;
+		this.time = time;
+	}
 	@Override
 	public String toString() {
 		return "Chat [id=" + id + ", userID=" + userID + ", adminID=" + adminID + ", message=" + message + ", role="

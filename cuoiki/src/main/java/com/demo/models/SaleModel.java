@@ -9,7 +9,6 @@ import java.util.List;
 
 import com.demo.entities.Sale;
 import com.demo.entities.ConnectDB;
-import com.demo.entities.Post;
 
 public class SaleModel {
 	public List<Sale> findAll(){
@@ -59,29 +58,6 @@ public class SaleModel {
 		return sale;
 	}
 	
-	public Sale findSaleByName(String name) {
-		Sale sale = null;
-		try {
-			PreparedStatement preparedStatement = ConnectDB.connection().prepareStatement("select * from sale where name = ?");
-			preparedStatement.setString(1, name);
-			ResultSet resultSet = preparedStatement.executeQuery();
-			while(resultSet.next()) {
-				sale = new Sale();
-				sale.setId(resultSet.getInt("id"));
-				sale.setName(resultSet.getString("name"));
-				sale.setSaleNumber(resultSet.getDouble("saleNumber"));
-				sale.setStatus(resultSet.getBoolean("status"));
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			sale = null;
-			// TODO: handle exception
-		} finally {
-			ConnectDB.disconnect();
-		}
-		return sale;
-	}
-	
 	public boolean create(Sale sale) {
 		boolean status = true;
 		try {
@@ -113,27 +89,6 @@ public class SaleModel {
 			preparedStatement.setDouble(2, sale.getSaleNumber());
 			preparedStatement.setBoolean(3, sale.isStatus());
 			preparedStatement.setInt(4, sale.getId());
-			status = preparedStatement.executeUpdate() > 0;
-			
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-			status = false;
-			// TODO: handle exception
-		} finally {
-			ConnectDB.disconnect();
-		}
-		return status;
-	}
-	
-	public boolean delete(Sale sale) {
-		boolean status = true;
-		try {
-			PreparedStatement preparedStatement = ConnectDB.connection()
-			.prepareStatement("UPDATE sale set status = ? where id = ?");
-			preparedStatement.setBoolean(1, sale.isStatus());
-			preparedStatement.setInt(2, sale.getId());
-			
 			status = preparedStatement.executeUpdate() > 0;
 			
 			
