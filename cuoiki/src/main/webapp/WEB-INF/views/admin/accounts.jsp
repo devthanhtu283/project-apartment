@@ -33,7 +33,7 @@
 								type: 'GET',
 								dataType: 'json',
 								contentType: 'application/json; charset=utf-8',
-								url: '${pageContext.request.contextPath}/admin/account',
+								url: '${pageContext.request.contextPath}/superadmin/account',
 								data: {
 									action: "searchByName",
 									name: name
@@ -66,9 +66,9 @@
 										s+='</td>';
 										s+='<td>'
 										if(accounts[i].status == true) {
-											s+= '<a href="${pageContext.request.contextPath }/admin/account?action=blockUser&id='+ accounts[i].id +'" onclick="return confirm(`Bạn có chắc chắn muốn chặn`)">Chặn</a> |';
+											s+= '<a href="${pageContext.request.contextPath }/superadmin/account?action=blockUser&id='+ accounts[i].id +'" onclick="return confirm(`Bạn có chắc chắn muốn chặn`)">Chặn</a> |';
 										} else if(accounts[i].status == false) {
-											s+= '<a href="${pageContext.request.contextPath }/admin/account?action=unblockUser&id='+ accounts[i].id +'" onclick="return confirm(`bạn có chắc chắn muốn bỏ chặn`)">Bỏ chặn</a> |';
+											s+= '<a href="${pageContext.request.contextPath }/superadmin/account?action=unblockUser&id='+ accounts[i].id +'" onclick="return confirm(`bạn có chắc chắn muốn bỏ chặn`)">Bỏ chặn</a> |';
 										}
 										s+= '<a  href="#" onclick="return confirm(`bạn có chắc chắn muốn xóa`)">Xóa</a>';
 										s+='</td>';
@@ -86,7 +86,7 @@
 								type: 'GET',
 								dataType: 'json',
 								contentType: 'application/json; charset=utf-8',
-								url: '${pageContext.request.contextPath}/admin/account',
+								url: '${pageContext.request.contextPath}/superadmin/account',
 								data: {
 									action: "searchByPhone",
 									phone: phone
@@ -119,9 +119,9 @@
 										s+='</td>';
 										s+='<td>'
 										if(accounts[i].status == true) {
-											s+= '<a href="${pageContext.request.contextPath }/admin/account?action=blockUser&id='+ accounts[i].id +'" onclick="return confirm(`Bạn có chắc chắn muốn chặn`)">Chặn</a> |';
+											s+= '<a href="${pageContext.request.contextPath }/superadmin/account?action=blockUser&id='+ accounts[i].id +'" onclick="return confirm(`Bạn có chắc chắn muốn chặn`)">Chặn</a> |';
 										} else if(accounts[i].status == false) {
-											s+= '<a href="${pageContext.request.contextPath }/admin/account?action=unblockUser&id='+ accounts[i].id +'" onclick="return confirm(`bạn có chắc chắn muốn bỏ chặn`)">Bỏ chặn</a> |';
+											s+= '<a href="${pageContext.request.contextPath }/superadmin/account?action=unblockUser&id='+ accounts[i].id +'" onclick="return confirm(`bạn có chắc chắn muốn bỏ chặn`)">Bỏ chặn</a> |';
 										}
 										s+= '<a  href="#" onclick="return confirm(`bạn có chắc chắn muốn xóa`)">Xóa</a>';
 										s+='</td>';
@@ -138,7 +138,7 @@
 								type: 'GET',
 								dataType: 'json',
 								contentType: 'application/json; charset=utf-8',
-								url: '${pageContext.request.contextPath}/admin/account',
+								url: '${pageContext.request.contextPath}/superadmin/account',
 								data: {
 									action: "searchByVerify",
 									value: value
@@ -171,16 +171,16 @@
 										s+='</td>';
 										s+='<td>'
 										if(accounts[i].status == true) {
-											s+= '<a href="${pageContext.request.contextPath }/admin/account?action=blockUser&id='+ accounts[i].id +'" onclick="return confirm(`Bạn có chắc chắn muốn chặn`)">Chặn</a> |';
+											s+= '<a href="${pageContext.request.contextPath }/superadmin/account?action=blockUser&id='+ accounts[i].id +'" onclick="return confirm(`Bạn có chắc chắn muốn chặn`)">Chặn</a> |';
 										} else if(accounts[i].status == false) {
-											s+= '<a href="${pageContext.request.contextPath }/admin/account?action=unblockUser&id='+ accounts[i].id +'" onclick="return confirm(`bạn có chắc chắn muốn bỏ chặn`)">Bỏ chặn</a> |';
+											s+= '<a href="${pageContext.request.contextPath }/superadmin/account?action=unblockUser&id='+ accounts[i].id +'" onclick="return confirm(`bạn có chắc chắn muốn bỏ chặn`)">Bỏ chặn</a> |';
 										}
 										s+= '<a  href="#" onclick="return confirm(`bạn có chắc chắn muốn xóa`)">Xóa</a>';
 										s+='</td>';
 										s+='</tr>';					
 									}
 									$('#example2 tbody').html(s);
-								}							
+								}
 							});
 						});
 					});
@@ -284,18 +284,18 @@
                         </td>
                        <td>
                        		<c:if test="${account.status == true }">
-                       			<a href="${pageContext.request.contextPath }/admin/account?action=blockUser&id=${account.id}" onclick="return confirm('bạn có chắc chắn muốn chặn')">Chặn</a> | 
+                       			<a href="${pageContext.request.contextPath }/superadminadmin/account?action=blockUser&id=${account.id}" onclick="return confirm('bạn có chắc chắn muốn chặn')">Chặn</a> | 
                        		</c:if>
                        		<c:if test="${account.status == false }">
-                       			<a href="${pageContext.request.contextPath }/admin/account?action=unblockUser&id=${account.id}" onclick="return confirm('bạn có chắc chắn muốn bỏ chặn')">Bỏ chặn</a> | 
+                       			<a href="${pageContext.request.contextPath }/superadminadmin/account?action=unblockUser&id=${account.id}" onclick="return confirm('bạn có chắc chắn muốn bỏ chặn')">Bỏ chặn</a> | 
                        		</c:if>
                        	
                        		<a  href="#" onclick="return confirm('bạn có chắc chắn muốn xóa')">Xóa</a> |
                        		<c:if test="${account.role == 1}">
-                       			<a onclick="return confirm('Chuyển tài khoản thành admin?')" href="${pageContext.request.contextPath }/admin/account?action=setAdmin&id=${account.id}">Cấp admin</a>
+                       			<a onclick="return confirm('Chuyển tài khoản thành admin?')" href="${pageContext.request.contextPath }/superadminadmin/account?action=setAdmin&id=${account.id}">Cấp admin</a>
                        		</c:if>
                        		<c:if test="${account.role != 1}">
-                       			<a onclick="return confirm('Chuyển tài khoản thành người dùng?')" href="${pageContext.request.contextPath }/admin/account?action=unAdmin&id=${account.id}">Gỡ admin</a>
+                       			<a onclick="return confirm('Chuyển tài khoản thành người dùng?')" href="${pageContext.request.contextPath }/superadminadmin/account?action=unAdmin&id=${account.id}">Gỡ admin</a>
                        		</c:if>
                        </td>
                       

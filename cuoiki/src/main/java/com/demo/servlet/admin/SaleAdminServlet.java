@@ -73,7 +73,7 @@ public class SaleAdminServlet extends HttpServlet {
 		int id = Integer.parseInt(request.getParameter("id"));
 		Sale sale = saleModel.findSaleById(id);
 		sale.setStatus(false);
-		if(saleModel.delete(sale)) {
+		if(saleModel.update(sale)) {
 			request.getSession().setAttribute("msg", "Đã xóa doanh thu thành công");
 			response.sendRedirect(request.getContextPath() + "/superadmin/sale");
 			

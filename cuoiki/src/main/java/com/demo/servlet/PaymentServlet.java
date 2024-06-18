@@ -46,6 +46,8 @@ public class PaymentServlet extends HttpServlet {
 			doGet_Index(req, resp);
 		} else if (action.equalsIgnoreCase("return")) {
 			doGet_Return(req, resp);
+		} else if (action.equalsIgnoreCase("returnPaypal")) {
+			doGet_ReturnPaypal(req, resp);
 		}
 
 	}
@@ -105,6 +107,46 @@ public class PaymentServlet extends HttpServlet {
 		}
 
 	}
+	protected void doGet_ReturnPaypal(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		Account account = (Account) req.getSession().getAttribute("account");
+		AccountDetailsModel accountDetailsModel = new AccountDetailsModel();
+		Accountdetails accountdetails = new Accountdetails();
+		if (account == null) {
+			req.getSession().setAttribute("msg", "Bạn cần đăng nhập để nạp tiền");
+			resp.sendRedirect("home");
+		} else {
+			accountdetails = accountDetailsModel.findAccountByAccountID(account.getId());
+			if (accountdetails == null) {
+				req.getSession().setAttribute("msg", "Bạn cần phải cập nhật thông tin tài khoản để nạp tiền");
+				resp.sendRedirect("account");
+			} else {
+				String amount = req.getParameter("payment_gross");
+				String transactionNo = req.getParameter("txn_id");
+				String orderInfo = "Nạp tiền " + amount + "$ vào tài khoản.";
+				String paymentType = "paypal-" + req.getParameter("payer_email");
+				String statusCode = req.getParameter("payment_status");
+				if (statusCode.equals("Completed")) {
+					System.out.println(accountdetails.getBalance());
+					accountdetails.setBalance(accountdetails.getBalance() + Double.parseDouble(amount)*25000);
+					Transaction transaction = new Transaction(1, Double.parseDouble(amount), new Date(),
+							account.getId(), orderInfo, paymentType, transactionNo);
+					TransactionModel transactionModel = new TransactionModel();
+					if (accountDetailsModel.updateBalance(accountdetails) && transactionModel.create(transaction)) {
+						req.getSession().removeAttribute("accountdetails");
+						req.getSession().setAttribute("accountdetails",
+								accountDetailsModel.findAccountByAccountID(account.getId()));
+						req.getRequestDispatcher("/WEB-INF/views/user/return.jsp").forward(req, resp);
+					} else {
+						System.out.println("That bai");
+					}
+					
+				}
+
+			}
+
+		}
+	}
+
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

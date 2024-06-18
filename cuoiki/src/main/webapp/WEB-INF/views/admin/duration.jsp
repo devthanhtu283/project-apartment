@@ -32,7 +32,41 @@
                                     $('#buttonReload').click(function() {
                                         location.reload();
                                     });
+                                    $('#changeStatus').change(function() {
+            							var value = $(this).val();
+            							$.ajax({
+            								type: 'GET',
+            								dataType: 'json',
+            								contentType: 'application/json; charset=utf-8',
+            								url: '${pageContext.request.contextPath}/superadmin/duration',
+            								data: {
+            									action: "searchByStatus",
+            									value: value
+            								},
+            								success: function(durations) {
+            									var s ='';						
+            									for(var i = 0;i < accounts.length; i++) {
+            										s+='<tr>';
+            										s+='<td>' + durations[i].id + '</td>';
+            										s+='<td>' + durations[i].name + '</td>';
+            										s+='<td>';
+            										if(durations[i].status == true) {
+            											s+='1';
+            										} else if(durations[i].status == false) {
+            											s+='0';
+            										}
+            										s+='</td>';
+            										s+='<td>'
+            										s+= '<a onclick="return confirm('Bạn có chắc muốn xóa thời hạn này ra khỏi hệ thống?')" href="<%= request.getContextPath() %>/superadmin/duration?action=deleteDuration&id=' + durations[i].id + '"><i class="fa-solid fa-trash"></i></a>';
+            										s+='</td>';
+            										s+='</tr>';					
+            									}
+            									$('#example2 tbody').html(s);
+            								}
+            							});
+            						});
                                 });
+                                
                             </script>
 
                             <%

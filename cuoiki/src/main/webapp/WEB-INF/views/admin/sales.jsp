@@ -85,8 +85,10 @@
                                 <thead>
                                     <tr>
                                         <th>Id</th>
-                                        <th>Tên</th>
-                                        <th><input type="text" name="name" id="name" placeholder="Tìm kiếm tên"></th>
+                                        <th>Tên
+                                        <br>
+                                        	<input type="text" name="name" id="name" placeholder="Tìm kiếm tên">
+                                        </th>
                                         <th>Số doanh thu</th>
                                         <th>Trạng thái</th>
                                         <th>Hành động</th>
