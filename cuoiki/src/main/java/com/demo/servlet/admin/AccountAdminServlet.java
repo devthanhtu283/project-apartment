@@ -54,7 +54,7 @@ public class AccountAdminServlet extends HttpServlet {
 		}
 	}
 	protected void doGet_Index(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setAttribute("admin", "../superadmin/accounts.jsp");
+		request.setAttribute("admin", "../admin/accounts.jsp");
 		request.setAttribute("activeAccount", "active");
 		AccountPartialModel accountPartialModel = new AccountPartialModel();
 		request.setAttribute("accounts", accountPartialModel.findAll());

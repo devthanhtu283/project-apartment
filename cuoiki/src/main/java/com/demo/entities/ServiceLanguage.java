@@ -1,11 +1,11 @@
 package com.demo.entities;
 
-public class PostLanguage {
+public class ServiceLanguage {
 	private int id;
 	private int languageID;
 	private int postID;
-	private String subject;
-	private String address;
+	private String name;
+	private String introduction;
 	private String description;
 	public int getId() {
 		return id;
@@ -25,17 +25,17 @@ public class PostLanguage {
 	public void setPostID(int postID) {
 		this.postID = postID;
 	}
-	public String getSubject() {
-		return subject;
+	public String getName() {
+		return name;
 	}
-	public void setSubject(String subject) {
-		this.subject = subject;
+	public void setName(String name) {
+		this.name = name;
 	}
-	public String getAddress() {
-		return address;
+	public String getIntroduction() {
+		return introduction;
 	}
-	public void setAddress(String address) {
-		this.address = address;
+	public void setIntroduction(String introduction) {
+		this.introduction = introduction;
 	}
 	public String getDescription() {
 		return description;
@@ -43,22 +43,22 @@ public class PostLanguage {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public PostLanguage(int id, int languageID, int postID, String subject, String address, String description) {
+	public ServiceLanguage(int id, int languageID, int postID, String name, String introduction, String description) {
 		super();
 		this.id = id;
 		this.languageID = languageID;
 		this.postID = postID;
-		this.subject = subject;
-		this.address = address;
+		this.name = name;
+		this.introduction = introduction;
 		this.description = description;
 	}
-	public PostLanguage() {
+	public ServiceLanguage() {
 		super();
 	}
 	@Override
 	public String toString() {
-		return "PostLanguage [id=" + id + ", languageID=" + languageID + ", postID=" + postID + ", subject=" + subject
-				+ ", address=" + address + ", description=" + description + "]";
+		return "ServiceLanguage [id=" + id + ", languageID=" + languageID + ", postID=" + postID + ", name=" + name
+				+ ", introduction=" + introduction + ", description=" + description + "]";
 	}
 	
 }

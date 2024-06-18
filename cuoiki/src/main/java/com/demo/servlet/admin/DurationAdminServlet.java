@@ -40,7 +40,10 @@ public class DurationAdminServlet extends HttpServlet {
 		String action = request.getParameter("action");
 		if(action == null) {
 			doGet_Index(request, response);
-		}else if(action.equalsIgnoreCase("deleteDuration")) {
+		}else if(action.equalsIgnoreCase("searchByStatus")) {
+			doGet_SearchByStatus(request, response);
+		}
+			else if(action.equalsIgnoreCase("deleteDuration")) {
 			doGet_DeleteDuration(request, response);
 		}
 	}
@@ -51,6 +54,22 @@ public class DurationAdminServlet extends HttpServlet {
 		request.setAttribute("duration", durationModel.findAll());
 
 		request.getRequestDispatcher("/WEB-INF/views/layout/admin.jsp").forward(request, response);
+	}
+	
+	protected void doGet_SearchByStatus(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType("application/json; charset=utf-8");
+		request.setCharacterEncoding("utf-8");
+		PrintWriter writer = response.getWriter();
+		int status = Integer.parseInt(request.getParameter("value"));
+		Gson gson = new Gson();
+		DurationModel durationModel = new DurationModel();
+		if(status == 0) {
+			writer.print(gson.toJson(durationModel.findAll()));
+		} else if(status == 1) {
+			writer.print(gson.toJson(durationModel.checkStatus(true)));
+		} else if(status == 2) {
+			writer.print(gson.toJson(durationModel.checkStatus(false)));
+		}
 	}
 	
 	protected void doGet_DeleteDuration(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
