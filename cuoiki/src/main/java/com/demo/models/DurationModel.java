@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.demo.entities.AccountPartial;
 import com.demo.entities.ConnectDB;
 import com.demo.entities.Duration;
 import com.demo.entities.Sale;
@@ -99,6 +100,31 @@ public class DurationModel {
 			ConnectDB.disconnect();
 		}
 		return status;
+	}
+	
+	public List<Duration> checkStatus(boolean status){
+		List<Duration> durations = new ArrayList<Duration>();
+		try {
+			PreparedStatement preparedStatement = ConnectDB.connection()
+					.prepareStatement("select id,name,status where status = ?");
+			preparedStatement.setBoolean(1,status);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			while(resultSet.next()) {
+				Duration duration = new Duration();
+				duration.setId(resultSet.getInt("id"));
+				duration.setName(resultSet.getString("name"));
+				duration.setStatus(resultSet.getBoolean("status"));
+				durations.add(duration);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			durations = null;
+			// TODO: handle exception
+		} finally {
+			ConnectDB.disconnect();
+		}
+		
+		return durations;
 	}
 	
 	public static void main(String[] args) {

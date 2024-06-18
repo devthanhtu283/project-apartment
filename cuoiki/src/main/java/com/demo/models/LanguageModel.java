@@ -5,7 +5,7 @@ import java.sql.ResultSet;
 
 import com.demo.entities.ConnectDB;
 import com.demo.entities.Language;
-import com.demo.entities.PostLanguage;
+import com.demo.entities.ServiceLanguage;
 
 public class LanguageModel {
 	public Language findByLanguageID(String languageID) {
