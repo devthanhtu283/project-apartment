@@ -273,43 +273,6 @@ Account account = (Account) session3.getAttribute("accountAdmin");
 								class="fa-solid fa-newspaper"></i>&nbsp;
 								<p>Bài đăng của người dùng</p>
 						</a></li>
-						<li class="nav-item ${activeContractOpen} "><a href="#"
-							class="nav-link ${activeContract }"> <i
-								class="fa-solid fa-file-signature"></i> &nbsp;
-								<p>
-									Quản lý dịch vụ <i class="fas fa-angle-left right"></i>
-
-								</p>
-						</a>
-							<ul class="nav nav-treeview">
-								<li class="nav-item "><a
-									href="${pageContext.request.contextPath }/admin/newcontractuser"
-									class="nav-link ${activeContractUser }"> <i
-										class="fa-solid fa-user-plus"></i>&nbsp;
-										<p>Chủ sở hữu mới</p>
-								</a></li>
-								<li class="nav-item "><a
-									href="${pageContext.request.contextPath }/admin/owners"
-									class="nav-link ${activeOwners }"> <i
-										class="fa-solid fa-users"></i> &nbsp;
-										<p>Danh sách chủ sở hữu</p>
-								</a></li>
-								<li class="nav-item"><a
-									href="${pageContext.request.contextPath }/admin/newcontract"
-									class="nav-link ${activeNewContract }"> <i
-										class="fa-solid fa-plus"></i> &nbsp;
-										<p>Hợp đồng mới</p>
-								</a></li>
-								<li class="nav-item"><a
-									href="${pageContext.request.contextPath }/admin/contractapartment"
-									class="nav-link ${activeListContract }"> <i
-										class="fa-solid fa-file-contract"></i> &nbsp;
-										<p>Danh sách hợp đồng</p>
-								</a></li>
-
-
-
-							</ul></li>
 					
 						<%
 						if (account.getRole() == 2) {
@@ -323,6 +286,7 @@ Account account = (Account) session3.getAttribute("accountAdmin");
 						<%
 						}
 						%>
+						
 						<%
 						if (account.getRole() == 2) {
 						%>
@@ -339,12 +303,37 @@ Account account = (Account) session3.getAttribute("accountAdmin");
 						<%
 						if (account.getRole() == 2) {
 						%>
-						<li class="nav-item"><a
-							href="${pageContext.request.contextPath }/superadmin/contact"
-							class="nav-link ${activeContact }"> <i
-								class="fa-solid fa-circle-info"></i> &nbsp;
-								<p>Doanh thu</p>
-						</a></li>
+						<li class="nav-item ${activeContractOpen} "><a href="#"
+							class="nav-link ${activeContract }"> <i 
+								class="fa-solid fa-list"></i> &nbsp;
+								<p>
+									Quản lý dịch vụ <i class="fas fa-angle-left right"></i>
+
+								</p>
+						</a>
+							<ul class="nav nav-treeview">
+								<li class="nav-item "><a
+									href="${pageContext.request.contextPath }/superadmin/service"
+									class="nav-link ${activeService }"> <i 
+										class="fa-solid fa-plane"></i>&nbsp;
+										<p>Dịch vụ</p>
+								</a></li>
+								<li class="nav-item "><a
+									href="${pageContext.request.contextPath }/superadmin/sale"
+									class="nav-link ${activeSale }"> <i 
+										class="fa-solid fa-money-bill-trend-up"></i> &nbsp;
+										<p>Doanh thu</p>
+								</a></li>
+								<li class="nav-item"><a
+									href="${pageContext.request.contextPath }/superadmin/duration"
+									class="nav-link ${activeDuration }"> <i 
+										class="fa-solid fa-clock"></i></i> &nbsp;
+										<p>Thời hạn</p>
+								</a></li>
+
+
+
+							</ul></li>
 						<%
 						}
 						%>
@@ -488,7 +477,7 @@ Account account = (Account) session3.getAttribute("accountAdmin");
 	function notificationFeedback() {
 
 		var oldFeedback = $('#feedbackNumber').val();
-		if (window.location.href == 'http://localhost:8080/projectGroup2/admin/feedback') {
+		if (window.location.href == 'http://localhost:8080/projectGroup2/superadmin/feedback') {
 			var test = 'aaa';
 		}
 		$
@@ -500,7 +489,7 @@ Account account = (Account) session3.getAttribute("accountAdmin");
 						oldFeedback : oldFeedback
 					},
 					success : function(data) {
-						if (window.location.href == 'http://localhost:8080/projectGroup2/admin/feedback') {
+						if (window.location.href == 'http://localhost:8080/projectGroup2/superadmin/feedback') {
 							$('#feedbackNoti').html(0);
 						} else {
 							if ((data - oldFeedback) < 0) {
@@ -518,20 +507,20 @@ Account account = (Account) session3.getAttribute("accountAdmin");
 
 	function notificationContact() {
 		var oldContact = $('#contactNumber').val();
-		if (window.location.href == 'http://localhost:8080/projectGroup2/admin/contact') {
+		if (window.location.href == 'http://localhost:8080/projectGroup2/superadmin/contact') {
 			var test = 'aaa';
 		}
 		$
 				.ajax({
 					type : 'GET',
-					url : '${pageContext.request.contextPath}/admin/contact',
+					url : '${pageContext.request.contextPath}/superadmin/contact',
 					data : {
 						test : test,
 						action : 'checkContact',
 						oldContact : oldContact
 					},
 					success : function(data) {
-						if (window.location.href == 'http://localhost:8080/projectGroup2/admin/contact') {
+						if (window.location.href == 'http://localhost:8080/projectGroup2/superadmin/contact') {
 							$('#newNumberContact').html(0);
 						} else {
 							$('#newNumberContact').html(data - oldContact);
@@ -561,13 +550,13 @@ Account account = (Account) session3.getAttribute("accountAdmin");
 											$
 													.ajax({
 														type : 'GET',
-														url : '${pageContext.request.contextPath}/admin/contact',
+														url : '${pageContext.request.contextPath}/superadmin/contact',
 														data : {
 															action : 'getContact'
 														},
 														success : function(data) {
 															for (var i = 0; i < data.length; i++) {
-																s += '<a href="${pageContext.request.contextPath}/admin/contact" class="dropdown-item">';
+																s += '<a href="${pageContext.request.contextPath}/superadmin/contact" class="dropdown-item">';
 																s += '<div class="media">';
 																s += '<img src="${pageContext.request.contextPath}/assets/user/images/Unknown_person.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">';
 																s += '<div class="media-body">';

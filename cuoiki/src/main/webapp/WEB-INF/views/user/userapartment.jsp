@@ -1,8 +1,8 @@
 <%@page import="com.demo.models.LanguageModel"%>
-<%@page import="com.demo.models.PostLanguageModel"%>
+<%@page import="com.demo.models.ServiceLanguageModel"%>
 <%@page import="com.demo.models.PostModel"%>
 <%@page import="com.demo.entities.Post"%>
-<%@page import="com.demo.entities.PostLanguage"%>
+<%@page import="com.demo.entities.ServiceLanguage"%>
 <%@page import="java.util.ResourceBundle"%>
 <%@page import="java.util.Locale"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -10,15 +10,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>   
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%
-	
-	HttpSession httpSession = request.getSession();
+HttpSession httpSession = request.getSession();
 	if(httpSession.getAttribute("language")== null){
 		request.getSession().setAttribute("language", "vi");
 		
 	}
 	String language = httpSession.getAttribute("language").toString();
 	ResourceBundle messages = ResourceBundle.getBundle("messages", new Locale(language));
-	PostLanguageModel postLanguageModel = new PostLanguageModel();
+	ServiceLanguageModel postLanguageModel = new ServiceLanguageModel();
 	PostModel postModel = new PostModel();
 	LanguageModel languageModel = new LanguageModel();
 %>
@@ -854,14 +853,14 @@
                   <a href="${pageContext.request.contextPath}/wishlist?action=wishlist&id=<%= post.getId() %>"><span class="category"><i class="fa-solid fa-heart-circle-plus" style="color:#f35525;font-size: 20px;"></i></span></a>
                   
                   <h6><%= post.getPrice() %> <%= messages.getString("ty") %> VNĐ</h6>
-                  <h4><a href="${pageContext.request.contextPath}/userapartmentdetails?id=<%= post.getId() %>"> <%= postLanguageModel.find((int) post.getId(), languageModel.findByLanguageID(language).getId()) != null ? postLanguageModel.find((int) post.getId(), languageModel.findByLanguageID(language).getId()).getSubject() : post.getSubject() %></a></h4>
+                  <h4><a href="${pageContext.request.contextPath}/userapartmentdetails?id=<%= post.getId() %>"> <%= post.getSubject() %></a></h4>
                   <ul>
                      <li><%= messages.getString("phong_ngu") %>: <span><%= post.getBedroom() %></span></li>
               <li><%= messages.getString("phong_tam") %>: <span><%= post.getBathroom() %></span></li>
               <li><%= messages.getString("dien_tich") %>: <span><%= post.getArea() %> m2</span></li>
               <li><%= messages.getString("ngay_dang") %>: <span><f:formatDate value="<%= post.getPostdate()%>"
 													pattern="dd-MM-yyyy" var="postdate" /> ${postdate }</span></li>
-              <li><%= messages.getString("dia_chi") %>: <span> <%= postLanguageModel.find((int) post.getId(), languageModel.findByLanguageID(language).getId()) != null ? postLanguageModel.find((int) post.getId(), languageModel.findByLanguageID(language).getId()).getAddress() : post.getAddress() %></span></li>
+              <li><%= messages.getString("dia_chi") %>: <span> <%=post.getAddress() %></span></li>
                   </ul>
                   <div class="main-button">
                     <a href="${pageContext.request.contextPath}/userapartmentdetails?id=<%= post.getId() %>"><%= messages.getString("chi_tiet") %></a>

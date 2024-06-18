@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
 
 import com.demo.entities.Account;
 import com.demo.models.FeedbackModel;
-@WebFilter(urlPatterns = {"/superadmin/*"})
+
 /**
  * Servlet Filter implementation class AdminFilter
  */

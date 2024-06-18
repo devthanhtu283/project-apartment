@@ -69,7 +69,7 @@ https://templatemo.com/tm-591-villa-agency
 	Account account = null;
 	String msgService = "";
 
-	if(httpSession.getAttribute("account") != null){
+	if(httpSession.getAttribute("account") != null && accountServices != null){
 		account = (Account) httpSession.getAttribute("account");
 		for(int i = 0; i < accountServices.size(); i++){
 			if(accountServices.get(i).getAccountID() == account.getId()){
