@@ -73,17 +73,30 @@
 
 <%
 String feedbackNoti = "";
-HttpSession session2 = request.getSession();
-FeedbackModel feedbackModel = new FeedbackModel();
-feedbackNoti = session2.getAttribute("feedbacks").toString();
-int feedbackNumber = Integer.parseInt(feedbackNoti);
+String contactNoti = "";
+int feedbackNumber = 0;
+int contactNumber = 0;
 
-String contactNoti = session2.getAttribute("contacts").toString();
-int contactNumber = Integer.parseInt(contactNoti);
-HttpSession session3 = request.getSession();
-Account account = (Account) session3.getAttribute("accountAdmin");
-//session2.removeAttribute("feedbacks");
+HttpSession session2 = request.getSession();
+Account account = (Account) session.getAttribute("accountAdmin");
+
+if (account == null || session2.getAttribute("feedbacks") == null || session2.getAttribute("contacts") == null) {
+    response.sendRedirect(request.getContextPath() + "/accessdenied");
+    return;
+}
+
+
+    feedbackNoti = session.getAttribute("feedbacks").toString();
+    feedbackNumber = Integer.parseInt(feedbackNoti);
+
+    contactNoti = session.getAttribute("contacts").toString();
+    contactNumber = Integer.parseInt(contactNoti);
+
+
+FeedbackModel feedbackModel = new FeedbackModel();
+//session.removeAttribute("feedbacks");
 %>
+
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 	<div class="wrapper">
@@ -307,7 +320,7 @@ Account account = (Account) session3.getAttribute("accountAdmin");
 							class="nav-link ${activeContract }"> <i 
 								class="fa-solid fa-list"></i> &nbsp;
 								<p>
-									Quản lý dịch vụ <i class="fas fa-angle-left right"></i>
+									Dịch vụ <i class="fas fa-angle-left right"></i>
 
 								</p>
 						</a>
@@ -337,8 +350,49 @@ Account account = (Account) session3.getAttribute("accountAdmin");
 						<%
 						}
 						%>
+						
+						
+						<li class="nav-item ${activeContractOpen} "><a href="#"
+							class="nav-link ${activeContract }"> <i 
+								class="fa-solid fa-list"></i> &nbsp;
+								<p>
+									Quản lý dịch vụ <i class="fas fa-angle-left right"></i>
+
+								</p>
+						</a>
+							<ul class="nav nav-treeview">
+								<li class="nav-item "><a
+									href="${pageContext.request.contextPath }/admin/serviceAccount"
+									class="nav-link ${activeServiceAccount }"> <i 
+										class="fa-solid fa-plane"></i>&nbsp;
+										<p>Tổng quan dịch vụ</p>
+								</a></li>
+								<li class="nav-item "><a
+									href="${pageContext.request.contextPath }/admin/accountService"
+									class="nav-link ${activeAccountService }"> <i 
+										class="fa-solid fa-money-bill-trend-up"></i> &nbsp;
+										<p>Tổng quan người dùng</p>
+								</a></li>
+								<li class="nav-item"><a
+									href="${pageContext.request.contextPath }/superadmin/duration"
+									class="nav-link ${activeDuration }"> <i 
+										class="fa-solid fa-clock"></i></i> &nbsp;
+										<p>Thời hạn</p>
+								</a></li>
 
 
+
+							</ul></li>
+						
+
+						
+						<li class="nav-item"><a
+							href="${pageContext.request.contextPath }/admin/transaction"
+							class="nav-link ${activeTransaction }"> <i
+								class="fa-solid fa-comment"></i> &nbsp;
+								<p>Giao dịch</p>
+						</a></li>
+						
 
 
 					</ul>

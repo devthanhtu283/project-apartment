@@ -12,7 +12,7 @@ public class ServiceModel {
 	public List<Service> findAll() {
 		List<Service> services = new ArrayList<Service>();
 		try {
-			PreparedStatement preparedStatement = ConnectDB.connection().prepareStatement("select * from service");
+			PreparedStatement preparedStatement = ConnectDB.connection().prepareStatement("select * from service where status = true");
 			ResultSet resultSet = preparedStatement.executeQuery();
 			while(resultSet.next()) {
 				Service service = new Service();
@@ -21,6 +21,7 @@ public class ServiceModel {
 				service.setIntroduction(resultSet.getString("introduction"));
 				service.setPrice(resultSet.getInt("price"));
 				service.setDescription(resultSet.getString("description"));
+				service.setPostNumber(resultSet.getInt("postNumber"));
 				service.setStatus(resultSet.getBoolean("status"));
 				service.setCreated(resultSet.getDate("created"));
 				
