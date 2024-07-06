@@ -86,6 +86,12 @@ public class Transaction {
 		this.paymentType = paymentType;
 		this.transactionNo = transactionNo;
 	}
+	@Override
+	public String toString() {
+		return "Transaction [id=" + id + ", type=" + type + ", price=" + price + ", date=" + date + ", accountID="
+				+ accountID + ", orderInfo=" + orderInfo + ", paymentType=" + paymentType + ", transactionNo="
+				+ transactionNo + "]";
+	}
 	
 	
 }		

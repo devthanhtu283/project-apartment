@@ -74,6 +74,36 @@ public class AccountServiceModel {
 		
 		return accountServices;
 	}
+	public List<AccountService> findByServiceID(int serviceID){
+		List<AccountService> accountServices = new ArrayList<AccountService>();
+		try {
+		
+			PreparedStatement preparedStatement = ConnectDB.connection().prepareStatement("select * from account_service where serviceID = ? and status = 1");
+			preparedStatement.setInt(1, serviceID);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			while(resultSet.next()) {
+				AccountService accountService = new AccountService();
+				accountService.setId(resultSet.getInt("id"));
+				accountService.setAccountID(resultSet.getInt("accountID"));
+				accountService.setServiceID(resultSet.getInt("serviceID"));
+				accountService.setDurationID(resultSet.getInt("durationID"));
+				accountService.setDescription(resultSet.getString("description"));
+				accountService.setSaleID(resultSet.getInt("saleID"));
+				accountService.setCreated(resultSet.getTimestamp("created"));
+				accountService.setEndService(resultSet.getTimestamp("endService"));
+				accountService.setStatus(resultSet.getBoolean("status"));
+				accountServices.add(accountService);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			accountServices = null;
+			// TODO: handle exception
+		} finally {
+			ConnectDB.disconnect();
+		}
+		
+		return accountServices;
+	}
 	
 	public AccountService findAccountById(int id, int durationId) {
 		AccountService accountService = null;
@@ -81,6 +111,35 @@ public class AccountServiceModel {
 			PreparedStatement preparedStatement = ConnectDB.connection().prepareStatement("select * from account_service where id = ? AND durationID = ?");
 			preparedStatement.setInt(1, id);
 			preparedStatement.setInt(2, durationId);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			while(resultSet.next()) {
+				accountService = new AccountService();
+				accountService.setId(resultSet.getInt("id"));
+				accountService.setAccountID(resultSet.getInt("accountID"));
+				accountService.setServiceID(resultSet.getInt("serviceID"));
+				accountService.setDurationID(resultSet.getInt("durationID"));
+				accountService.setDescription(resultSet.getString("description"));
+				accountService.setSaleID(resultSet.getInt("saleID"));
+				accountService.setCreated(resultSet.getTimestamp("created"));
+				accountService.setEndService(resultSet.getTimestamp("endService"));
+				accountService.setStatus(resultSet.getBoolean("status"));
+				
+				
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			accountService = null;
+			// TODO: handle exception
+		} finally {
+			ConnectDB.disconnect();
+		}
+		return accountService;
+	}
+	public AccountService findById(int id) {
+		AccountService accountService = null;
+		try {
+			PreparedStatement preparedStatement = ConnectDB.connection().prepareStatement("select * from account_service where id = ?");
+			preparedStatement.setInt(1, id);
 			ResultSet resultSet = preparedStatement.executeQuery();
 			while(resultSet.next()) {
 				accountService = new AccountService();
@@ -195,6 +254,6 @@ public class AccountServiceModel {
 	
 	public static void main(String[] args) {
 		AccountServiceModel accountServiceModel = new AccountServiceModel();
-		System.out.println(accountServiceModel.findAccountByAccountId(1));
+		System.out.println(accountServiceModel.findByServiceID(2));
 	}
 }
