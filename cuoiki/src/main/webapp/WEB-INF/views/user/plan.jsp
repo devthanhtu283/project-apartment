@@ -13,8 +13,8 @@
 <%@page import="com.demo.models.ServiceModel"%>
 <%@page import="com.demo.entities.Service"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8" isELIgnored="false"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+    pageEncoding="UTF-8" isELIgnored="false"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 	HttpSession httpSession = request.getSession();
 	ServiceModel serviceModel = new ServiceModel();
@@ -44,60 +44,59 @@
 	</script>
 </c:if>
 <style>
-.popup-container, .popup-container-vnpay, .popup-container-paypal {
-	display: none;
-	position: fixed;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	background-color: #fff;
-	padding: 20px;
-	border-radius: 10px;
-	box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-	z-index: 1001;
-	max-width: 400px;
-	width: 90%;
-	text-align: center;
+.popup-container, .popup-container-vnpay {
+	display:none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    z-index: 1001;
+    max-width: 400px;
+    width: 90%; 
+    text-align: center; 
 }
 
 .popup-container h1 {
-	font-size: 24px;
-	margin-bottom: 20px;
+    font-size: 24px;
+    margin-bottom: 20px;
 }
-
 .close-button {
-	position: absolute;
-	top: 0px;
-	right: 2px;
-	background-color: transparent;
-	border: none;
-	font-size: 20px;
-	cursor: pointer;
-	outline: none;
+    position: absolute;
+    top: 0px;
+    right: 2px;
+    background-color: transparent;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    outline: none;
 }
 
 .popup-content {
-	display: flex;
-	justify-content: center;
+    display: flex;
+    justify-content: center;
 }
 
 .payment-option {
-	cursor: pointer;
-	margin: 10px;
-	padding: 10px;
-	border-radius: 5px;
-	transition: all 0.3s;
-	width: 150px;
+    cursor: pointer;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    transition: all 0.3s;
+    width: 150px; 
 }
 
 .payment-option:hover {
-	transform: translateY(-5px);
+    transform: translateY(-5px);
 }
 
 .payment-option img {
-	width: 100%;
-	height: auto;
-	border-radius: 5px;
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
 }
 
 .plan-duration select {
@@ -116,7 +115,6 @@
 	box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 	outline: none;
 }
-
 .plan-button input[type="submit"] {
 	display: inline-block;
 	padding: 10px 20px;
@@ -145,18 +143,15 @@
 	flex-wrap: wrap;
 	justify-content: space-around;
 }
+
 </style>
-<script>
+	<script>
 		$(document).ready(function() {
 			$('#rechargeBtn').click(function() {
 				$('.popup-container').css('display','block');
 			})
-			$('#vnpay-option').click(function() {
+			$('.payment-option').click(function() {
 				$('.popup-container-vnpay').css('display','block');
-				$('.popup-container').css('display','none');
-			})
-			$('#paypal-option').click(function() {
-				$('.popup-container-paypal').css('display','block');
 				$('.popup-container').css('display','none');
 			})
 		});
@@ -164,36 +159,44 @@
 		function closePopup() {
 		    var popup = document.querySelector('.popup-container');
 		    var popupvnpay = document.querySelector('.popup-container-vnpay');
-		    var popuppaypal = document.querySelector('.popup-container-paypal');
 		    popup.style.display = 'none';
 		    popupvnpay.style.display = 'none';
-		    popuppaypal.style.display = 'none';
 		}
 	</script>
-<br>
-<br>
-<%-- <form action="${pageContext.request.contextPath}/payment" method="post">
+	<br>
+	<br>
+	<%-- <form action="${pageContext.request.contextPath}/payment" method="post">
 		<input type="number" name="amount">
 		<input type="submit" value="Submit">
 	</form> --%>
-<div class="container">
-	<div>
-		<button id="rechargeBtn" class="btn btn-primary mx-3">Nạp
-			tiền</button>
+	<div class="container">
+		<div>
+			<button id="rechargeBtn" class="btn btn-primary mx-3">Nạp tiền</button>
+		</div>
 	</div>
-</div>
+	<form method="post" action="https://www.sandbox.paypal.com/cgi-bin/webscr">
+		<input type="hidden" name="business" value="sb-tseqm29238642@business.example.com" >
+		<input type="hidden" name="item_number_1" value="1" >
+			<input type="hidden" name="item_name_1" value="Nap tien vao tai khoan">
+				<input type="text" name="amount_1">
+					<input type="hidden" name="item_quantity_1" value="1" >
+					
+						<input type="hidden" name="upload" value="1" >
+						<input type="hidden" name="return" value="http://localhost:8080/projectGroup2/payment?action=returnPaypal" >
+						<input type="hidden" name="cmd" value="_cart" >
+					<button type="submit">submit</button>
+	</form>
 <div class="wrapper">
-	<div class="pricing-content">
-		<div class="PageWidth">
-			<div class="pricing-detail-content">
-
+		<div class="pricing-content">
+			<div class="PageWidth">
+				<div class="pricing-detail-content">
+			
 				<div class="pricing-content-items-tabs">
 					<div class="pricing-yearly">
-						<% for(Service service : serviceModel.findAll()) { %>
-						<form action="${pageContext.request.contextPath}/plan"
-							method="get">
-							<input type="hidden" name="action" value="buy"> <input
-								type="hidden" name="id" value="<%= service.getId() %>">
+				<% for(Service service : serviceModel.findAll()) { %>
+						<form action="${pageContext.request.contextPath}/plan" method="get">
+							<input type="hidden" name="action" value="buy">
+							<input type="hidden" name="id" value="<%= service.getId() %>">
 							<div class="pricing-item">
 								<div class="pricing-item-box">
 									<c:if test="<%= serviceId == service.getId() %>">
@@ -202,9 +205,7 @@
 									<div class="plan-name"><%= serviceLanguageModel.find(service.getId(), languageModel.findByLanguageID(language).getId()) != null ? serviceLanguageModel.find(service.getId(), languageModel.findByLanguageID(language).getId()).getName() : service.getName()%></div>
 									<div class="plan-text"><%=  serviceLanguageModel.find(service.getId(), languageModel.findByLanguageID(language).getId()) != null ? serviceLanguageModel.find(service.getId(), languageModel.findByLanguageID(language).getId()).getIntroduction() : service.getIntroduction() %></div>
 									<div class="plan-price-content">
-										<div class="plan-price"><%= service.getPrice() %>
-											VND
-										</div>
+										<div class="plan-price"><%= service.getPrice() %> VND</div>
 									</div>
 									<div class="plan-features">
 										<div class="plan-feature-item"><%=  serviceLanguageModel.find(service.getId(), languageModel.findByLanguageID(language).getId()) != null ? serviceLanguageModel.find(service.getId(), languageModel.findByLanguageID(language).getId()).getDescription() : service.getDescription()  %></div>
@@ -212,7 +213,7 @@
 									<div class="plan-duration">
 										<select name="duration" required="required">
 											<% for(Duration duration : durationModel.findAll()) { %>
-											<option value="<%= duration.getId() %>"><%= durationLanguageModel.find(duration.getId(), languageModel.findByLanguageID(language).getId()) != null ? durationLanguageModel.find(duration.getId(), languageModel.findByLanguageID(language).getId()).getName() : duration.getName()%></option>
+												<option value="<%= duration.getId() %>"><%= durationLanguageModel.find(duration.getId(), languageModel.findByLanguageID(language).getId()) != null ? durationLanguageModel.find(duration.getId(), languageModel.findByLanguageID(language).getId()).getName() : duration.getName()%></option>
 											<% } %>
 										</select>
 									</div>
@@ -225,77 +226,49 @@
 						<% } %>
 
 
-					</div>
-				</div>
+				</div>			
 			</div>
+			</div>
+	
 
-
-
+	
 		</div>
+		</div>
+		
 	</div>
-
-</div>
-
-
-<!-- Popup -->
-<div class="popup-container">
+	
+ 
+    <!-- Popup -->
+	<div class="popup-container">
 	<h1>Vui lòng chọn phương thức thanh toán</h1>
 	<button class="close-button" onclick="closePopup()">x</button>
-	<div class="popup-content">
-		<div class="payment-option" id="vnpay-option">
-			<img
-				src="${pageContext.request.contextPath }/assets/user/images/vnpay-logo.jpg"
-				alt="VNPAY Logo">
-		</div>
-		<div class="payment-option" id="paypal-option">
-			<img
-				src="${pageContext.request.contextPath }/assets/user/images/paypal-logo.webp"
-				alt="PayPal Logo">
-		</div>
-	</div>
-</div>
-
-<div id="vn-pay" class="popup-container-vnpay" style="display: none">
-	<h3 class="py-3">Vui lòng nhập số tiền</h3>
+    <div class="popup-content">
+        <div class="payment-option" id="vnpay-option">
+            <img src="${pageContext.request.contextPath }/assets/user/images/vnpay-logo.jpg" alt="VNPAY Logo">
+        </div>
+        <div class="payment-option" id="paypal-option">
+            <img src="${pageContext.request.contextPath }/assets/user/images/paypal-logo.webp" alt="PayPal Logo">
+        </div>
+    </div>
+    </div>
+    
+    <div id="vn-pay" class="popup-container-vnpay" style="display: none">
+	<h1>Vui lòng nhập số tiền</h1>
 	<button class="close-button" onclick="closePopup()">x</button>
-	<div class="popup-content">
-		<form action="${pageContext.request.contextPath }/payment"
-			method="POST">
-			<div class="input-group mb-3">
-				<input type="text" class="form-control" name="amount"
-					placeholder="Nhập số tiền" required>
-				<div class="input-group-append">
-					<span class="input-group-text">VND</span>
-				</div>
+    <div class="popup-content">
+       <form action="${pageContext.request.contextPath }/payment" method="POST">
+       		<div class="input-group mb-3">
+			  <input type="text" class="form-control" name="amount" placeholder="Nhập số tiền" required>
+			  <div class="input-group-append">
+			    <span class="input-group-text">VND</span>
+			  </div>
 			</div>
-			<input type="submit" class="btn btn-primary" value="Nạp tiền">
-		</form>
-	</div>
-</div>
-
-<div id="paypal" class="popup-container-paypal" style="display: none">
-	<h3 class="py-3">Vui lòng nhập số tiền</h3>
-	<button class="close-button" onclick="closePopup()">x</button>
-	<div class="popup-content">
-		<form method="post"
-			action="https://www.sandbox.paypal.com/cgi-bin/webscr">
-			<div class="input-group mb-3">
-			<input type="hidden" name="business"
-				value="sb-tseqm29238642@business.example.com"> <input
-				type="hidden" name="item_number_1" value="1"> <input
-				type="hidden" name="item_name_1" value="Nap tien vao tai khoan">
-			<input type="text" name="amount_1" class="form-control rounded-2"> <input type="hidden"
-				name="item_quantity_1" value="1"> <input type="hidden"
-				name="upload" value="1"> <input type="hidden" name="return"
-				value="http://localhost:8080/projectGroup2/payment?action=returnPaypal">
-			<input type="hidden" name="cmd" value="_cart">
-			</div>
-			<button type="submit" class="btn btn-primary">Nạp tiền</button>
-		</form>
-	</div>
-</div>
-
-
+       		<input type="submit" class="btn btn-primary" value="Nạp tiền">
+       </form>
+    </div>
+    </div>
+    
+    
 <script type="text/javascript">
 	$(document).ready(function(){
   $("#tab1").click(function(){

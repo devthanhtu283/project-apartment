@@ -74,10 +74,6 @@
  	
  </style>
   <script>
-  function scrollMessage() {
-		var chatbox = document.getElementById('chatAdmin');
-		chatbox.scrollTop = chatbox.scrollHeight;
-	};
   var userID = 0;
   $(document).ready(function(){
 		var i = 1;
@@ -122,19 +118,10 @@
             		'<div class="chat-message-right pb-4"><div><img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="rounded-circle mr-1" alt="Chris Wood" width="40" height="40"><div class="text-muted small text-nowrap mt-2">' + hours + ':' + minutes + '</div></div><div class="flex-shrink-1 bg-light rounded py-2 px-3 mr-3"><div class="font-weight-bold mb-1">Tôi</div>' + message + '</div></div>'
      			);
            
-            scrollMessage()
+            
         }
 
-        document.addEventListener("DOMContentLoaded", function() {
-            // Bắt sự kiện khi người dùng bấm phím trong ô nhập liệu
-            document.getElementById("message").addEventListener("keypress", function(event) {
-              // Kiểm tra xem phím đã bấm có phải là nút "Enter" không (mã ASCII là 13)
-              if (event.code === "Enter") {
-                // Gọi hàm sendMessage() khi người dùng bấm nút "Enter"
-                sendMessage();
-              }
-            });
-        });
+     	
     </script>
   <style>
     /* Custom CSS */
@@ -193,12 +180,12 @@
 							</div>
 							<div class="flex-grow-1 pl-3">
 								<strong><%= accountDetailsModel.findAccountByAccountID(chats.get(0).getUserID()).getName() %></strong>
-								<div class="text-muted small"><em><!-- Typing... --></em></div>
+								<div class="text-muted small"><em>Typing...</em></div>
 							</div>
 							<div>
-								<button class="btn btn-primary mr-1"><a href="${pageContext.request.contextPath}/admin/chatadmin?id=${userID}&n=<%= n %>"><span class="text-white">Xem tin nhắn trước</span></a></button>
-								<button class="btn btn-secondary reload-btn mr-1"><a href="${pageContext.request.contextPath}/admin/chatadmin?id=${userID}"><i class="fa-solid fa-rotate-right"></i></a></button>
-								<button class="btn btn-light border"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal feather-lg"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg></button>
+								<button class="btn btn-primary btn-lg mr-1 px-3"><a href="${pageContext.request.contextPath}/admin/chatadmin?id=${userID}&n=<%= n %>">Load Them</a></button>
+								 <button class="btn btn-secondary reload-btn"><a href="${pageContext.request.contextPath}/admin/chatadmin?id=${userID}"><i class="fa-solid fa-rotate-right"></i></a></button>
+								<button class="btn btn-light border btn-lg px-3"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal feather-lg"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg></button>
 							</div>
 						</div>
 					</div>
@@ -241,7 +228,7 @@
 					<div class="flex-grow-0 py-3 px-4 border-top">
 						<div class="input-group">
 							<input type="text" id="message" class="form-control" placeholder="Type your message">
-							<button onclick="sendMessage()" class="btn btn-primary">Gửi</button>
+							<button onclick="sendMessage()" class="btn btn-primary">Send</button>
 						</div>
 					</div>
 
