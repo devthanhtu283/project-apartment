@@ -254,6 +254,6 @@ public class AccountServiceModel {
 	
 	public static void main(String[] args) {
 		AccountServiceModel accountServiceModel = new AccountServiceModel();
-		System.out.println(accountServiceModel.findByServiceID(2));
+		System.out.println(accountServiceModel.findAccountByAccountId(2));
 	}
 }
