@@ -27,13 +27,7 @@
           </div>
         </div><!-- /.container-fluid -->
       </section>
-			<div id="serviceDialog" title="Basic dialog" style="display: none;">
-			  <form>
-			  	Mã dịch vụ: <input type="text" >
-			  	<br>
-			  	 	Mã dịch vụ: <input type="text" >
-			  </form>
-			</div>
+			
       <!-- Main content -->
       <section class="content">
         <div class="container-fluid">
@@ -66,7 +60,7 @@
 						
 								<button id="buttonReload" class="btn" ><i class="fa-solid fa-rotate"></i></button>
 								
-								<button>Thêm người đăng ký dịch vụ</button>
+								<a href="${pageContext.request.contextPath }/admin/serviceAccount?action=newService">Thêm người đăng ký dịch vụ</a>
                   <table style="text-align: center;" id="example2" class="table table-bordered table-hover">
                     <thead>
                       <tr>

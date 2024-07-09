@@ -24,6 +24,7 @@
 	Account account = (Account)  httpSession.getAttribute("account") == null ? new Account() : (Account)  httpSession.getAttribute("account");
 	AccountService accountService = accountServiceModel.findAccountByAccountId(account.getId());
 	int serviceId = (accountService != null) ? accountService.getServiceID() : 0;
+	boolean isBuyed = (accountService != null) ? accountService.isStatus() : false;
 	String msg = (String) httpSession.getAttribute("msg");
 	String msg1 = msg;
 	httpSession.removeAttribute("msg");
@@ -143,6 +144,14 @@
 	flex-wrap: wrap;
 	justify-content: space-around;
 }
+  .plan-button input[type="submit"]:disabled {
+        cursor: no-drop !important;
+        background-color: #ccc;
+        color: #666;
+    }
+  .plan-button input[type="submit"]:disabled:hover {
+	cursor: no-drop !important;
+}
 
 </style>
 	<script>
@@ -174,18 +183,6 @@
 			<button id="rechargeBtn" class="btn btn-primary mx-3">Nạp tiền</button>
 		</div>
 	</div>
-	<form method="post" action="https://www.sandbox.paypal.com/cgi-bin/webscr">
-		<input type="hidden" name="business" value="sb-tseqm29238642@business.example.com" >
-		<input type="hidden" name="item_number_1" value="1" >
-			<input type="hidden" name="item_name_1" value="Nap tien vao tai khoan">
-				<input type="text" name="amount_1">
-					<input type="hidden" name="item_quantity_1" value="1" >
-					
-						<input type="hidden" name="upload" value="1" >
-						<input type="hidden" name="return" value="http://localhost:8080/projectGroup2/payment?action=returnPaypal" >
-						<input type="hidden" name="cmd" value="_cart" >
-					<button type="submit">submit</button>
-	</form>
 <div class="wrapper">
 		<div class="pricing-content">
 			<div class="PageWidth">
@@ -218,7 +215,12 @@
 										</select>
 									</div>
 									<div class="plan-button">
-										<input type="submit" value="Mua ngay">
+										<c:if test="<%= isBuyed %>">
+											<input type="submit" value="Mua ngay" disabled="disabled">
+										</c:if>
+										<c:if test="<%= !isBuyed %>">
+											<input type="submit" value="Mua ngay">
+										</c:if>
 									</div>
 								</div>
 							</div>
