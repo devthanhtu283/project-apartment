@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;import javax.sound.midi.Patch;
 import javax.websocket.OnClose;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
@@ -75,8 +76,14 @@ public class ChatUserServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		String action = request.getParameter("action");
+		if(action.equals("uploadFileChat")) {
+			doPost_UploadFileChat(request, response);
+		} 
+	}
+	protected void doPost_UploadFileChat(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaa");
+	
 	}
 	
 	

@@ -137,7 +137,10 @@ public class ServiceAccountAdminServlet extends HttpServlet {
 		accountService.setEndService(endDate);
 		accountService.setSaleID(saleID == null ? 0 : Integer.parseInt(saleID));
 		accountService.setStatus(true);
+		AccountService account = accountServiceModel.findAccountByAccountId(accountID);
 		if(accountServiceModel.register(accountService)) {
+			account.setStatus(false);
+			accountServiceModel.update(account);
 			request.getSession().setAttribute("msg", "Đăng kí gói dịch vụ thành công");
 			response.sendRedirect(request.getContextPath() + "/admin/serviceAccount");
 		} else {
