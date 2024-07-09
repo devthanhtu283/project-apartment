@@ -84,6 +84,7 @@ public class AccountServlet extends HttpServlet {
 	protected void doPost_UpdateAccount(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		Part file = request.getPart("file");
+		System.out.println(file);
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		Account account = (Account) request.getSession().getAttribute("account");
 		AccountDetailsModel accountDetailsModel = new AccountDetailsModel();
