@@ -166,6 +166,25 @@ table.invoices-table tr td:nth-child(1), table.invoices-table tr th:nth-child(1)
 }
  </style>
   <script>
+  var selectedFile = null;
+  // xu ly file trong chat ni`
+  $(document).ready(function() {
+            $('#fileInput').on('change', function(event) {
+            	selectedFile = event.target.files[0];
+                var file = event.target.files[0];
+                if (file) {
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                        $('#previewImage').attr('src', e.target.result).show();
+                        $('#fileName').text('Selected file: ' + file.name);
+                    }
+                    reader.readAsDataURL(file);
+                }
+            });
+        });
+  
+
+  
   function scrollMessage() {
 		var chatbox = document.querySelector(".chat-box");
 		chatbox.scrollTop = chatbox.scrollHeight;
@@ -196,10 +215,34 @@ table.invoices-table tr td:nth-child(1), table.invoices-table tr th:nth-child(1)
         };
 
         function sendMessage() {
+        	var message = '';
+        	if(selectedFile != null){
+        		message = 'img-' + selectedFile.name;
+        		var formData = new FormData();
+                formData.append('file', selectedFile);
+                $(document).ready(function() {
+                	 $.ajax({
+                         url: "${pageContext.request.contextPath}/chatuser", // Đường dẫn đến servlet xử lý
+                         type: 'POST',
+                         data: {
+                         	action : 'uploadFileChat',
+                         	formData : formData
+                         },
+                         processData: false,
+                         contentType: false,
+                     });
+                });
+               
+                
+        	} else {
+        		message = $("#message").val();
+        	}
+        	
         	var i = 1;
      		var j = 1;
-            var message = $("#message").val();
-            socket.send(message + "-USER21042003" + "-" + <%= account != null ? account.getId() : 0%>);
+           	
+            
+          	<%-- socket.send(message + "-USER21042003" + "-" + <%= account != null ? account.getId() : 0%>); --%>
             $("#message").val("");
             $('#tableMSG').append(
      				'<tr>' + 
@@ -207,7 +250,7 @@ table.invoices-table tr td:nth-child(1), table.invoices-table tr th:nth-child(1)
      						''
      					+'</td>' +
      					'<td style="text-align: left;"  id="td' + (j++) + '2">' + 
-     					message
+     					(!message.includes("img-") ? message : '<img src="'+ URL.createObjectURL(selectedFile) + '" alt="Chat Image"/>')
  						+'</td>'
      					
      				+'</tr>' 
@@ -293,15 +336,18 @@ table.invoices-table tr td:nth-child(1), table.invoices-table tr th:nth-child(1)
             <% for(Chat chat : chatModel.findChatByUserID(account.getId(), n)) { %>
               <tr>
                 <% if(chat.getRole() == 0) { %>
-                  <td class="receiver"><%= chat.getMessage() %></td>
+                  <td class="receiver"><%= !chat.getMessage().contains("img-") ?  chat.getMessage() : "<img src=\"/projectGroup2/assets/user/images/" + chat.getMessage().substring(chat.getMessage().indexOf("-") + 1) + "\" alt=\"Chat Image\"/>" %></td>
                   <td></td>
                 <% } %>
                 <% if(chat.getRole() == 1) { %>
                   <td></td>
-                  <td class="sender"><%= chat.getMessage() %></td>
+                   <td class="sender"><%= !chat.getMessage().contains("img-") ?  chat.getMessage() : "<img src=\"/projectGroup2/assets/user/images/" + chat.getMessage().substring(chat.getMessage().indexOf("-") + 1) + "\" alt=\"Chat Image\"/>" %></td>
+                 
                 <% } %>
               </tr>
+             
             <% } %>
+
           </table>
         </div>
       </div>
@@ -313,7 +359,14 @@ table.invoices-table tr td:nth-child(1), table.invoices-table tr th:nth-child(1)
 
 <div class="container">
   <div class="row">
+  	 <div class="col-md-12 message-container">
+    	   <label for="fileInput">Choose a file:</label>
+        <input type="file" id="fileInput" accept="image/*">
+        <p id="fileName"></p>
+        <img id="previewImage" src="#" alt="Image preview" style="display: none; max-width: 10%; height: auto;">
+    </div>
     <div class="col-md-12 message-container">
+    
       <input type="text" id="message" class="form-control message-input" placeholder="Nhập tin nhắn tại đây">
       <button onclick="sendMessage()" class="btn btn-primary send-button"><i class="fa-solid fa-paper-plane"></i></button>
     </div>
