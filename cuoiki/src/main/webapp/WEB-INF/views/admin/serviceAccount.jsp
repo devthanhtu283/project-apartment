@@ -42,6 +42,7 @@
                       
 
                             <button id="buttonReload" class="btn"><i class="fa-solid fa-rotate"></i></button>
+                            <a href="${pageContext.request.contextPath }/admin/serviceAccount?action=newService">Thêm người đăng ký dịch vụ</a>
                             <table style="text-align: center;" id="example2" class="table table-bordered table-hover">
                                 <thead>
                                     <tr>

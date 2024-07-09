@@ -325,7 +325,7 @@ FeedbackModel feedbackModel = new FeedbackModel();
 								</p>
 						</a>
 							<ul class="nav nav-treeview">
-								<li class="nav-item "><a
+								<li class="nav-item"><a
 									href="${pageContext.request.contextPath }/superadmin/service"
 									class="nav-link ${activeService }"> <i 
 										class="fa-solid fa-plane"></i>&nbsp;
@@ -352,7 +352,7 @@ FeedbackModel feedbackModel = new FeedbackModel();
 						%>
 						
 						
-						<li class="nav-item ${activeContractOpen} "><a href="#"
+						<li class="nav-item ${activeContractOpen}  menu-open"><a href="#"
 							class="nav-link ${activeContract }"> <i 
 								class="fa-solid fa-list"></i> &nbsp;
 								<p>
@@ -361,7 +361,7 @@ FeedbackModel feedbackModel = new FeedbackModel();
 								</p>
 						</a>
 							<ul class="nav nav-treeview">
-								<li class="nav-item "><a
+								<li class="nav-item"><a
 									href="${pageContext.request.contextPath }/admin/serviceAccount"
 									class="nav-link ${activeServiceAccount }"> <i 
 										class="fa-solid fa-plane"></i>&nbsp;
