@@ -97,6 +97,12 @@
   	<description></description>
   	<servlet-class>com.demo.servlet.user.RechargeServlet</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>UploadFileChatServlet</servlet-name>
+  	<display-name>UploadFileChatServlet</display-name>
+  	<description></description>
+  	<servlet-class>com.demo.servlet.UploadFileChatServlet</servlet-class>
+  </servlet>
   <servlet-mapping>
   	<servlet-name>LoginServlet</servlet-name>
   	<url-pattern>/LoginServlet</url-pattern>
@@ -144,6 +150,10 @@
   <servlet-mapping>
   	<servlet-name>RechargeServlet</servlet-name>
   	<url-pattern>/RechargeServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>UploadFileChatServlet</servlet-name>
+  	<url-pattern>/UploadFileChatServlet</url-pattern>
   </servlet-mapping>
 
 </web-app>
