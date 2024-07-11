@@ -90,6 +90,6 @@ public class AccountGmailModel {
 		AccountGmailModel accountGmailModel = new AccountGmailModel();
 		AccountGmail accountGmail = new AccountGmail();
 		accountGmail.setName("test");
-		System.out.println(accountGmailModel.delete(5));
+		System.out.println(accountGmailModel.findUserByGmail("tuhoangnguyen2003@gmail.com"));
 	}
 }

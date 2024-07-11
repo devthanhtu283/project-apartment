@@ -14,7 +14,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.demo.entities.Account;
+import com.demo.entities.Log;
+import com.demo.ex.ConfigLog;
 import com.demo.models.FeedbackModel;
+import com.demo.models.LogModel;
 @WebFilter(urlPatterns = {"/admin/*"})
 /**
  * Servlet Filter implementation class AdminFilter
@@ -45,11 +48,12 @@ public class AdminFilter extends HttpFilter implements Filter {
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
 		HttpSession session = httpRequest.getSession();
 		Account account = (Account) session.getAttribute("accountAdmin");
-		
+		LogModel logModel = new LogModel();
 		if(account != null && (account.getRole() == 0 ||account.getRole() == 2) ) {
 			chain.doFilter(request, response);
 		
 		} else {
+			logModel.create(new Log(ConfigLog.clientPublicIP, "warning","Đăng nhập admin khi chưa có quyền",new ConfigLog().ipconfig(httpRequest).getCountryLong(), new java.util.Date(), null, null));
 			httpResponse.sendRedirect(httpRequest.getContextPath() + "/login");
 		}
 		

@@ -75,7 +75,7 @@ public class AccountModel {
 	}
 	
 	
-	public Account findAccountByGmailID(int gmailId) {
+	public Account findAccountByGmailID(Integer gmailId) {
 		Account account = null;
 		try {
 			PreparedStatement preparedStatement = ConnectDB.connection().prepareStatement("select * from account where gmailid = ?");
@@ -186,7 +186,11 @@ public class AccountModel {
 			preparedStatement.setString(6, account.getSecurityCode());
 			preparedStatement.setBoolean(7, account.isStatus());
 			preparedStatement.setInt(8, account.getRole());
-			preparedStatement.setNull(9, Types.INTEGER);
+			if (account.getGmailID() == null) {
+		            preparedStatement.setNull(9, java.sql.Types.INTEGER);
+		        } else {
+		            preparedStatement.setInt(9, account.getGmailID());
+		        }
 			
 			status = preparedStatement.executeUpdate() > 0;
 			
@@ -204,7 +208,7 @@ public class AccountModel {
 		boolean status = true;
 		try {
 			PreparedStatement preparedStatement = ConnectDB.connection()
-			.prepareStatement("update account set username = ?, password = ?, email = ?, created = ?, verify = ?, securitycode = ?, status = ?, role = ?, gmailID = ? where id = ?");
+			.prepareStatement("update account set username = ?, password = ?, email = ?, created = ?, verify = ?, securitycode = ?, status = ?, role = ?  where id = ?");
 			preparedStatement.setString(1, account.getUsername());
 			preparedStatement.setString(2, account.getPassword());
 			preparedStatement.setString(3, account.getEmail());
@@ -213,8 +217,7 @@ public class AccountModel {
 			preparedStatement.setString(6, account.getSecurityCode());
 			preparedStatement.setBoolean(7, account.isStatus());
 			preparedStatement.setInt(8, account.getRole());
-			preparedStatement.setNull(9, Types.INTEGER);
-			preparedStatement.setInt(10, account.getId());
+			preparedStatement.setInt(9, account.getId());
 			status = preparedStatement.executeUpdate() > 0;
 			
 			
@@ -239,6 +242,7 @@ public class AccountModel {
 		account.setSecurityCode("123455");
 		account.setStatus(false);
 		account.setVerify(true);
-		System.out.println(accountModel.register(account));
+//		System.out.println(accountModel.register(account));
+		System.out.println(accountModel.findAccountByGmailID(1));
 	}
 }
