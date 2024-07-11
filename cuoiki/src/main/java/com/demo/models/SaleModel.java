@@ -14,7 +14,7 @@ public class SaleModel {
 	public List<Sale> findAll(){
 		List<Sale> sales = new ArrayList<Sale>();
 		try {
-			PreparedStatement preparedStatement = ConnectDB.connection().prepareStatement("select * from sale");
+			PreparedStatement preparedStatement = ConnectDB.connection().prepareStatement("select * from sale where status = true");
 			ResultSet resultSet = preparedStatement.executeQuery();
 			while(resultSet.next()) {
 				Sale sale = new Sale();

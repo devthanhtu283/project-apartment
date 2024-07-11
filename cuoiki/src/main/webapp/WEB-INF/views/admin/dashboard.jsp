@@ -1,3 +1,5 @@
+<%@page import="com.demo.entities.Log"%>
+<%@page import="com.demo.models.LogModel"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="com.demo.models.AccountDetailsModel"%>
 <%@page import="com.demo.entities.Post"%>
@@ -15,6 +17,7 @@
 		FeedbackModel feedbackModel = new FeedbackModel();
 		AccountDetailsModel accountDetailsModel = new AccountDetailsModel();
     	SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    	LogModel logModel = new LogModel();
 	%>
 <div class="content-wrapper">
 	<!-- Content Header (Page header) -->
@@ -116,6 +119,35 @@
 			<!-- Main row -->
 
 			<!-- /.row (main row) -->
+			<table id="example2" class="table table-bordered table-hover dataTable dtr-inline"
+                          aria-describedby="example2_info">
+                          <thead>
+                            <tr>
+                              <th>IP</th>
+                              <th>Mô tả</th>
+                              <th>Thời Gian</th>
+                              <th>Level</th>
+                              <th>Quốc Gia</th>
+                              <th>Before Value</th>
+                              <th>After Value</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                         
+                        	<% for(Log log: logModel.findTop20Log()) { %>
+                            <tr style="<%= log.getLevel().equalsIgnoreCase("danger") || log.getLevel().equalsIgnoreCase("warning") ? "color: red;" : "" %>">
+                            	<td><%= log.getIp() %></td>
+                            	<td><%= log.getDescription() %></td>
+                            	<td><%= log.getTime() %></td>
+                            	<td><%= log.getLevel() %></td>
+                            	<td><%= log.getNational() %></td>
+                            	<td><textarea class="form-control" rows="3" cols="1" disabled > <%= log.getBeforeValue() == null ? "" : log.getBeforeValue()%></textarea></td>
+                            	<td><textarea class="form-control" rows="3" cols="1" disabled > <%= log.getAfterValue() == null ? "" : log.getAfterValue()%></textarea></td>
+                            </tr>
+                    		<% } %>	
+                          </tbody>
+                
+                        </table>
 		</div>
 		<!-- /.container-fluid -->
 	</section>

@@ -74,7 +74,27 @@
  	
  </style>
   <script>
+  function scrollMessage() {
+		var chatbox = document.getElementById('chatAdmin');
+		chatbox.scrollTop = chatbox.scrollHeight;
+	};
   var userID = 0;
+  var selectedFile = null;
+  // xu ly file trong chat ni`
+  $(document).ready(function() {
+            $('#fileInput').on('change', function(event) {
+            	selectedFile = event.target.files[0];
+                var file = event.target.files[0];
+                if (file) {
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                        $('#previewImage').attr('src', e.target.result).show();
+                        $('#fileName').text('Selected file: ' + file.name);
+                    }
+                    reader.readAsDataURL(file);
+                }
+            });
+        });
   $(document).ready(function(){
 		var i = 1;
 		var j = 1;
@@ -101,7 +121,7 @@
            	}
            
        
-            
+           	scrollMessage();
           
         };
 
@@ -183,10 +203,9 @@
 								<div class="text-muted small"><em>Typing...</em></div>
 							</div>
 							<div>
-								<button class="btn btn-primary btn-lg mr-1 px-3"><a href="${pageContext.request.contextPath}/admin/chatadmin?id=${userID}&n=<%= n %>">Load Them</a></button>
-								 <button class="btn btn-secondary reload-btn"><a href="${pageContext.request.contextPath}/admin/chatadmin?id=${userID}"><i class="fa-solid fa-rotate-right"></i></a></button>
-								<button class="btn btn-light border btn-lg px-3"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal feather-lg"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg></button>
-							</div>
+								<button class="btn btn-primary mr-1"><a href="${pageContext.request.contextPath}/admin/chatadmin?id=${userID}&n=<%= n %>"><span class="text-white">Xem tin nhắn trước</span></a></button>
+								<button class="btn btn-secondary reload-btn mr-1"><a href="${pageContext.request.contextPath}/admin/chatadmin?id=${userID}"><i class="fa-solid fa-rotate-right"></i></a></button>
+								<button class="btn btn-light border"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal feather-lg"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg></button>							</div>
 						</div>
 					</div>
 
@@ -199,9 +218,9 @@
 										<img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="rounded-circle mr-1" alt="Chris Wood" width="40" height="40">
 										<div class="text-muted small text-nowrap mt-2"><%= chat.getTime().getHours() %> : <%= chat.getTime().getMinutes() %></div>
 									</div>
-									<div class="flex-shrink-1 bg-light rounded py-2 px-3 mr-3">
+									<div class="flex-shrink-1 bg-light rounded py-2 px-3 mr-3" style="width: 300px;">
 										<div class="font-weight-bold mb-1">Tôi</div>
-										<%= chat.getMessage() %>
+										<%= !chat.getMessage().contains("img-") ?  chat.getMessage() : "<img style=\"width: 30%; height: auto;\" src=\"/projectGroup2/assets/user/images/" + chat.getMessage().substring(chat.getMessage().indexOf("-") + 1) + "\" alt=\"Chat Image\"/>" %>
 									</div>
 								</div>
 								<% } %>
@@ -211,9 +230,9 @@
 									<img src="${pageContext.request.contextPath }/assets/user/images/<%= accountDetailsModel.findAccountByAccountID(chats.get(0).getUserID()).getAvatar() %>" class="rounded-circle mr-1" alt="Sharon Lessman" width="40" height="40">
 									<div class="text-muted small text-nowrap mt-2"><%= chat.getTime().getHours() %> : <%= chat.getTime().getMinutes() %></div>
 								</div>
-								<div class="flex-shrink-1 bg-light rounded py-2 px-3 ml-3">
+								<div class="flex-shrink-1 bg-light rounded py-2 px-3 ml-3"  style="width: 300px;">
 									<div class="font-weight-bold mb-1"><%= accountDetailsModel.findAccountByAccountID(chats.get(0).getUserID()).getName() %></div>
-									<%= chat.getMessage() %>
+									<%= !chat.getMessage().contains("img-") ?  chat.getMessage() : "<img style=\"width: 30%; height: auto;\" src=\"/projectGroup2/assets/user/images/" + chat.getMessage().substring(chat.getMessage().indexOf("-") + 1) + "\" alt=\"Chat Image\"/>" %>
 								</div>
 							</div>
 								<% } %>
@@ -226,6 +245,12 @@
 					</div>
 
 					<div class="flex-grow-0 py-3 px-4 border-top">
+					<div class="col-md-12">
+				    	<label for="fileInput" style="color: blue; cursor: pointer;"><i class="fa-regular fa-image"></i></label> 
+				        <input type="file" id="fileInput" accept="image/*">
+				        <p style="margin-left: 50px;" id="fileName"></p>
+				        <img id="previewImage" src="#" alt="Image preview" style="display: none; max-width: 10%; height: auto;">
+				    </div>
 						<div class="input-group">
 							<input type="text" id="message" class="form-control" placeholder="Type your message">
 							<button onclick="sendMessage()" class="btn btn-primary">Send</button>

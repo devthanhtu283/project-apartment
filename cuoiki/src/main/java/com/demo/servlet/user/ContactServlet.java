@@ -87,7 +87,7 @@ public class ContactServlet extends HttpServlet {
 		contact.setCreated(new Date());
 	
 		if (contactModel.create(contact)) {
-			logModel.create(new Log(IPAddressUtil.getPublicIPAddress(), "alert",ConfigLog.ipconfig(request).getCountryLong(), new Timestamp(new Date().getTime()), null, null));
+			logModel.create(new Log(IPAddressUtil.getPublicIPAddress(), "alert",email +  " - liên hệ",ConfigLog.ipconfig(request).getCountryLong(), new Timestamp(new Date().getTime()), null, null));
 			request.getSession().setAttribute("success",
 					"Cảm ơn đã đóng góp ý kiến cho hệ thống.Kính chúc quý khách một ngày tốt lành");
 			response.sendRedirect("contact#contact-form");

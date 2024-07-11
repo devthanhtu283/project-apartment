@@ -269,8 +269,7 @@ FeedbackModel feedbackModel = new FeedbackModel();
 
 								<li class="nav-item"><a
 									href="${pageContext.request.contextPath }/admin/chatadmin"
-									class="nav-link ${activeAdminSystem }"> <i
-										class="fa-solid fa-building"></i> &nbsp;
+									class="nav-link ${activeAdminSystem }"> <i class="fa-solid fa-inbox"></i> &nbsp;
 										<p>Chăm sóc khách hàng</p>
 								</a></li>
 								<li class="nav-item "><a

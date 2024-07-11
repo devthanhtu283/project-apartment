@@ -6,19 +6,36 @@ public class Log {
 	private int id;
 	private String ip;
 	private String level;
+	private String description;
 	private String national;
 	private Date time;
 	private String beforeValue;
 	private String afterValue;
-	public Log(int id, String ip, String level, String national, Date time, String beforeValue, String afterValue) {
+	public Log(String ip, String level, String description, String national, Date time, String beforeValue,
+			String afterValue) {
 		super();
-		this.id = id;
 		this.ip = ip;
 		this.level = level;
+		this.description = description;
 		this.national = national;
 		this.time = time;
 		this.beforeValue = beforeValue;
 		this.afterValue = afterValue;
+	}
+	public Log(int id, String ip, String level, String description, String national, Date time, String beforeValue,
+			String afterValue) {
+		super();
+		this.id = id;
+		this.ip = ip;
+		this.level = level;
+		this.description = description;
+		this.national = national;
+		this.time = time;
+		this.beforeValue = beforeValue;
+		this.afterValue = afterValue;
+	}
+	public Log() {
+		super();
 	}
 	public int getId() {
 		return id;
@@ -37,6 +54,12 @@ public class Log {
 	}
 	public void setLevel(String level) {
 		this.level = level;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	public String getNational() {
 		return national;
@@ -62,23 +85,10 @@ public class Log {
 	public void setAfterValue(String afterValue) {
 		this.afterValue = afterValue;
 	}
-	public Log() {
-		super();
-	}
 	@Override
 	public String toString() {
-		return "Log [id=" + id + ", ip=" + ip + ", level=" + level + ", national=" + national + ", time=" + time
-				+ ", beforeValue=" + beforeValue + ", afterValue=" + afterValue + "]";
+		return "Log [id=" + id + ", ip=" + ip + ", level=" + level + ", description=" + description + ", national="
+				+ national + ", time=" + time + ", beforeValue=" + beforeValue + ", afterValue=" + afterValue + "]";
 	}
-	public Log(String ip, String level, String national, Date time, String beforeValue, String afterValue) {
-		super();
-		this.ip = ip;
-		this.level = level;
-		this.national = national;
-		this.time = time;
-		this.beforeValue = beforeValue;
-		this.afterValue = afterValue;
-	}
-	
 	
 }
