@@ -12,11 +12,14 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.http.client.fluent.Request;
 
 import com.demo.entities.AccountGmail;
+import com.demo.entities.Log;
 import com.demo.entities.UserGoogleDto;
+import com.demo.ex.ConfigLog;
 import com.demo.helpers.GoogleUtils;
 import com.demo.models.AccountDetailsModel;
 import com.demo.models.AccountGmailModel;
 import com.demo.models.AccountModel;
+import com.demo.models.LogModel;
 
 
 
@@ -53,13 +56,18 @@ IOException {
 			AccountGmailModel accountGmailModel = new AccountGmailModel();
 			AccountDetailsModel accountDetailsModel = new AccountDetailsModel();
 			AccountModel accountModel = new AccountModel();
+			LogModel logModel = new LogModel();
+			ConfigLog configLog = new ConfigLog();
 			AccountGmail acc = accountGmailModel.findUserByGmail(googlePojo.getEmail());
-			if(accountModel.findAccountByGmailID(acc.getId()) != null) {
+			if(accountModel.findAccountByEmail(acc.getName()) != null) {
+				logModel.create(new Log(configLog.clientPublicIP, "info","AccountID: " + accountModel.findAccountByGmailID(acc.getId()).getId() + " - Đăng nhập bằng Gmail",new ConfigLog().ipconfig(request).getCountryLong(), new java.util.Date(), null, null));
 				request.getSession().setAttribute("accountdetails", 
-						accountDetailsModel.findAccountByAccountID(accountModel.findAccountByUsername(accountModel.findAccountByGmailID(acc.getId()).getUsername()).getId()));
-				request.getSession().setAttribute("account", accountModel.findAccountByUsername(accountModel.findAccountByGmailID(acc.getId()).getUsername()));
+						accountDetailsModel.findAccountByAccountID(accountModel.findAccountByUsername(accountModel.findAccountByUsername(acc.getName()).getUsername()).getId()));
+				System.out.println(accountDetailsModel.findAccountByAccountID(accountModel.findAccountByUsername(accountModel.findAccountByUsername(acc.getName()).getUsername()).getId()));
+				request.getSession().setAttribute("account", accountModel.findAccountByUsername(accountModel.findAccountByUsername(acc.getName()).getUsername()));
 				response.sendRedirect("account");
 			} else {
+				logModel.create(new Log(configLog.clientPublicIP, "alert",accountModel.findAccountByGmailID(acc.getId()).getId() + " Đăng nhập bằng Gmail thất bại",new ConfigLog().ipconfig(request).getCountryLong(), new java.util.Date(), null, null));
 				request.getSession().setAttribute("msg", "Đăng nhập thất bại");
 				response.sendRedirect("login");
 			}

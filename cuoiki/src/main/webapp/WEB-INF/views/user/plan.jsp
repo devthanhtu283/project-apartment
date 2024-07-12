@@ -1,3 +1,5 @@
+<%@page import="com.demo.models.AccountDetailsModel"%>
+<%@page import="com.demo.entities.Accountdetails"%>
 <%@page import="com.demo.models.DurationLanguageModel"%>
 <%@page import="java.util.Locale"%>
 <%@page import="com.demo.models.LanguageModel"%>
@@ -20,8 +22,11 @@
 	ServiceModel serviceModel = new ServiceModel();
 	InvoiceModel invoiceModel = new InvoiceModel();
 	DurationModel durationModel = new DurationModel();
+	AccountDetailsModel accountDetailsModel = new AccountDetailsModel();
+	Accountdetails accountdetails = new Accountdetails();
 	AccountServiceModel accountServiceModel = new AccountServiceModel();
 	Account account = (Account)  httpSession.getAttribute("account") == null ? new Account() : (Account)  httpSession.getAttribute("account");
+	accountdetails = accountDetailsModel.findAccountByAccountID(account.getId());
 	AccountService accountService = accountServiceModel.findAccountByAccountId(account.getId());
 	int serviceId = (accountService != null) ? accountService.getServiceID() : 0;
 	boolean isBuyed = (accountService != null) ? accountService.isStatus() : false;
@@ -45,7 +50,7 @@
 	</script>
 </c:if>
 <style>
-.popup-container, .popup-container-vnpay {
+.popup-container, .popup-container-vnpay, .popup-container-paypal {
 	display:none;
     position: fixed;
     top: 50%;
@@ -157,19 +162,39 @@
 	<script>
 		$(document).ready(function() {
 			$('#rechargeBtn').click(function() {
-				$('.popup-container').css('display','block');
+				var account = '<%= account.getId() %>';
+				var accountDetails = '<%= accountdetails %>';
+					if (account == 0) {
+	                    alert("Bạn chưa có tài khoản để thực hiện chức năng nạp tiền!");
+	                } 
+                	if(accountDetails === "null"){
+	                	 alert("Bạn cần phải cập nhật thông tin tài khoản để nạp tiền!");
+	                } 
+	                if(account != 0 && accountDetails !== "null"){
+	                	$('.popup-container').css('display', 'block');
+		            }
 			})
-			$('.payment-option').click(function() {
+			/* $('.payment-option').click(function() {
 				$('.popup-container-vnpay').css('display','block');
+				$('.popup-container').css('display','none');
+			}) */
+			$('#vnpay-option').click(function() {
+				$('.popup-container-vnpay').css('display','block');
+				$('.popup-container').css('display','none');
+			})
+			$('#paypal-option').click(function() {
+				$('.popup-container-paypal').css('display','block');
 				$('.popup-container').css('display','none');
 			})
 		});
 
 		function closePopup() {
-		    var popup = document.querySelector('.popup-container');
-		    var popupvnpay = document.querySelector('.popup-container-vnpay');
-		    popup.style.display = 'none';
-		    popupvnpay.style.display = 'none';
+			 var popup = document.querySelector('.popup-container');
+			 var popupvnpay = document.querySelector('.popup-container-vnpay');
+			 var popuppaypal = document.querySelector('.popup-container-paypal');
+			 popup.style.display = 'none';
+			 popupvnpay.style.display = 'none';
+			 popuppaypal.style.display = 'none';
 		}
 	</script>
 	<br>
@@ -269,6 +294,28 @@
        </form>
     </div>
     </div>
+    
+    <div id="paypal" class="popup-container-paypal" style="display: none">
+	<h3 class="py-3">Vui lòng nhập số tiền</h3>
+	<button class="close-button" onclick="closePopup()">x</button>
+	<div class="popup-content">
+		<form method="post"
+			action="https://www.sandbox.paypal.com/cgi-bin/webscr">
+			<div class="input-group mb-3">
+			<input type="hidden" name="business"
+				value="sb-tseqm29238642@business.example.com"> <input
+				type="hidden" name="item_number_1" value="1"> <input
+				type="hidden" name="item_name_1" value="Nap tien vao tai khoan">
+			<input type="text" name="amount_1" class="form-control rounded-2"> <input type="hidden"
+				name="item_quantity_1" value="1"> <input type="hidden"
+				name="upload" value="1"> <input type="hidden" name="return"
+				value="http://localhost:8080/projectGroup2/payment?action=returnPaypal">
+			<input type="hidden" name="cmd" value="_cart">
+			</div>
+			<button type="submit" class="btn btn-primary">Nạp tiền</button>
+		</form>
+	</div>
+</div>
     
     
 <script type="text/javascript">

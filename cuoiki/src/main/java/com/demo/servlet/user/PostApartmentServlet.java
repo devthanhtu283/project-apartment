@@ -15,10 +15,14 @@ import javax.servlet.http.Part;
 
 import com.demo.entities.Account;
 import com.demo.entities.Accountdetails;
+import com.demo.entities.Log;
 import com.demo.entities.Post;
 import com.demo.entities.PostImage;
+import com.demo.ex.ConfigLog;
+import com.demo.helpers.IPAddressUtil;
 import com.demo.helpers.PostHelper;
 import com.demo.helpers.UploadFileHelper;
+import com.demo.models.LogModel;
 import com.demo.models.PostImageModel;
 import com.demo.models.PostModel;
 @WebServlet("/postapartment")
@@ -82,6 +86,7 @@ public class PostApartmentServlet extends HttpServlet {
 		PostHelper postHelper = new PostHelper();
 		PostImageModel postImageModel = new PostImageModel();
 		List<Part> parts = (List<Part>) request.getParts();
+		LogModel logModel = new LogModel();
 		Account account = (Account) request.getSession().getAttribute("account");
 		String subject = request.getParameter("subject");
 		double price = Double.parseDouble(request.getParameter("price"));
@@ -120,6 +125,7 @@ public class PostApartmentServlet extends HttpServlet {
 								System.out.println("Them anh khong thanh cong");
 							}
 						}
+						logModel.create(new Log(IPAddressUtil.getPublicIPAddress(),"alert","AccountID: " + account.getId() + " - đã đăng bài bán căn hộ.", ConfigLog.ipconfig(request).getCountryLong(), new Timestamp(new Date().getTime()),null,null));
 						request.getSession().setAttribute("msg", "thêm bài đăng thành công");
 						response.sendRedirect("mypost");
 					} else {

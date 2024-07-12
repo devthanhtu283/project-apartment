@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -25,12 +26,17 @@ import javax.websocket.server.ServerEndpoint;
 import com.demo.entities.Account;
 import com.demo.entities.Chat;
 import com.demo.entities.Systemapartment;
+import com.demo.helpers.UploadFileHelper;
 import com.demo.models.BranchModel;
 import com.demo.models.ChatModel;
 import com.demo.models.SystemApartmentModel;
 import com.google.gson.Gson;
 @WebServlet("/chatuser")
-
+@MultipartConfig(
+        maxFileSize = 1024 * 1024 * 5,
+        maxRequestSize = 1024 * 1024 * 10,
+        fileSizeThreshold = 1024 * 1024 * 10
+)
 /**
  * Servlet implementation class HomeServlet
  */
@@ -76,15 +82,15 @@ public class ChatUserServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String action = request.getParameter("action");
-		if(action.equals("uploadFileChat")) {
-			doPost_UploadFileChat(request, response);
-		} 
-	}
-	protected void doPost_UploadFileChat(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaa");
-	
+		Part file = request.getPart("file");
+		System.out.println(file);
+		String chatFileUpload = UploadFileHelper.uploadFile("assets/user/images",request,file);
+		System.out.println(chatFileUpload);
+		response.getWriter().write(chatFileUpload);
+		
 	}
+
 	
 	
 }

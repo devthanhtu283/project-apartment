@@ -37,11 +37,12 @@ public class AccountDetailsModel {
 		return account;
 	}
 	
+	
 	public boolean create(Accountdetails accountdetails) {
 		boolean status = true;
 		try {
 			PreparedStatement preparedStatement = ConnectDB.connection()
-			.prepareStatement("insert into accountdetails(accountid,name,birthday,address,phonenumber,avatar,updatedate) values(?, ?, ?, ?, ?, ?, ?)");
+			.prepareStatement("insert into accountdetails(accountid,name,birthday,address,phonenumber,avatar,updatedate, balance) values(?, ?, ?, ?, ?, ?, ?, ?)");
 			preparedStatement.setInt(1, accountdetails.getAccountid());
 			preparedStatement.setString(2, accountdetails.getName());
 			preparedStatement.setDate(3, new Date(accountdetails.getBirthday().getTime()));
@@ -49,6 +50,7 @@ public class AccountDetailsModel {
 			preparedStatement.setString(5, accountdetails.getPhonenumber());
 			preparedStatement.setString(6, accountdetails.getAvatar());
 			preparedStatement.setDate(7, new Date(accountdetails.getUpdatedate().getTime()));
+			preparedStatement.setDouble(8, accountdetails.getBalance());
 			
 			status = preparedStatement.executeUpdate() > 0;
 			
@@ -93,7 +95,7 @@ public class AccountDetailsModel {
 		boolean status = true;
 		try {
 			PreparedStatement preparedStatement = ConnectDB.connection()
-			.prepareStatement("update accountdetails set balance = ? where id = ?");
+			.prepareStatement("update accountdetails set balance = ? where accountid = ?");
 			preparedStatement.setDouble(1, accountdetails.getBalance());
 			preparedStatement.setInt(2, accountdetails.getAccountid());
 			
@@ -112,7 +114,7 @@ public class AccountDetailsModel {
 	
 	public static void main(String[] args) {
 		AccountDetailsModel accountDetailsModel = new AccountDetailsModel();
-		Accountdetails accountdetails = accountDetailsModel.findAccountByAccountID(2);
+		Accountdetails accountdetails = accountDetailsModel.findAccountByAccountID(43);
 		accountdetails.setBalance(10000);
 		System.out.println(accountDetailsModel.updateBalance(accountdetails));
 		
