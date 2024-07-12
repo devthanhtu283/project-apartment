@@ -73,9 +73,10 @@ IOException {
 			}
 			AccountGmail acc = accountGmailModel.findUserByGmail(googlePojo.getEmail());
 			if(accountModel.register(account)) {
+				request.getSession().setAttribute("msg", "Đăng kí thành công");
 				request.getSession().setAttribute("accountdetails", 
-						accountDetailsModel.findAccountByAccountID(accountModel.findAccountByUsername(accountModel.findAccountByGmailID(acc.getId()).getUsername()).getId()));
-				request.getSession().setAttribute("account", accountModel.findAccountByUsername(accountModel.findAccountByGmailID(acc.getId()).getUsername()));
+						accountDetailsModel.findAccountByAccountID(accountModel.findAccountByUsername(accountModel.findAccountByUsername(acc.getName()).getUsername()).getId()));
+				request.getSession().setAttribute("account", accountModel.findAccountByUsername(accountModel.findAccountByUsername(acc.getName()).getUsername()));
 				response.sendRedirect("account");
 			} else {
 				accountGmailModel.delete(accountGmailModel.findUserByGmail(googlePojo.getEmail()).getId());

@@ -16,14 +16,15 @@ public class LogModel {
 		boolean status = true;
 		try {
 			PreparedStatement preparedStatement = ConnectDB.connection()
-			.prepareStatement("insert into log(ip,level,national,time,beforevalue,aftervalue) values(?, ?, ?, ?, ?, ?)");
+			.prepareStatement("insert into log(ip,level,description,national,time,beforevalue,aftervalue) values(?, ?, ?, ?, ?, ?, ?)");
 			preparedStatement.setString(1, log.getIp());
 			preparedStatement.setString(2, log.getLevel());
-			preparedStatement.setString(3, log.getNational());
+			preparedStatement.setString(3, log.getDescription());
+			preparedStatement.setString(4, log.getNational());
 			
-			preparedStatement.setTimestamp(4, new Timestamp(log.getTime().getTime()));
-			preparedStatement.setString(5, log.getBeforeValue());
-			preparedStatement.setString(6, log.getAfterValue());
+			preparedStatement.setTimestamp(5, new Timestamp(log.getTime().getTime()));
+			preparedStatement.setString(6, log.getBeforeValue());
+			preparedStatement.setString(7, log.getAfterValue());
 	
 	
 			status = preparedStatement.executeUpdate() > 0;
@@ -46,8 +47,40 @@ public class LogModel {
 			while(resultSet.next()) {
 				Log log = new Log();
 				log.setId(resultSet.getInt("id"));
-				log.setLevel(resultSet.getString("level"));
 				log.setIp(resultSet.getString("ip"));
+				log.setLevel(resultSet.getString("level"));
+				log.setDescription(resultSet.getString("description"));
+				log.setTime(resultSet.getTimestamp("time"));
+				log.setBeforeValue(resultSet.getString("beforeValue"));
+				log.setAfterValue(resultSet.getString("afterValue"));
+				logs.add(log);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			logs = null;
+			// TODO: handle exception
+		} finally {
+			ConnectDB.disconnect();
+		}
+		
+		return logs;
+	}
+	
+	public List<Log> findTop20Log(){
+		List<Log> logs = new ArrayList<Log>();
+		try {
+			PreparedStatement preparedStatement = ConnectDB.connection().prepareStatement("select * from log order by id desc limit 10");
+			ResultSet resultSet = preparedStatement.executeQuery();
+			while(resultSet.next()) {
+				Log log = new Log();
+				log.setId(resultSet.getInt("id"));
+				log.setIp(resultSet.getString("ip"));
+				log.setLevel(resultSet.getString("level"));
+				log.setNational(resultSet.getString("national"));
+				log.setDescription(resultSet.getString("description"));
+				log.setTime(resultSet.getTimestamp("time"));
+				log.setBeforeValue(resultSet.getString("beforeValue"));
+				log.setAfterValue(resultSet.getString("afterValue"));
 				logs.add(log);
 			}
 		} catch (Exception e) {
@@ -65,10 +98,11 @@ public class LogModel {
 		boolean status = true;
 		try {
 			PreparedStatement preparedStatement = ConnectDB.connection().prepareStatement(
-					"UPDATE log set ip = ?,level = ?, nation = ?, time = ?, beforeValue = ?, afterValue = ? where id = ?");
+					"UPDATE log set ip = ?,level = ?, description = ?, nation = ?, time = ?, beforeValue = ?, afterValue = ? where id = ?");
 			preparedStatement.setString(1, log.getIp());
 			preparedStatement.setString(2, log.getLevel());
 			preparedStatement.setString(3, log.getNational());
+			preparedStatement.setString(4, log.getDescription());
 			preparedStatement.setTimestamp(4, new Timestamp(log.getTime().getTime()));
 			preparedStatement.setString(5, log.getBeforeValue());
 			preparedStatement.setString(6, log.getAfterValue());

@@ -26,7 +26,7 @@
  </c:if>
  <style>
  tr{
-    	height: 70px;
+    	height: 50px;
     }
     td{
     	width:270px;
@@ -217,44 +217,60 @@ table.invoices-table tr td:nth-child(1), table.invoices-table tr th:nth-child(1)
         function sendMessage() {
         	var message = '';
         	if(selectedFile != null){
-        		message = 'img-' + selectedFile.name;
         		var formData = new FormData();
                 formData.append('file', selectedFile);
+                console.log(formData);
                 $(document).ready(function() {
                 	 $.ajax({
-                         url: "${pageContext.request.contextPath}/chatuser", // Đường dẫn đến servlet xử lý
+                         url: "${pageContext.request.contextPath}/chatuser", 
                          type: 'POST',
-                         data: {
-                         	action : 'uploadFileChat',
-                         	formData : formData
-                         },
-                         processData: false,
+                         data: formData,
+                         processData: false, 
                          contentType: false,
+                         success: function(chatFileUpload) {
+                        	message = 'img-' + chatFileUpload;
+							console.log(chatFileUpload);
+							socket.send(message + "-USER21042003" + "-" + <%= account != null ? account.getId() : 0%>);
+							 $("#message").val("");
+					            $('#tableMSG').append(
+					     				'<tr>' + 
+					     					'<td id="td' + (i++) + '1">' + 
+					     						''
+					     					+'</td>' +
+					     					'<td style="text-align: left;"  id="td' + (j++) + '2">' + 
+					     					(!message.includes("img-") ? message : '<img style=\"width: 30%; height: auto;\" src="'+ URL.createObjectURL(selectedFile) + '" alt="Chat Image"/>')
+					 						+'</td>'
+					     					
+					     				+'</tr>' 
+					     			);
+						}
                      });
                 });
                
                 
         	} else {
         		message = $("#message").val();
+        		socket.send(message + "-USER21042003" + "-" + <%= account != null ? account.getId() : 0%>);
+        		 $("#message").val("");
+                 $('#tableMSG').append(
+          				'<tr>' + 
+          					'<td id="td' + (i++) + '1">' + 
+          						''
+          					+'</td>' +
+          					'<td style="text-align: right;"  id="td' + (j++) + '2">' + 
+          					(!message.includes("img-") ? message : '<img style=\"width: 30%; height: auto;\" src="'+ URL.createObjectURL(selectedFile) + '" alt="Chat Image"/>')
+      						+'</td>'
+          					
+          				+'</tr>' 
+          			);
         	}
         	
         	var i = 1;
      		var j = 1;
-           	
+          
             
-          	<%-- socket.send(message + "-USER21042003" + "-" + <%= account != null ? account.getId() : 0%>); --%>
-            $("#message").val("");
-            $('#tableMSG').append(
-     				'<tr>' + 
-     					'<td id="td' + (i++) + '1">' + 
-     						''
-     					+'</td>' +
-     					'<td style="text-align: left;"  id="td' + (j++) + '2">' + 
-     					(!message.includes("img-") ? message : '<img src="'+ URL.createObjectURL(selectedFile) + '" alt="Chat Image"/>')
- 						+'</td>'
-     					
-     				+'</tr>' 
-     			);
+          	
+           
             scrollMessage();
             
         }
@@ -293,12 +309,12 @@ table.invoices-table tr td:nth-child(1), table.invoices-table tr th:nth-child(1)
 						for(var i = 0; i < chats.length; i++){
 							s+= '<tr>';
 								if(chats[i].role == 0){
-									s+= '<td class="receiver">' + chats[i].message + '</td>';
+									s+= '<td class="receiver" style="text-align: left;">' + (!chats[i].message.includes("img-") ? chats[i].message : '<img style="width: 30%; height: auto;" src="/projectGroup2/assets/user/images/' + chats[i].message.substring(chats[i].message.indexOf("-") + 1) + '" alt="Chat Image"/>') + '</td>';
 									s+= '<td></td>';
 								}
 								if(chats[i].role == 1){
 									s+= '<td></td>';
-									s+= '<td class="sneder">' + chats[i].message + '</td>';
+									s+= '<td class="sneder" style="text-align: right;">' + (!chats[i].message.includes("img-") ? chats[i].message : '<img style="width: 30%; height: auto;" src="/projectGroup2/assets/user/images/' + chats[i].message.substring(chats[i].message.indexOf("-") + 1) + '" alt="Chat Image"/>') + '</td>';
 								}
 							s+= '</tr>';
 						}
@@ -329,19 +345,19 @@ table.invoices-table tr td:nth-child(1), table.invoices-table tr th:nth-child(1)
   <div class="row">
     <div class="col-md-6" style="margin: auto">
       <div class="card border">
-        <div class="card-body chat-box" style="height: 600px;">
+        <div class="card-body chat-box" style="height: 700px;">
           <button id="buttonLoadMore" class="btn btn-primary load-more-btn">Xem tin nhắn phía trên</button>
       <button onclick="location.reload();" class="btn btn-secondary reload-btn"><i class="fa-solid fa-rotate-right"></i></button>
           <table id="tableMSG" class="table">
             <% for(Chat chat : chatModel.findChatByUserID(account.getId(), n)) { %>
               <tr>
                 <% if(chat.getRole() == 0) { %>
-                  <td class="receiver"><%= !chat.getMessage().contains("img-") ?  chat.getMessage() : "<img src=\"/projectGroup2/assets/user/images/" + chat.getMessage().substring(chat.getMessage().indexOf("-") + 1) + "\" alt=\"Chat Image\"/>" %></td>
+                  <td class="receiver" style="text-align: left;"><%= !chat.getMessage().contains("img-") ?  chat.getMessage() : "<img style=\"width: 30%; height: auto;\" src=\"/projectGroup2/assets/user/images/" + chat.getMessage().substring(chat.getMessage().indexOf("-") + 1) + "\" alt=\"Chat Image\"/>" %></td>
                   <td></td>
                 <% } %>
                 <% if(chat.getRole() == 1) { %>
                   <td></td>
-                   <td class="sender"><%= !chat.getMessage().contains("img-") ?  chat.getMessage() : "<img src=\"/projectGroup2/assets/user/images/" + chat.getMessage().substring(chat.getMessage().indexOf("-") + 1) + "\" alt=\"Chat Image\"/>" %></td>
+                   <td class="sender" style="text-align: right;"><%= !chat.getMessage().contains("img-") ?  chat.getMessage() : "<img style=\"width: 30%; height: auto;\" src=\"/projectGroup2/assets/user/images/" + chat.getMessage().substring(chat.getMessage().indexOf("-") + 1) + "\" alt=\"Chat Image\"/>" %></td>
                  
                 <% } %>
               </tr>
@@ -360,9 +376,9 @@ table.invoices-table tr td:nth-child(1), table.invoices-table tr th:nth-child(1)
 <div class="container">
   <div class="row">
   	 <div class="col-md-12 message-container">
-    	   <label for="fileInput">Choose a file:</label>
+    	   <label for="fileInput" style="color: blue; cursor: pointer;"><i class="fa-regular fa-image"></i></label> 
         <input type="file" id="fileInput" accept="image/*">
-        <p id="fileName"></p>
+        <p style="margin-left: 50px;" id="fileName"></p>
         <img id="previewImage" src="#" alt="Image preview" style="display: none; max-width: 10%; height: auto;">
     </div>
     <div class="col-md-12 message-container">

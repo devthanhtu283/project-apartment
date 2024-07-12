@@ -7,9 +7,12 @@ package com.demo.servlet;
 
 import com.demo.entities.Account;
 import com.demo.entities.Accountdetails;
+import com.demo.entities.Log;
 import com.demo.entities.Transaction;
+import com.demo.ex.ConfigLog;
 import com.demo.helpers.Config;
 import com.demo.models.AccountDetailsModel;
+import com.demo.models.LogModel;
 import com.demo.models.TransactionModel;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -61,11 +64,14 @@ public class PaymentServlet extends HttpServlet {
 		Account account = (Account) req.getSession().getAttribute("account");
 		AccountDetailsModel accountDetailsModel = new AccountDetailsModel();
 		Accountdetails accountdetails = new Accountdetails();
+		LogModel logModel = new LogModel();
+		System.out.println(account);
 		if (account == null) {
 			req.getSession().setAttribute("msg", "Bạn cần đăng nhập để nạp tiền");
 			resp.sendRedirect("home");
 		} else {
 			accountdetails = accountDetailsModel.findAccountByAccountID(account.getId());
+			System.out.println(accountdetails);
 			if (accountdetails == null) {
 				req.getSession().setAttribute("msg", "Bạn cần phải cập nhật thông tin tài khoản để nạp tiền");
 				resp.sendRedirect("account");
@@ -78,15 +84,17 @@ public class PaymentServlet extends HttpServlet {
 				String paymentType = req.getParameter("vnp_CardType");
 
 				if (statusCode.equals("00")) {
-					System.out.println(accountdetails.getBalance());
+					double beforeTransaction = accountdetails.getBalance();
 					String amount = req.getParameter("vnp_Amount");
 					System.out.println(Double.parseDouble(amount) / 100);
+					double afterTransaction = accountdetails.getBalance() + Double.parseDouble(amount) / 100;
 					String date = req.getParameter("vnp_PayDate");
-					accountdetails.setBalance(accountdetails.getBalance() + Double.parseDouble(amount) / 100);
+					accountdetails.setBalance(afterTransaction);
 					Transaction transaction = new Transaction(1, Double.parseDouble(amount) / 100, new Date(),
 							account.getId(), orderInfo, paymentType, transactionNo);
 					TransactionModel transactionModel = new TransactionModel();
 					if (accountDetailsModel.updateBalance(accountdetails) && transactionModel.create(transaction)) {
+						logModel.create(new Log(ConfigLog.clientPublicIP, "alert","AccountID: " + account.getId() + " nạp tiền vào tài khoản bằng VNPay",new ConfigLog().ipconfig(req).getCountryLong(), new java.util.Date(), "Số tiền trước khi nạp: " + beforeTransaction, "Số tiền sau khi nạp: " + afterTransaction));
 						req.getSession().removeAttribute("accountdetails");
 						req.getSession().setAttribute("accountdetails",
 								accountDetailsModel.findAccountByAccountID(account.getId()));
@@ -111,6 +119,7 @@ public class PaymentServlet extends HttpServlet {
 		Account account = (Account) req.getSession().getAttribute("account");
 		AccountDetailsModel accountDetailsModel = new AccountDetailsModel();
 		Accountdetails accountdetails = new Accountdetails();
+		LogModel logModel = new LogModel();
 		if (account == null) {
 			req.getSession().setAttribute("msg", "Bạn cần đăng nhập để nạp tiền");
 			resp.sendRedirect("home");
@@ -126,12 +135,14 @@ public class PaymentServlet extends HttpServlet {
 				String paymentType = "paypal-" + req.getParameter("payer_email");
 				String statusCode = req.getParameter("payment_status");
 				if (statusCode.equals("Completed")) {
-					System.out.println(accountdetails.getBalance());
-					accountdetails.setBalance(accountdetails.getBalance() + Double.parseDouble(amount)*25000);
+					double beforeTransaction = accountdetails.getBalance();
+					double afterTransaction = accountdetails.getBalance() + Double.parseDouble(amount)*25000;
+					accountdetails.setBalance(afterTransaction);
 					Transaction transaction = new Transaction(1, Double.parseDouble(amount), new Date(),
 							account.getId(), orderInfo, paymentType, transactionNo);
 					TransactionModel transactionModel = new TransactionModel();
 					if (accountDetailsModel.updateBalance(accountdetails) && transactionModel.create(transaction)) {
+						logModel.create(new Log(ConfigLog.clientPublicIP, "alert","AccountID: " + account.getId() + " nạp tiền vào tài khoản bằng PayPal",new ConfigLog().ipconfig(req).getCountryLong(), new java.util.Date(), "Số tiền trước khi nạp: " + beforeTransaction, "Số tiền sau khi nạp: " + afterTransaction));
 						req.getSession().removeAttribute("accountdetails");
 						req.getSession().setAttribute("accountdetails",
 								accountDetailsModel.findAccountByAccountID(account.getId()));
@@ -150,7 +161,6 @@ public class PaymentServlet extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
 		String vnp_Version = "2.1.0";
 		String vnp_Command = "pay";
 		String orderType = "other";

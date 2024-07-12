@@ -12,7 +12,7 @@ public class Account {
 	private String securityCode;
 	private boolean status;
 	private int role;
-	private int gmailID;
+	private Integer gmailID;
 	
 	public int getId() {
 		return id;
@@ -68,10 +68,10 @@ public class Account {
 	public void setRole(int role) {
 		this.role = role;
 	}
-	public int getGmailID() {
+	public Integer  getGmailID() {
 		return gmailID;
 	}
-	public void setGmailID(int gmailID) {
+	public void setGmailID(Integer  gmailID) {
 		this.gmailID = gmailID;
 	}
 	public Account(int id, String username, String password, String email, Date created, boolean verify,

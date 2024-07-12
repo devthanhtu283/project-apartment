@@ -141,7 +141,7 @@ public class LoginServlet extends HttpServlet {
 		ChatModel chatModel = new ChatModel();
 		
 		if(accountModel.login(new String(username.getBytes("ISO-8859-1"), "UTF-8"), password)) {
-			System.out.println(logModel.create(new Log(configLog.clientPublicIP, "info", new ConfigLog().ipconfig(request).getCountryLong(), new java.util.Date(), null, null)));
+			System.out.println(logModel.create(new Log(configLog.clientPublicIP, "info","AccountID: " + account.getId() + " Đăng nhập",new ConfigLog().ipconfig(request).getCountryLong(), new java.util.Date(), null, null)));
 			if(account.getRole() == 0 || account.getRole() == 2) {
 				request.getSession().setAttribute("accountAdmin", account);
 				request.getSession().removeAttribute("accountdetails");
@@ -160,6 +160,7 @@ public class LoginServlet extends HttpServlet {
 			
 		
 		} else {
+			logModel.create(new Log(configLog.clientPublicIP, "info"," Đăng nhập thất bại",new ConfigLog().ipconfig(request).getCountryLong(), new java.util.Date(), null, null));
 			request.getSession().setAttribute("msg", "Tài khoản hoặc mật khẩu không đúng");
 			response.sendRedirect("login");
 		}

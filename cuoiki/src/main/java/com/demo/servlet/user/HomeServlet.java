@@ -83,7 +83,7 @@ public class HomeServlet extends HttpServlet {
 			feedback.setDescription(new String(message.getBytes("ISO-8859-1"), "UTF-8"));
 			feedback.setSubject(new String(subject.getBytes("ISO-8859-1"), "UTF-8"));
 			if(feedBackModel.submitFeedback(feedback)) {
-				logModel.create(new Log(IPAddressUtil.getPublicIPAddress(),"alert", ConfigLog.ipconfig(request).getCountryLong(), new Timestamp(new Date().getTime()),null,null));
+				logModel.create(new Log(IPAddressUtil.getPublicIPAddress(),"alert","AccountID: " + account.getId() + " - đã để lại 1 ý kiến", ConfigLog.ipconfig(request).getCountryLong(), new Timestamp(new Date().getTime()),null,null));
 				request.getSession().setAttribute("msg","Cảm ơn đã đóng góp ý kiến cho hệ thống.Kính chúc quý khách một ngày tốt lành");
 				response.sendRedirect("home#form-submit");
 			} else {
