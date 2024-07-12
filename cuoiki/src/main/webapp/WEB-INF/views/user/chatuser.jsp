@@ -197,10 +197,11 @@ table.invoices-table tr td:nth-child(1), table.invoices-table tr th:nth-child(1)
      		var j = 1;
             var message = event.data;
             if(message.includes("-ADMIN21042003" + "-" + <%= account != null ? account.getId() : 0 %>)){
+            	var message1 = message.replace("-ADMIN21042003" + "-" + <%= account != null ? account.getId() : 0 %>, "");
             	  $('#tableMSG').append(
            				'<tr>' + 
            					'<td  id="td' + (i++) + '1">' + 
-           						message.replace("-ADMIN21042003" + "-" + <%= account != null ? account.getId() : 0 %>, "")
+           					(!message1.includes("img-") ? message1 : '<img style=\"width: 30%; height: auto;\" src="/projectGroup2/assets/user/images/' + message1.substring(message1.indexOf("-") + 1) + '" alt="Chat Image"/>')
            					+'</td>' +
            					'<td id="td' + (j++) + '2">' + 
            						''
@@ -243,6 +244,10 @@ table.invoices-table tr td:nth-child(1), table.invoices-table tr th:nth-child(1)
 					     					
 					     				+'</tr>' 
 					     			);
+					            $('#fileName').hide();
+								$('#previewImage').hide();
+								$('#fileInput').val('');
+								selectedFile = null;
 						}
                      });
                 });
@@ -250,19 +255,22 @@ table.invoices-table tr td:nth-child(1), table.invoices-table tr th:nth-child(1)
                 
         	} else {
         		message = $("#message").val();
-        		socket.send(message + "-USER21042003" + "-" + <%= account != null ? account.getId() : 0%>);
-        		 $("#message").val("");
-                 $('#tableMSG').append(
-          				'<tr>' + 
-          					'<td id="td' + (i++) + '1">' + 
-          						''
-          					+'</td>' +
-          					'<td style="text-align: right;"  id="td' + (j++) + '2">' + 
-          					(!message.includes("img-") ? message : '<img style=\"width: 30%; height: auto;\" src="'+ URL.createObjectURL(selectedFile) + '" alt="Chat Image"/>')
-      						+'</td>'
-          					
-          				+'</tr>' 
-          			);
+        		if(!message == ''){
+        			socket.send(message + "-USER21042003" + "-" + <%= account != null ? account.getId() : 0%>);
+           		 $("#message").val("");
+                    $('#tableMSG').append(
+             				'<tr>' + 
+             					'<td id="td' + (i++) + '1">' + 
+             						''
+             					+'</td>' +
+             					'<td style="text-align: right;"  id="td' + (j++) + '2">' + 
+             					(!message.includes("img-") ? message : '<img style=\"width: 30%; height: auto;\" src="'+ URL.createObjectURL(selectedFile) + '" alt="Chat Image"/>')
+         						+'</td>'
+             					
+             				+'</tr>' 
+             			);
+        		}
+        		
         	}
         	
         	var i = 1;
