@@ -115,8 +115,9 @@
      		var j = 1;
             var message = event.data;
            	if(message.includes("-USER21042003" + "-${userID}")){
+           		var message1 = message.replace("-USER21042003" + "-${userID}", "");
            	 $('#chatAdmin').append(
-      				'<div class="chat-message-left pb-4"><div><img src="${pageContext.request.contextPath}/assets/user/images/' + avatarUser + '" class="rounded-circle mr-1" alt="Sharon Lessman" width="40" height="40"><div class="text-muted small text-nowrap mt-2">' + hours + ':' + minutes + '</div></div><div class="flex-shrink-1 bg-light rounded py-2 px-3 ml-3"><div class="font-weight-bold mb-1">' + nameUser + '</div>' + message.replace("-USER21042003" + "-${userID}", "") + '</div></div>'
+      				'<div class="chat-message-left pb-4"><div><img src="${pageContext.request.contextPath}/assets/user/images/' + avatarUser + '" class="rounded-circle mr-1" alt="Sharon Lessman" width="40" height="40"><div class="text-muted small text-nowrap mt-2">' + hours + ':' + minutes + '</div></div><div class="flex-shrink-1 bg-light rounded py-2 px-3 ml-3" style="width: 300px;"><div class="font-weight-bold mb-1">' + nameUser + '</div>' + (!message1.includes("img-") ? message1 : '<img style=\"width: 30%; height: auto;\" src="/projectGroup2/assets/user/images/' + message1.substring(message1.indexOf("-") + 1) + '" alt="Chat Image"/>') + '</div></div>'
       			);
            	}
            
@@ -129,14 +130,50 @@
         	var now = new Date();
         	var hours = now.getHours();
         	var minutes = now.getMinutes();
+        	var message = '';
+        	if(selectedFile != null){
+        		var formData = new FormData();
+                formData.append('file', selectedFile);
+                $(document).ready(function() {
+               	 $.ajax({
+                        url: "${pageContext.request.contextPath}/admin/chatadmin", 
+                        type: 'POST',
+                        data: formData,
+                        processData: false, 
+                        contentType: false,
+                        success: function(chatFileUpload) {
+                        	message = 'img-' + chatFileUpload;
+							console.log(chatFileUpload);
+							socket.send(message + "-ADMIN21042003" + "-${userID}");
+							$("#message").val("");
+							$('#chatAdmin').append(
+				            		'<div class="chat-message-right pb-4"><div><img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="rounded-circle mr-1" alt="Chris Wood" width="40" height="40"><div class="text-muted small text-nowrap mt-2">' + hours + ':' + minutes + '</div></div><div class="flex-shrink-1 bg-light rounded py-2 px-3 mr-3" style="width: 300px;"><div class="font-weight-bold mb-1">Tôi</div>' + (!message.includes("img-") ? message : '<img style=\"width: 30%; height: auto;\" src="'+ URL.createObjectURL(selectedFile) + '" alt="Chat Image"/>') + '</div></div>'
+				     			);
+							$('#fileName').hide();
+							$('#previewImage').hide();
+							$('#fileInput').val('');
+							selectedFile = null;
+						}
+                    });
+               });
+        	} else {
+        		message = $("#message").val();
+        		if(!message == ''){
+        			socket.send(message + "-ADMIN21042003" + "-${userID}");
+           		 $("#message").val("");
+           		 $('#chatAdmin').append(
+   		            		'<div class="chat-message-right pb-4"><div><img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="rounded-circle mr-1" alt="Chris Wood" width="40" height="40"><div class="text-muted small text-nowrap mt-2">' + hours + ':' + minutes + '</div></div><div class="flex-shrink-1 bg-light rounded py-2 px-3 mr-3" style="width: 300px;"><div class="font-weight-bold mb-1">Tôi</div>' + (!message.includes("img-") ? message : '<img style=\"width: 30%; height: auto;\" src="'+ URL.createObjectURL(selectedFile) + '" alt="Chat Image"/>') + '</div></div>'
+   		     			);
+        		}
+        		
+        	}
+        	
         	var i = 1;
      		var j = 1;
             var message = $("#message").val();
-            socket.send(message + "-ADMIN21042003" + "-${userID}");
-            $("#message").val("");
-            $('#chatAdmin').append(
-            		'<div class="chat-message-right pb-4"><div><img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="rounded-circle mr-1" alt="Chris Wood" width="40" height="40"><div class="text-muted small text-nowrap mt-2">' + hours + ':' + minutes + '</div></div><div class="flex-shrink-1 bg-light rounded py-2 px-3 mr-3"><div class="font-weight-bold mb-1">Tôi</div>' + message + '</div></div>'
-     			);
+            /* socket.send(message + "-ADMIN21042003" + "-${userID}"); */
+           
+          
            
             
         }
@@ -250,6 +287,8 @@
 				        <input type="file" id="fileInput" accept="image/*">
 				        <p style="margin-left: 50px;" id="fileName"></p>
 				        <img id="previewImage" src="#" alt="Image preview" style="display: none; max-width: 10%; height: auto;">
+				        
+				        
 				    </div>
 						<div class="input-group">
 							<input type="text" id="message" class="form-control" placeholder="Type your message">

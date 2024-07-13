@@ -4,17 +4,25 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 
+import com.demo.helpers.UploadFileHelper;
 import com.demo.models.ChatModel;
 import com.demo.models.PostModel;
 import com.demo.models.SystemApartmentImageModel;
 import com.demo.models.SystemApartmentModel;
 import com.google.gson.Gson;
 @WebServlet({"/admin/chatadmin"})
+@MultipartConfig(
+        maxFileSize = 1024 * 1024 * 5,
+        maxRequestSize = 1024 * 1024 * 10,
+        fileSizeThreshold = 1024 * 1024 * 10
+)
 /**
  * Servlet implementation class AccountAdminServlet
  */
@@ -72,8 +80,12 @@ public class ChatAdminServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaa");
+		Part file = request.getPart("file");
+		System.out.println(file);
+		String chatFileUpload = UploadFileHelper.uploadFile("assets/user/images",request,file);
+		System.out.println(chatFileUpload);
+		response.getWriter().write(chatFileUpload);
 	}
 
 }
