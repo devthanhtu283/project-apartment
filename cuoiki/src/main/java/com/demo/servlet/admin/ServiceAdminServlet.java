@@ -2,6 +2,8 @@ package com.demo.servlet.admin;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,11 +12,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.demo.entities.Account;
+import com.demo.entities.AccountService;
 import com.demo.entities.Duration;
 import com.demo.entities.Sale;
 import com.demo.entities.Service;
+import com.demo.models.AccountDetailsModel;
 import com.demo.models.AccountModel;
 import com.demo.models.AccountPartialModel;
+import com.demo.models.AccountServiceModel;
 import com.demo.models.DurationModel;
 import com.demo.models.FeedbackModel;
 import com.demo.models.SaleModel;
@@ -44,7 +49,9 @@ public class ServiceAdminServlet extends HttpServlet {
 			doGet_Index(request, response);
 		} else if(action.equalsIgnoreCase("deleteService")) {
 			doGet_DeleteService(request, response);
-		}
+		} else if(action.equals("addService")){ 
+			doGet_AddService(request, response);
+		} 
 	}
 	protected void doGet_Index(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setAttribute("admin", "../admin/service.jsp");
@@ -70,10 +77,14 @@ public class ServiceAdminServlet extends HttpServlet {
 			System.out.println(1);
 			response.sendRedirect(request.getContextPath() + "/superadmin/service");
 		}
-
-		
 	}
 	
+	protected void doGet_AddService(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setAttribute("admin", "../admin/addService.jsp");
+		
+		request.getRequestDispatcher("/WEB-INF/views/layout/admin.jsp").forward(request, response);
+		
+	}
 	
 	
 	/**
@@ -81,7 +92,39 @@ public class ServiceAdminServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
+		String action = request.getParameter("action");
+		if(action.equalsIgnoreCase("addService")) {
+			doPost_AddService(request, response);
+		}
+	}
+	
+	protected void doPost_AddService(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String name = request.getParameter("name");
+		String introduction = request.getParameter("introduction");
+		int price = Integer.parseInt(request.getParameter("price"));
+		String description = request.getParameter("description");
+		int postNumber = Integer.parseInt(request.getParameter("postNumber"));
+		
+		Service service = new Service();
+		Calendar calendar = Calendar.getInstance();
+		ServiceModel serviceModel = new ServiceModel();
+		
+		service.setName(name);
+		service.setIntroduction(introduction);
+		service.setPrice(price);
+		service.setDescription(description);
+		service.setPostNumber(postNumber);
+		service.setStatus(true);
+		service.setCreated(new Date());
+		if(serviceModel.create(service)) {
+			service.setStatus(false);
+			serviceModel.update(service);
+			request.getSession().setAttribute("msg", "Đăng kí gói dịch vụ thành công");
+			response.sendRedirect(request.getContextPath() + "/superadmin/service");
+		} else {
+			request.getSession().setAttribute("msg", "Đăng kí gói dịch vụ thất bại");
+			response.sendRedirect(request.getContextPath() + "/superadmin/service");
+		}
 	}
 
 }
