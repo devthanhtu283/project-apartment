@@ -53,6 +53,11 @@
   });
 
   </script> 
+  <script>
+  $( function() {
+    $( document ).tooltip();
+  } );
+  </script>
 <!--
 
 TemplateMo 591 villa agency

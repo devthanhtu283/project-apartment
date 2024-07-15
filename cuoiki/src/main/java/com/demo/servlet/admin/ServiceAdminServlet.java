@@ -109,10 +109,10 @@ public class ServiceAdminServlet extends HttpServlet {
 		Calendar calendar = Calendar.getInstance();
 		ServiceModel serviceModel = new ServiceModel();
 		
-		service.setName(name);
-		service.setIntroduction(introduction);
+		service.setName(new String(name.getBytes("ISO-8859-1"), "UTF-8"));
+		service.setIntroduction(new String(introduction.getBytes("ISO-8859-1"), "UTF-8"));
 		service.setPrice(price);
-		service.setDescription(description);
+		service.setDescription(new String(description.getBytes("ISO-8859-1"), "UTF-8"));
 		service.setPostNumber(postNumber);
 		service.setStatus(true);
 		service.setCreated(new Date());
