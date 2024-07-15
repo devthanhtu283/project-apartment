@@ -3,9 +3,11 @@ package com.demo.models;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import com.demo.entities.ConnectDB;
+import com.demo.entities.Duration;
 import com.demo.entities.Service;
 
 public class ServiceModel {
@@ -65,6 +67,32 @@ public class ServiceModel {
 		}
 		
 		return service;
+	}
+	
+	public boolean create(Service service) {
+		boolean status = true;
+		try {
+			PreparedStatement preparedStatement = ConnectDB.connection()
+			.prepareStatement("insert into service(name, introduction, price, description, postNumber, status, created) values(?, ?, ?, ?, ?, ?, ?)");
+			preparedStatement.setString(1, service.getName());
+			preparedStatement.setString(2, service.getIntroduction());
+			preparedStatement.setInt(3, service.getPrice());
+			preparedStatement.setString(4, service.getDescription());
+			preparedStatement.setInt(5, service.getPostNumber());
+			preparedStatement.setBoolean(6, service.isStatus());
+			preparedStatement.setTimestamp(7, new Timestamp(service.getCreated().getTime()));
+			
+			status = preparedStatement.executeUpdate() > 0;
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			status = false;
+			// TODO: handle exception
+		} finally {
+			ConnectDB.disconnect();
+		}
+		return status;
 	}
 	
 	public boolean update(Service service) {

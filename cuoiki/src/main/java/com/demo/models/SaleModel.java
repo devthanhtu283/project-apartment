@@ -57,7 +57,31 @@ public class SaleModel {
 		}
 		return sale;
 	}
-	public Sale findSaleByName(String name) {
+	public List<Sale> findSaleByName(String name) {
+		List<Sale> sales = new ArrayList<Sale>();
+		try {
+			PreparedStatement preparedStatement = ConnectDB.connection().prepareStatement("select * from sale where name like ?");
+			preparedStatement.setString(1,"%" + name + "%");
+			ResultSet resultSet = preparedStatement.executeQuery();
+			while(resultSet.next()) {
+				Sale sale = new Sale();
+				sale.setId(resultSet.getInt("id"));
+				sale.setName(resultSet.getString("name"));
+				sale.setSaleNumber(resultSet.getDouble("saleNumber"));
+				sale.setStatus(resultSet.getBoolean("status"));
+				sales.add(sale);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			sales = null;
+			// TODO: handle exception
+		} finally {
+			ConnectDB.disconnect();
+		}
+		return sales;
+	}
+	
+	public Sale findByName(String name) {
 		Sale sale = null;
 		try {
 			PreparedStatement preparedStatement = ConnectDB.connection().prepareStatement("select * from sale where name = ?");

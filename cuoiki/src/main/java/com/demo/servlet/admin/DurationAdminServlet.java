@@ -2,6 +2,8 @@ package com.demo.servlet.admin;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,12 +13,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.demo.entities.Account;
 import com.demo.entities.Duration;
+import com.demo.entities.Service;
 import com.demo.models.AccountModel;
 import com.demo.models.AccountPartialModel;
 import com.demo.models.DurationModel;
 import com.demo.models.FeedbackModel;
 import com.demo.models.PostImageModel;
 import com.demo.models.PostModel;
+import com.demo.models.ServiceModel;
 import com.demo.models.SystemApartmentModel;
 import com.google.gson.Gson;
 @WebServlet({"/superadmin/duration"})
@@ -45,7 +49,9 @@ public class DurationAdminServlet extends HttpServlet {
 		}
 			else if(action.equalsIgnoreCase("deleteDuration")) {
 			doGet_DeleteDuration(request, response);
-		}
+		} else if(action.equals("newDuration")){ 
+			doGet_NewDuration(request, response);
+		} 
 	}
 	protected void doGet_Index(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setAttribute("admin", "../admin/duration.jsp");
@@ -86,7 +92,12 @@ public class DurationAdminServlet extends HttpServlet {
 			System.out.println(1);
 			response.sendRedirect(request.getContextPath() + "/superadmin/duration");
 		}
-
+	}
+	
+	protected void doGet_NewDuration(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setAttribute("admin", "../admin/newDuration.jsp");
+		
+		request.getRequestDispatcher("/WEB-INF/views/layout/admin.jsp").forward(request, response);
 		
 	}
 
@@ -96,7 +107,30 @@ public class DurationAdminServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
+		String action = request.getParameter("action");
+		if(action.equalsIgnoreCase("newDuration")) {
+			doPost_NewDuration(request, response);
+		}
+	}
+	
+	protected void doPost_NewDuration(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String name = request.getParameter("name");
+		
+		Duration duration = new Duration();
+		Calendar calendar = Calendar.getInstance();
+		DurationModel durationModel = new DurationModel();
+		
+		duration.setName(new String(name.getBytes("ISO-8859-1"), "UTF-8"));
+		duration.setStatus(true);
+		if(durationModel.create(duration)) {
+			duration.setStatus(false);
+			durationModel.update(duration);
+			request.getSession().setAttribute("msg", "Đăng kí thời hạn thành công");
+			response.sendRedirect(request.getContextPath() + "/superadmin/duration");
+		} else {
+			request.getSession().setAttribute("msg", "Đăng kí thời hạn thất bại");
+			response.sendRedirect(request.getContextPath() + "/superadmin/duration");
+		}
 	}
 
 }
