@@ -41,7 +41,7 @@
                 <div class="small font-italic text-muted mb-4"><%= messages.getString("kich_thuoc_limit") %></div>
                 <!-- Profile picture upload button-->
                 <input  type="file" name="file" accept="image/*" id="inputAvatar">
-                <label for="inputAvatar" class="custom-upload-btn"><i class="fa-solid fa-arrow-up-from-bracket"></i> &nbsp; <%= messages.getString("tai_len") %></label>
+                <label for="inputAvatar" class="custom-upload-btn" title="Chọn ảnh đại diện ccura bạn, ảnh không lớn hơn 5Mb"><i class="fa-solid fa-arrow-up-from-bracket"></i> &nbsp; <%= messages.getString("tai_len") %></label>
                 <script>
                   $(document).ready(function(){
                     $('#inputAvatar').change( function() {
@@ -59,14 +59,14 @@
           <div class="card mb-4">
             <div class="card-header d-flex justify-content-between">
               <span><%= messages.getString("cap_nhat_thong_tin_tk") %></span>
-              <a href="${pageContext.request.contextPath }/login?action=logout"> <i style="font-size: 20px;" class="fa-solid fa-right-from-bracket"></i></a>
+              <a href="${pageContext.request.contextPath }/login?action=logout" title="Đăng xuất"> <i style="font-size: 20px;" class="fa-solid fa-right-from-bracket"></i></a>
             </div>
             <div class="card-body">
        
                     <!-- Form Group (username)-->
                     <div class="mb-3">
                         <label class="small mb-1" for="inputUsername"><span style="color: red;">*</span> <%= messages.getString("ho_va_ten") %> </label>
-                        <input class="form-control" name="fullName" id="inputUsername" value="${sessionScope.accountdetails != null ? sessionScope.accountdetails.name : "" }" type="text" placeholder="<%= messages.getString("nhap_ten_cua_ban") %>" required>
+                        <input class="form-control" name="fullName" id="inputUsername" value="${sessionScope.accountdetails != null ? sessionScope.accountdetails.name : "" }" type="text" placeholder="<%= messages.getString("nhap_ten_cua_ban") %>" title="Nhập họ và tên của bạn" required>
                     </div>
                 <div class="mb-3">
                     <label class="small mb-1" for="inputCurrentPass"><%= messages.getString("mk_hien_tai") %></label>
@@ -75,11 +75,11 @@
                 </div>
                     <div class="mb-3">
                       <label class="small mb-1" for="inputPassword"><%= messages.getString("mk_moi") %></label>
-                      <input class="form-control" name="newPass" id="inputPassword"  pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{8,}" type="password" placeholder="<%= messages.getString("nhap_mk_moi") %>">
+                      <input class="form-control" name="newPass" id="inputPassword"  pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{8,}" type="password" placeholder="<%= messages.getString("nhap_mk_moi") %>" title="Nhập mật khẩu mới, mật khẩu phải có chiều dài >8 ký tự, có ký tự viết hoa và ký tự đặc biệt">
                   </div>
                   <div class="mb-3">
                     <label class="small mb-1" for="inputUsername"><%= messages.getString("xac_nhan_mk") %></label>
-                    <input class="form-control" name="confirm" id="inputConfirmPassword" type="password" placeholder="<%= messages.getString("nhap_lai_mk") %>">
+                    <input class="form-control" name="confirm" id="inputConfirmPassword" type="password" placeholder="<%= messages.getString("nhap_lai_mk") %>" title="Nhập lại mật khẩu để xác nhận, phải trùng với mật khẩu mới đã nhập">
                   </div>
                   <script>
                     var password = document.getElementById("inputPassword")
@@ -98,25 +98,25 @@
                   </script>
                   <div class="mb-3">
                     <label class="small mb-1" for="inputAddress"><span style="color: red;">*</span> <%= messages.getString("dia_chi") %></label>
-                    <input class="form-control" name="address" id="inputAddress" type="text" value="${sessionScope.accountdetails != null ? sessionScope.accountdetails.address : "" }" placeholder="<%= messages.getString("nhap_dia_chi") %>" required>
+                    <input class="form-control" name="address" id="inputAddress" type="text" value="${sessionScope.accountdetails != null ? sessionScope.accountdetails.address : "" }" placeholder="<%= messages.getString("nhap_dia_chi") %>" title="Nhập địa chỉ của bạn" required>
                 </div>
                     <!-- Form Group (email address)-->
                     <div class="mb-3">
                         <label class="small mb-1" for="inputEmailAddress">Email</label>
-                        <input class="form-control" name="email" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" id="inputEmailAddress" type="email" placeholder="<%= messages.getString("nhap_email") %>">
+                        <input class="form-control" name="email" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" id="inputEmailAddress" type="email" placeholder="<%= messages.getString("nhap_email") %>" title="Nhập email của bạn">
                     </div>
                     <!-- Form Row-->
                     <div class="row gx-3 mb-3">
                         <!-- Form Group (phone number)-->
                         <div class="col-md-6">
                             <label class="small mb-1" for="inputPhone"><span style="color: red;">*</span> <%= messages.getString("phone") %></label>
-                            <input class="form-control" value="${sessionScope.accountdetails != null ? sessionScope.accountdetails.phonenumber : "" }" name="phoneNumber" id="inputPhone" pattern="(\(\+[0-9]{2}\)|0)([0-9]{9,10})" type="tel" placeholder="<%= messages.getString("nhap_phone") %>" required>
+                            <input class="form-control" value="${sessionScope.accountdetails != null ? sessionScope.accountdetails.phonenumber : "" }" name="phoneNumber" id="inputPhone" pattern="(\(\+[0-9]{2}\)|0)([0-9]{9,10})" type="tel" placeholder="<%= messages.getString("nhap_phone") %>" title="Nhập số điện thoại của bạn" required>
                         </div>
                         <!-- Form Group (birthday)-->
                         <div class="col-md-6">
                             <label class="small mb-1"><span style="color: red;">*</span> <%= messages.getString("ngay_sinh") %></label>
                             <f:formatDate value="${sessionScope.accountdetails.birthday }" pattern="dd/MM/yyyy" var="birthday" />
-                            <input class="form-control" id="datepicker" value="${sessionScope.accountdetails != null ? birthday : "" }"  type="text" name="birthday" placeholder="<%= messages.getString("nhap_dob") %>" required>
+                            <input class="form-control" id="datepicker" value="${sessionScope.accountdetails != null ? birthday : "" }"  type="text" name="birthday" placeholder="<%= messages.getString("nhap_dob") %>" title="Chọn ngày sinh của bạn" required>
                         </div>
                     </div>
                     <!-- Save changes button-->
