@@ -27,7 +27,7 @@
         <div class="container-fluid">
           <div class="row mb-2">
             <div class="col-sm-6">
-              <h1>Thêm người đăng ký dịch vụ mới</h1>
+              <h1>Tạo dịch vụ mới</h1>
             </div>
             
           </div>
@@ -57,7 +57,7 @@
           <div class="col-md-12">
             <div class="card card-primary">
               <div class="card-header">
-                <h3 class="card-title">Hợp đồng</h3>
+                <h3 class="card-title">Tạo dịch vụ</h3>
   
                 <div class="card-tools">
                   <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -66,60 +66,34 @@
                 </div>
               </div>
               <div class="card-body">
-              <form method="post" action="${pageContext.request.contextPath }/admin/serviceAccount?action=newService">
+              <form method="post" action="${pageContext.request.contextPath }/superadmin/service?action=addService">
                 <div class="form-group">
-                  <label for="inputDescription">Chủ sở hữu </label>
-                  <input type="text" id="autocomplete" name="owner" style="width: 250px; margin-left: 30px;">
+                  <label for="inputDescription">Tên dịch vụ </label>
+                  <input type="text" name="name" id="inputName" class="form-control" placeholder="Nhập tên dịch vụ ...">
+                </div>
+                <div class="form-group">
+                  <label for="inputDescription">Giới thiệu</label>
+                  <input type="text" name="introduction" id="inputName" class="form-control" placeholder="Nhập giới thiệu...">
+                </div>
+                <div class="form-group">
+                  <label for="inputDescription">Giá </label>
+                  <input type="number" id="price" name="price" style="width: 250px; margin-left: 30px;">
+                </div>
+                <div class="form-group">
+                  <label for="inputDescription">Mô tả</label>
+                  <input type="text" name="description" id="inputName" class="form-control" placeholder="Nhập mô tả...">
+                </div>
+                <div class="form-group">
+                  <label for="inputDescription">Số lượng bài đăng </label>
+                  <input type="number" id="postNumber" name="postNumber" style="width: 250px; margin-left: 30px;">
                 </div>
                 <div class="form-group">
                   <label for="inputName">Ngày tạo hợp đồng</label>
                   <input type="text" id="datepicker" name="created" class="form-control" value="28/03/2023">
                 </div>
-                <div class="form-group">
-                  <label for="inputStatus">Dịch vụ</label>
-                  <select id="inputBranch" class="form-control custom-select" name="serviceID">
-                    <option disabled selected>Chọn dịch vụ</option>
-                    <% for(Service service : new ServiceModel().findAll()){ %>
-                    	  <option value="<%= service.getId() %>"><%= service.getId() %> - <%= service.getName() %></option>
-                    <% } %>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label for="inputStatus">Người dùng</label>
-                  <select id="inputFloor" class="form-control custom-select" name="accountID">
-                     <option disabled selected>Chọn người dùng</option>
-                    <% for(Account account : new AccountModel().findAll()){ %>
-                    	  <option value="<%= account.getId() %>"><%= account.getId() %> - <%= new AccountDetailsModel().findAccountByAccountID(account.getId()) != null ? new AccountDetailsModel().findAccountByAccountID(account.getId()).getName() : "Chưa cập nhật" %></option>
-                    <% } %>
-                  </select>
-                  </select>
-                </div>
-                 <div class="form-group">
-                  <label for="inputStatus">Thời hạn</label>
-                  <select id="inputRoom" class="form-control custom-select" name="durationID">
-                    <option disabled selected>Chọn thời hạn</option>
-                    <% for(Duration duration : new DurationModel().findAll()){ %>
-                    	  <option value="<%= duration.getId() %>"><%= duration.getName() %></option>
-                    <% } %>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label for="inputStatus">Sale</label>
-                  <select id="inputRoom" class="form-control custom-select" name="saleID">
-                    <option disabled selected>Chọn mã sale</option>
-                    <% for(Sale sale : new SaleModel().findAll()){ %>
-                    	  <option value="<%= sale.getId() %>"><%= sale.getId() %> - <%= sale.getName() %></option>
-                    <% } %>
-                  </select>
-                </div>
                 <!-- <div class="form-group">
                    <input type="button" id="check" value="Kiểm tra dịch vụ" class="btn btn-success">
                 </div> -->
-                <div class="form-group">
-                  <label for="inputDescription">Mô tả</label>
-                  <input type="text" name="description" id="inputName" class="form-control" placeholder="Nhập mô tả...">
-                </div>
-               
               </div>
               <!-- /.card-body -->
             </div>
@@ -129,7 +103,7 @@
         </div>
         <div class="row">
           <div class="col-12">
-            <a href="${pageContext.request.contextPath }/admin/serviceAccount?action=newService" class="btn btn-secondary">Hủy</a>
+            <a href="${pageContext.request.contextPath }/superadmin/service?action=addService" class="btn btn-secondary">Hủy</a>
             <input type="submit"  id="submit"  value="Thêm mới" class="btn btn-success float-right">
           </div>
         </div>
