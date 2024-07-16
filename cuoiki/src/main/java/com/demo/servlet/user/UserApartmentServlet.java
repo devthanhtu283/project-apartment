@@ -11,8 +11,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.demo.entities.Account;
+import com.demo.entities.Log;
 import com.demo.entities.Post;
+import com.demo.ex.ConfigLog;
 import com.demo.models.AccountModel;
+import com.demo.models.LogModel;
 import com.demo.models.PostImageModel;
 import com.demo.models.PostModel;
 import com.google.gson.Gson;
@@ -66,10 +69,16 @@ public class UserApartmentServlet extends HttpServlet {
 	}
 	protected void doGet_DeletePost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PostModel postModel = new PostModel();
+		LogModel logModel = new LogModel();
+		Account account = (Account) request.getSession().getAttribute("account");
+		int beforeDeletePost = postModel.findPostByAccountID(account.getId()).size();
 		PostImageModel postImageModel = new PostImageModel();
 		int id = Integer.parseInt(request.getParameter("id"));
+		int afterDeletePost = 0;
 		if(postImageModel.delete(id)) {
 			if(postModel.delete(id)) {
+				afterDeletePost =  postModel.findPostByAccountID(account.getId()).size();
+				logModel.create(new Log(ConfigLog.clientPublicIP, "warning","Người dùng có ID là: " + account.getId() + " đã xóa căn hộ có id là: " + id,new ConfigLog().ipconfig(request).getCountryLong(), new java.util.Date(), "Số căn hộ trước khi xóa: " + beforeDeletePost, "Số căn hộ sau khi xóa: " + afterDeletePost));
 				request.getSession().setAttribute("msg", "Xóa bài đăng thành công");
 				response.sendRedirect("mypost");
 			} else {
@@ -78,6 +87,8 @@ public class UserApartmentServlet extends HttpServlet {
 			}
 		} else {
 			if(postModel.delete(id)) {
+				afterDeletePost =  postModel.findPostByAccountID(account.getId()).size();
+				logModel.create(new Log(ConfigLog.clientPublicIP, "warning","Người dùng có ID là: " + account.getId() + " đã xóa căn hộ có id là: " + id,new ConfigLog().ipconfig(request).getCountryLong(), new java.util.Date(), "Số căn hộ trước khi xóa: " + beforeDeletePost, "Số căn hộ sau khi xóa: " + afterDeletePost));
 				request.getSession().setAttribute("msg", "Xóa bài đăng thành công");
 				response.sendRedirect("mypost");
 			} else {

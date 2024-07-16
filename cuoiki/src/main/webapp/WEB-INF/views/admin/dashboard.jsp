@@ -123,19 +123,26 @@
                           aria-describedby="example2_info">
                           <thead>
                             <tr>
-                              <th>IP</th>
+                              <th>Địa chỉ IP</th>
                               <th>Mô tả</th>
                               <th>Thời Gian</th>
-                              <th>Level</th>
+                              <th>Cấp độ</th>
                               <th>Quốc Gia</th>
-                              <th>Before Value</th>
-                              <th>After Value</th>
+                              <th>Trước khi thay đổi</th>
+                              <th>Sau khi thay đổi</th>
                             </tr>
                           </thead>
                           <tbody>
-                         
                         	<% for(Log log: logModel.findTop20Log()) { %>
-                            <tr style="<%= log.getLevel().equalsIgnoreCase("danger") || log.getLevel().equalsIgnoreCase("warning") ? "color: red;" : "" %>">
+                        	<%
+	                        	String colorStyle = "";
+	                            if ("danger".equalsIgnoreCase(log.getLevel())) {
+	                                colorStyle = "color: red;";
+	                            } else if ("warning".equalsIgnoreCase(log.getLevel())) {
+	                                colorStyle = "color: red;";
+	                            }
+							%>
+                            <tr style="<%= colorStyle %>">
                             	<td><%= log.getIp() %></td>
                             	<td><%= log.getDescription() %></td>
                             	<td><%= log.getTime() %></td>

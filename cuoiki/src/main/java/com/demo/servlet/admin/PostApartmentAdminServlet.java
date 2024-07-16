@@ -11,7 +11,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.demo.entities.Account;
+import com.demo.entities.Log;
 import com.demo.entities.Post;
+import com.demo.ex.ConfigLog;
+import com.demo.models.LogModel;
 import com.demo.models.PostImageModel;
 import com.demo.models.PostModel;
 import com.google.gson.Gson;
@@ -71,10 +75,10 @@ public class PostApartmentAdminServlet extends HttpServlet {
 		int id = Integer.parseInt(request.getParameter("id"));
 		Post post = postModel.findPostByID(id);
 		if(postModel.update(post)) {
-			request.getSession().setAttribute("msg", "Đã xác thực cho đăng bài thành công");
+			request.getSession().setAttribute("msg", "Gỡ bài đăng xuống thành công");
 			response.sendRedirect(request.getContextPath() + "/admin/postapartment");
 		} else {
-			request.getSession().setAttribute("msg", "Đã xác thực cho đăng bài thất bại");
+			request.getSession().setAttribute("msg", "Gỡ bài đăng xuống thất bại");
 			response.sendRedirect(request.getContextPath() + "/admin/postapartment");
 		}
 	}
@@ -82,10 +86,25 @@ public class PostApartmentAdminServlet extends HttpServlet {
 	protected void doGet_DeletePost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PostModel postModel = new PostModel();
 		PostImageModel postImageModel = new PostImageModel();
-		
+		LogModel logModel = new LogModel();
+		Account accountAdmin = (Account) request.getSession().getAttribute("accountAdmin");
+		int beforeDeletePost = postModel.findAllInAdmin().size();
 		int id = Integer.parseInt(request.getParameter("id"));
+		int afterDeletePost = 0;
 		if(postImageModel.delete(id)) {
 			if(postModel.delete(id)) {
+				afterDeletePost = postModel.findAllInAdmin().size();
+				logModel.create(new Log(ConfigLog.clientPublicIP, "warning","AdminId: " + accountAdmin.getId() + " đã xóa bài đăng có id là: " + id + " ra khỏi hệ thống",new ConfigLog().ipconfig(request).getCountryLong(), new java.util.Date(), "Số bài đăng trước khi xóa: " + beforeDeletePost, "Số bài đăng sau khi xóa: " + afterDeletePost));
+				request.getSession().setAttribute("msg", "Đã xóa bài đăng thành công");
+				response.sendRedirect(request.getContextPath() + "/admin/postapartment");
+			} else {
+				request.getSession().setAttribute("msg", "Xóa bài đăng không thành công");
+				response.sendRedirect(request.getContextPath() + "/admin/postapartment");
+			}
+		} else {
+			if(postModel.delete(id)) {
+				afterDeletePost = postModel.findAllInAdmin().size();
+				logModel.create(new Log(ConfigLog.clientPublicIP, "warning","AdminId: " + accountAdmin.getId() + " đã xóa bài đăng có id là: " + id + " ra khỏi hệ thống",new ConfigLog().ipconfig(request).getCountryLong(), new java.util.Date(), "Số bài đăng trước khi xóa: " + beforeDeletePost, "Số bài đăng sau khi xóa: " + afterDeletePost));
 				request.getSession().setAttribute("msg", "Đã xóa bài đăng thành công");
 				response.sendRedirect(request.getContextPath() + "/admin/postapartment");
 			} else {

@@ -14,14 +14,17 @@ import javax.servlet.http.HttpServletResponse;
 import com.demo.entities.Account;
 import com.demo.entities.AccountService;
 import com.demo.entities.Duration;
+import com.demo.entities.Log;
 import com.demo.entities.Sale;
 import com.demo.entities.Service;
+import com.demo.ex.ConfigLog;
 import com.demo.models.AccountDetailsModel;
 import com.demo.models.AccountModel;
 import com.demo.models.AccountPartialModel;
 import com.demo.models.AccountServiceModel;
 import com.demo.models.DurationModel;
 import com.demo.models.FeedbackModel;
+import com.demo.models.LogModel;
 import com.demo.models.SaleModel;
 import com.demo.models.ServiceModel;
 import com.demo.models.SystemApartmentModel;
@@ -128,6 +131,11 @@ public class ServiceAccountAdminServlet extends HttpServlet {
 		calendar.add(Calendar.MONTH, Integer.parseInt(numberString));
 		Date endDate = calendar.getTime();
 		
+		int beforeAddAccountService = accountServiceModel.findAll().size();
+		LogModel logModel = new LogModel();
+		Account accountAdmin = (Account) request.getSession().getAttribute("accountAdmin");
+		int afterAddAccountService = 0;
+		
 		accountService.setAccountID(accountID);
 		accountService.setServiceID(serviceID);
 		accountService.setDurationID(durationID);
@@ -140,6 +148,8 @@ public class ServiceAccountAdminServlet extends HttpServlet {
 		AccountService account = accountServiceModel.findAccountByAccountId(accountID);
 		if(accountServiceModel.register(accountService)) {
 			account.setStatus(false);
+			afterAddAccountService = durationModel.findAll().size();
+			logModel.create(new Log(ConfigLog.clientPublicIP, "alert","AdminId: " + accountAdmin.getId() + " đã thêm người đăng kí gói dịch vụ " + accountService.getDescription() + " vào hệ thống",new ConfigLog().ipconfig(request).getCountryLong(), new java.util.Date(), "Số lượng người đăng kí dịch vụ gói " + serviceModel.findByID(serviceID).getName() + " trước khi thêm: " + beforeAddAccountService, "Số lượng người đăng kí dịch vụ gói " + serviceModel.findByID(serviceID).getName() + " sau khi thêm: " + afterAddAccountService));
 			accountServiceModel.update(account);
 			request.getSession().setAttribute("msg", "Đăng kí gói dịch vụ thành công");
 			response.sendRedirect(request.getContextPath() + "/admin/serviceAccount");

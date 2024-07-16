@@ -11,11 +11,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.demo.entities.Account;
 import com.demo.entities.Duration;
+import com.demo.entities.Log;
 import com.demo.entities.Sale;
+import com.demo.ex.ConfigLog;
 import com.demo.models.AccountModel;
 import com.demo.models.AccountPartialModel;
 import com.demo.models.DurationModel;
 import com.demo.models.FeedbackModel;
+import com.demo.models.LogModel;
 import com.demo.models.SaleModel;
 import com.demo.models.SystemApartmentModel;
 import com.google.gson.Gson;
@@ -69,11 +72,16 @@ public class SaleAdminServlet extends HttpServlet {
 	
 	protected void doGet_DeleteSale(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		SaleModel saleModel = new SaleModel();
-		
+		int beforeDeleteSale = saleModel.findAll().size();
+		LogModel logModel = new LogModel();
+		Account accountAdmin = (Account) request.getSession().getAttribute("accountAdmin");
+		int afterDeleteSale = 0;
 		int id = Integer.parseInt(request.getParameter("id"));
 		Sale sale = saleModel.findSaleById(id);
 		sale.setStatus(false);
 		if(saleModel.update(sale)) {
+			afterDeleteSale = saleModel.findAll().size();
+			logModel.create(new Log(ConfigLog.clientPublicIP, "danger","AdminId: " + accountAdmin.getId() + " đã xóa lịch sử mua gói dịch có id là: " + id + " ra khỏi hệ thống",new ConfigLog().ipconfig(request).getCountryLong(), new java.util.Date(), "Số lượng lịch sử mua gói dịch vụ trước khi xóa: " + beforeDeleteSale, "Số lượng lịch sử mua gói dịch vụ sau khi xóa: " + afterDeleteSale));
 			request.getSession().setAttribute("msg", "Đã xóa doanh thu thành công");
 			response.sendRedirect(request.getContextPath() + "/superadmin/sale");
 			

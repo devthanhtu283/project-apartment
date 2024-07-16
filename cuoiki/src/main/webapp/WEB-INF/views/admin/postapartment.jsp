@@ -75,7 +75,14 @@
                         <td><%= post.getAddress() %></td>
                         <td><a href="${pageContext.request.contextPath }/assets/user/images/150canho/<%= post.getAvatar() %>" target="_blank"><img src="${pageContext.request.contextPath }/assets/user/images/150canho/<%= post.getAvatar() %>" height="100" width="90" alt=""></a></td>
                         <td data-id="<%= post.getId() %>">Xem chi tiết</td>
-                        <td><a onclick="return confirm('Đăng bài?')" href="${pageContext.request.contextPath }/admin/postapartment?action=updatePost&id=<%= post.getId() %>"><i class="fa-solid fa-pen-to-square"></i></a> &nbsp; <a onclick="return confirm('Bạn có chắc chắn muốn xóa?')" href="${pageContext.request.contextPath }/admin/postapartment?action=deletePost&id=<%= post.getId() %>"><i class="fa-solid fa-trash"></i></a></td>
+                        <td>
+                       <%-- 	<%if (post.isStatus() == false) {%>
+                       		<a onclick="return confirm('Đăng bài?')" href="${pageContext.request.contextPath }/admin/postapartment?action=updatePost&id=<%= post.getId() %>"><i class="fa-solid fa-pen-to-square"></i></a> &nbsp;
+                       	<% } else if (post.isStatus() == true) {%>
+							<a onclick="return confirm('Gỡ bài đăng xuống?')" href="${pageContext.request.contextPath }/admin/postapartment?action=updatePost&id=<%= post.getId() %>"><i class="fa-solid fa-circle-xmark"></i></a>  &nbsp;
+                       	<% } %> --%>
+							<a onclick="return confirm('Bạn có chắc chắn muốn xóa?')" href="${pageContext.request.contextPath }/admin/postapartment?action=deletePost&id=<%= post.getId() %>"><i class="fa-solid fa-trash"></i></a>
+                        </td>
                       </tr>
                     <% } %>
                      </tbody>
