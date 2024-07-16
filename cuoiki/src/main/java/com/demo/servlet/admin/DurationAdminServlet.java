@@ -13,11 +13,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.demo.entities.Account;
 import com.demo.entities.Duration;
+import com.demo.entities.Log;
 import com.demo.entities.Service;
+import com.demo.ex.ConfigLog;
 import com.demo.models.AccountModel;
 import com.demo.models.AccountPartialModel;
 import com.demo.models.DurationModel;
 import com.demo.models.FeedbackModel;
+import com.demo.models.LogModel;
 import com.demo.models.PostImageModel;
 import com.demo.models.PostModel;
 import com.demo.models.ServiceModel;
@@ -78,13 +81,38 @@ public class DurationAdminServlet extends HttpServlet {
 		}
 	}
 	
-	protected void doGet_DeleteDuration(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet_UpdateDuration(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		DurationModel durationModel = new DurationModel();
-		
+		int beforeDeleteDuration = durationModel.findAll().size();
+		LogModel logModel = new LogModel();
+		Account accountAdmin = (Account) request.getSession().getAttribute("accountAdmin");
+		int afterDeleteDuration = 0;
 		int id = Integer.parseInt(request.getParameter("id"));
 		Duration duration = durationModel.findById(id);
 		duration.setStatus(false);
 		if(durationModel.update(duration)) {
+			afterDeleteDuration = durationModel.findAll().size();
+			logModel.create(new Log(ConfigLog.clientPublicIP, "alert","AdminId: " + accountAdmin.getId() + " đã cập nhật trạng thái của gói thời hạn : " + duration.getName(),new ConfigLog().ipconfig(request).getCountryLong(), new java.util.Date(), null , null));
+			request.getSession().setAttribute("msg", "Đã xóa thời hạn thành công");
+			response.sendRedirect(request.getContextPath() + "/superadmin/duration");
+			
+		} else {
+			System.out.println(1);
+			response.sendRedirect(request.getContextPath() + "/superadmin/duration");
+		}
+	}
+	
+	protected void doGet_DeleteDuration(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		DurationModel durationModel = new DurationModel();
+		int beforeDeleteDuration = durationModel.findAll().size();
+		LogModel logModel = new LogModel();
+		Account accountAdmin = (Account) request.getSession().getAttribute("accountAdmin");
+		int afterDeleteDuration = 0;
+		int id = Integer.parseInt(request.getParameter("id"));
+		Duration duration = durationModel.findById(id);
+		if(durationModel.delete(id)) {
+			afterDeleteDuration = durationModel.findAll().size();
+			logModel.create(new Log(ConfigLog.clientPublicIP, "warning","AdminId: " + accountAdmin.getId() + " đã xóa mốc thời gian của gói dịch vụ: " + duration.getName() + " ra khỏi hệ thống",new ConfigLog().ipconfig(request).getCountryLong(), new java.util.Date(), "Số lượng mốc thời gian của gói dịch vụ trước khi xóa: " + beforeDeleteDuration, "Số lượng mốc thời gian của gói dịch vụ sau khi xóa: " + afterDeleteDuration));
 			request.getSession().setAttribute("msg", "Đã xóa thời hạn thành công");
 			response.sendRedirect(request.getContextPath() + "/superadmin/duration");
 			
@@ -120,11 +148,18 @@ public class DurationAdminServlet extends HttpServlet {
 		Calendar calendar = Calendar.getInstance();
 		DurationModel durationModel = new DurationModel();
 		
+		int beforeAddDuration = durationModel.findAll().size();
+		LogModel logModel = new LogModel();
+		Account accountAdmin = (Account) request.getSession().getAttribute("accountAdmin");
+		
 		duration.setName(new String(name.getBytes("ISO-8859-1"), "UTF-8"));
 		duration.setStatus(true);
+		int afterAddDuration = 0;
 		if(durationModel.create(duration)) {
 			duration.setStatus(false);
 			durationModel.update(duration);
+			afterAddDuration = durationModel.findAll().size();
+			logModel.create(new Log(ConfigLog.clientPublicIP, "alert","AdminId: " + accountAdmin.getId() + " đã thêm thời hạn cho gói dịch vụ " + new String(name.getBytes("ISO-8859-1"), "UTF-8") + " vào hệ thống",new ConfigLog().ipconfig(request).getCountryLong(), new java.util.Date(), "Số lượng mốc thời hạn trước khi thêm: " + beforeAddDuration, "Số lượng mốc thời hạn sau khi thêm: " + afterAddDuration));
 			request.getSession().setAttribute("msg", "Đăng kí thời hạn thành công");
 			response.sendRedirect(request.getContextPath() + "/superadmin/duration");
 		} else {

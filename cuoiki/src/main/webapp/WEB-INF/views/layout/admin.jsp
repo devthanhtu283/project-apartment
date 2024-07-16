@@ -372,12 +372,7 @@ FeedbackModel feedbackModel = new FeedbackModel();
 										class="fa-solid fa-money-bill-trend-up"></i> &nbsp;
 										<p>Tổng quan người dùng</p>
 								</a></li>
-								<li class="nav-item"><a
-									href="${pageContext.request.contextPath }/superadmin/duration"
-									class="nav-link ${activeDuration }"> <i 
-										class="fa-solid fa-clock"></i></i> &nbsp;
-										<p>Thời hạn</p>
-								</a></li>
+								
 
 
 

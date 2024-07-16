@@ -106,7 +106,7 @@ public class DurationModel {
 		List<Duration> durations = new ArrayList<Duration>();
 		try {
 			PreparedStatement preparedStatement = ConnectDB.connection()
-					.prepareStatement("select id,name,status where status = ?");
+					.prepareStatement("select id,name,status from duration where status = ?");
 			preparedStatement.setBoolean(1,status);
 			ResultSet resultSet = preparedStatement.executeQuery();
 			while(resultSet.next()) {
@@ -125,6 +125,27 @@ public class DurationModel {
 		}
 		
 		return durations;
+	}
+	
+	public boolean delete(int id) {
+		boolean status = true;
+		try {
+			PreparedStatement preparedStatement = ConnectDB.connection()
+			.prepareStatement("DELETE FROM duration where id = ?");
+			preparedStatement.setInt(1, id);
+			
+			
+			status = preparedStatement.executeUpdate() > 0;
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			status = false;
+			// TODO: handle exception
+		} finally {
+			ConnectDB.disconnect();
+		}
+		return status;
 	}
 	
 	public static void main(String[] args) {
