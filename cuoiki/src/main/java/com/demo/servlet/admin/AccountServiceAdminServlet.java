@@ -14,14 +14,17 @@ import com.demo.entities.Account;
 import com.demo.entities.AccountService;
 import com.demo.entities.Chat;
 import com.demo.entities.Duration;
+import com.demo.entities.Log;
 import com.demo.entities.Sale;
 import com.demo.entities.Service;
+import com.demo.ex.ConfigLog;
 import com.demo.models.AccountModel;
 import com.demo.models.AccountPartialModel;
 import com.demo.models.AccountServiceModel;
 import com.demo.models.ChatModel;
 import com.demo.models.DurationModel;
 import com.demo.models.FeedbackModel;
+import com.demo.models.LogModel;
 import com.demo.models.SaleModel;
 import com.demo.models.ServiceModel;
 import com.demo.models.SystemApartmentModel;
@@ -65,14 +68,18 @@ public class AccountServiceAdminServlet extends HttpServlet {
 		String accountServiceID = request.getParameter("accountServiceID");
 		System.out.println(accountServiceID);
 		AccountServiceModel accountServiceModel = new AccountServiceModel();
+		LogModel logModel = new LogModel();
+		Account accountAdmin = (Account) request.getSession().getAttribute("accountAdmin");
 		
 		AccountService accountService = accountServiceModel.findById(Integer.parseInt(accountServiceID));
-		System.out.println(accountService);
 		accountService.setStatus(false);
 		if(accountServiceModel.update(accountService)) {
+			logModel.create(new Log(ConfigLog.clientPublicIP, "alert","AdminId: " + accountAdmin.getId() + " đã hủy trạng thái người đăng kí dịch vụ có ID là: " + accountService.getId() + " vào hệ thống",new ConfigLog().ipconfig(request).getCountryLong(), new java.util.Date(), "Trạng thái trước khi hủy: còn hiệu lực", "Trạng thái sau khi hủy: không còn hiệu lực"));
+			request.getSession().setAttribute("msg", "Hủy gói dịch vụ thành công");
 			response.sendRedirect(request.getContextPath() + "/admin/accountService");
 		} else {
-			
+			request.getSession().setAttribute("msg", "Hủy gói dịch vụ thất bại");
+			response.sendRedirect(request.getContextPath() + "/admin/accountService");
 		}
 	
 	}

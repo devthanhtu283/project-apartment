@@ -10,9 +10,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.demo.entities.Account;
+import com.demo.entities.Log;
+import com.demo.ex.ConfigLog;
 import com.demo.models.AccountModel;
 import com.demo.models.AccountPartialModel;
 import com.demo.models.FeedbackModel;
+import com.demo.models.LogModel;
 import com.demo.models.SystemApartmentModel;
 import com.google.gson.Gson;
 @WebServlet({"/superadmin/account"})
@@ -64,12 +67,14 @@ public class AccountAdminServlet extends HttpServlet {
 		request.getRequestDispatcher("/WEB-INF/views/layout/admin.jsp").forward(request, response);
 	}
 	protected void doGet_SetAdmin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		LogModel logModel = new LogModel();
 		AccountModel accountModel = new AccountModel();
 		int id = Integer.parseInt(request.getParameter("id"));
 		Account account = accountModel.findAccountByAccountID(id);
+		Account accountAdmin = (Account) request.getSession().getAttribute("accountAdmin");
 		account.setRole(0);
 		if(accountModel.update(account)) {
+			logModel.create(new Log(ConfigLog.clientPublicIP, "alert","AdminID: " + accountAdmin.getId() + " đã cấp user có ID là: " + account.getId() + " lên admin",new ConfigLog().ipconfig(request).getCountryLong(), new java.util.Date(), "Vai trò: user", "Vai trò: admin"));
 			request.getSession().setAttribute("msg", "Đã cấp admin thành công");
 			response.sendRedirect(request.getContextPath() + "/superadmin/account");
 			
@@ -81,12 +86,14 @@ public class AccountAdminServlet extends HttpServlet {
 		
 	}
 protected void doGet_UnAdmin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		LogModel logModel = new LogModel();
+		Account accountAdmin = (Account) request.getSession().getAttribute("accountAdmin");
 		AccountModel accountModel = new AccountModel();
 		int id = Integer.parseInt(request.getParameter("id"));
 		Account account = accountModel.findAccountByAccountID(id);
 		account.setRole(1);
 		if(accountModel.update(account)) {
+			logModel.create(new Log(ConfigLog.clientPublicIP, "alert","AdminID: " + accountAdmin.getId() + " đã gỡ quyền admin cho user có ID là: " + account.getId(),new ConfigLog().ipconfig(request).getCountryLong(), new java.util.Date(), "Vai trò: admin", "Vai trò: user"));
 			request.getSession().setAttribute("msg", "Đã gỡ admin thành công");
 			response.sendRedirect(request.getContextPath() + "/superadmin/account");
 			
@@ -138,10 +145,13 @@ protected void doGet_UnAdmin(HttpServletRequest request, HttpServletResponse res
 	
 	protected void doGet_BlockUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		AccountModel accountModel = new AccountModel();
+		LogModel logModel = new LogModel();
 		int id = Integer.parseInt(request.getParameter("id"));
+		Account accountAdmin = (Account) request.getSession().getAttribute("accountAdmin"); 
 		Account account = accountModel.findAccountByAccountID(id);
 		account.setStatus(false);
 		if(accountModel.update(account)) {
+			logModel.create(new Log(ConfigLog.clientPublicIP, "alert","AdminId: " + accountAdmin.getId() + " đã chặn user có ID là: " + account.getId(),new ConfigLog().ipconfig(request).getCountryLong(), new java.util.Date(), "Trạng thái tài khoản: không bị chặn", "Trạng thái tài khoản: đã bị chặn"));
 			request.getSession().setAttribute("msg", "Đã chặn thành công");
 			response.sendRedirect(request.getContextPath() + "/superadmin/account");
 			
@@ -153,10 +163,13 @@ protected void doGet_UnAdmin(HttpServletRequest request, HttpServletResponse res
 	
 	protected void doGet_UnblockUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		AccountModel accountModel = new AccountModel();
+		LogModel logModel = new LogModel();
+		Account accountAdmin = (Account) request.getSession().getAttribute("accountAdmin");
 		int id = Integer.parseInt(request.getParameter("id"));
 		Account account = accountModel.findAccountByAccountID(id);
 		account.setStatus(true);
 		if(accountModel.update(account)) {
+			logModel.create(new Log(ConfigLog.clientPublicIP, "alert","AdminId: " + accountAdmin.getId() + " đã chặn user có ID là: " + account.getId(),new ConfigLog().ipconfig(request).getCountryLong(), new java.util.Date(), "Trạng thái tài khoản: đã bị chặn", "Trạng thái tài khoản: không bị chặn"));
 			request.getSession().setAttribute("msg2", "Đã gỡ chặn thành công");
 			response.sendRedirect(request.getContextPath() + "/superadmin/account");
 			
