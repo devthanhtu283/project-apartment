@@ -46,7 +46,7 @@ public class MSGTimer extends TimerTask {
 			long daysBetween = ChronoUnit.DAYS.between(date2, date1);
 			if (daysBetween == 5 || daysBetween == 1) {
 				chatModel.newChat(new Chat(accountService.getAccountID(), 29,
-						"Gói cước của bạn còn hạn 5 ngày, nếu muốn gia hạn hãy reply!", 0, new Date()));
+						"Gói cước của bạn sắp hết hạn, nếu muốn gia hạn hãy reply!", 0, new Date()));
 				accountServices.add(accountService);
 				request.setAttribute("notiService", "Gói cước của bạn sắp hết hạn, hãy liên hệ với admin để trao đổi về dịch vụ mới!");
 				request.setAttribute("services", accountServices);
