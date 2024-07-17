@@ -11,9 +11,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.demo.entities.Account;
 import com.demo.entities.Contact;
+import com.demo.entities.Log;
+import com.demo.ex.ConfigLog;
 import com.demo.models.AccountModel;
 import com.demo.models.ContactModel;
 import com.demo.models.FeedbackModel;
+import com.demo.models.LogModel;
 import com.google.gson.Gson;
 @WebServlet({"/superadmin/contact"})
 /**
@@ -58,25 +61,35 @@ public class ContactAdminServlet extends HttpServlet {
 	protected void doGet_DeleteContact(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ContactModel contactModel = new ContactModel();
 		int id = Integer.parseInt(request.getParameter("id"));
+		int beforeDeleteContact = contactModel.findAll().size();
+		LogModel logModel = new LogModel();
+		Account accountAdmin = (Account) request.getSession().getAttribute("accountAdmin");
+		int afterDeleteContact = 0;
 		if(contactModel.delete(id)) {
+			afterDeleteContact = contactModel.findAll().size();
+			logModel.create(new Log(ConfigLog.clientPublicIP, "warning","AdminId: " + accountAdmin.getId() + " đã xóa liên hệ có id là: " + id + " ra khỏi hệ thống",new ConfigLog().ipconfig(request).getCountryLong(), new java.util.Date(), "Số liên hệ trước khi xóa: " + beforeDeleteContact, "Số liên hệ sau khi xóa: " + afterDeleteContact));
 			request.getSession().setAttribute("msg", "Đã xóa thành công");
-			response.sendRedirect(request.getContextPath() + "/admin/contact");
+			response.sendRedirect(request.getContextPath() + "/superadmin/contact");
 		} else {
 			request.getSession().setAttribute("msg", "Thất bại");
-			response.sendRedirect(request.getContextPath() + "/admin/contact");
+			response.sendRedirect(request.getContextPath() + "/superadmin/contact");
 		}
 	}
 	
 	protected void doGet_UpdateContact(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ContactModel contactModel = new ContactModel();
 		int id = Integer.parseInt(request.getParameter("id"));
+		LogModel logModel = new LogModel();
+		Account accountAdmin = (Account) request.getSession().getAttribute("accountAdmin");
 		Contact contact = contactModel.findById(id);
+		contact.setStatus(true);
 		if(contactModel.update(contact)) {
+			logModel.create(new Log(ConfigLog.clientPublicIP, "alert","AdminId: " + accountAdmin.getId() + " đã giải quyết vấn đề " + contact.getDescription(),new ConfigLog().ipconfig(request).getCountryLong(), new java.util.Date(), null, null));
 			request.getSession().setAttribute("msg", "Đã giải quyết!");
-			response.sendRedirect(request.getContextPath() + "/admin/contact");
+			response.sendRedirect(request.getContextPath() + "/superadmin/contact");
 		} else {
 			request.getSession().setAttribute("msg", "Thất bại");
-			response.sendRedirect(request.getContextPath() + "/admin/contact");
+			response.sendRedirect(request.getContextPath() + "/superadmin/contact");
 		}
 	}
 	protected void doGet_GetContact(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

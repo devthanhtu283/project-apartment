@@ -159,7 +159,7 @@ public class PostModel {
 		List<Post> posts = new ArrayList<Post>();
 		try {
 			PreparedStatement preparedStatement = ConnectDB.connection()
-					.prepareStatement("select * from post WHERE status = 0 order by id desc ");
+					.prepareStatement("select * from post order by id desc ");
 			ResultSet resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
 				Post post = new Post();
@@ -640,6 +640,8 @@ public class PostModel {
 		PostModel postModel = new PostModel();
 //		System.out.println(postModel.update(postModel.findPostByID(159)));
 //		System.out.println(postModel.findPostByID(159));
-		System.out.println(postModel.findNewPostByID(1));
+		Post post = postModel.findPostByID(1);
+		post.setStatus(false);
+		System.out.println(postModel.update(post));
 	}
 }

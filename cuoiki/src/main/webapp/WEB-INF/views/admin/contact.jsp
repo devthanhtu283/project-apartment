@@ -78,9 +78,9 @@
 											<td><f:formatDate value="${contact.created }"
 													pattern="dd/MM/yyyy" var="created" /> ${created }</td>
 											<td>${contact.status ? "Đã giải quyết " : "Chưa giải quyết"}</td>
-											<td><a onclick="return confirm('Xác nhận đã giải quyết?')" href="${pageContext.request.contextPath }/admin/contact?action=updateContact&id=${contact.id }"><i class="fa-solid fa-pen-to-square"></i></i></a> &nbsp;
+											<td><a onclick="return confirm('Xác nhận đã giải quyết?')" href="${pageContext.request.contextPath }/superadmin/contact?action=updateContact&id=${contact.id }"><i class="fa-solid fa-pen-to-square"></i></i></a> &nbsp;
 											 <a  href="mailto:${contact.email }"><i class="fa-solid fa-envelope"></i></a> &nbsp;
-											 <a onclick="return confirm('Xóa bài?')" href="${pageContext.request.contextPath }/admin/contact?action=deleteContact&id=${contact.id }"><i class="fa-solid fa-trash"></i></a></td>
+											 <a onclick="return confirm('Xóa bài?')" href="${pageContext.request.contextPath }/superadmin/contact?action=deleteContact&id=${contact.id }"><i class="fa-solid fa-trash"></i></a></td>
 										</tr>
 									</c:forEach>
 									

@@ -78,6 +78,16 @@ public class MyPostServlet extends HttpServlet {
 				request.getSession().setAttribute("msg", "Xóa bài đăng không thành công");
 				response.sendRedirect(request.getContextPath() + "/admin/postapartment");
 			}
+		} else {
+			if(postModel.delete(id)) {
+				List<Post> listPostAfterDelete = postModel.findPostByAccountID(account.getId());
+				logModel.create(new Log(IPAddressUtil.getPublicIPAddress(),"alert","AccountID: " + account.getId() + " - đã xóa bài đăng căn hộ có id là: " + id, ConfigLog.ipconfig(request).getCountryLong(), new Timestamp(new Date().getTime()),gson.toJson(listPostBeforeDelete),gson.toJson(listPostAfterDelete)));
+				request.getSession().setAttribute("msg", "Đã xóa bài đăng thành công");
+				response.sendRedirect(request.getContextPath() + "/admin/postapartment");
+			} else {
+				request.getSession().setAttribute("msg", "Xóa bài đăng không thành công");
+				response.sendRedirect(request.getContextPath() + "/admin/postapartment");
+			}
 		}
 	}
 	
