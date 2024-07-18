@@ -103,6 +103,12 @@
   	<description></description>
   	<servlet-class>com.demo.servlet.UploadFileChatServlet</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>SMSServlet</servlet-name>
+  	<display-name>SMSServlet</display-name>
+  	<description></description>
+  	<servlet-class>com.demo.servlet.SMSServlet</servlet-class>
+  </servlet>
   <servlet-mapping>
   	<servlet-name>LoginServlet</servlet-name>
   	<url-pattern>/LoginServlet</url-pattern>
@@ -154,6 +160,10 @@
   <servlet-mapping>
   	<servlet-name>UploadFileChatServlet</servlet-name>
   	<url-pattern>/UploadFileChatServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>SMSServlet</servlet-name>
+  	<url-pattern>/SMSServlet</url-pattern>
   </servlet-mapping>
 
 </web-app>
