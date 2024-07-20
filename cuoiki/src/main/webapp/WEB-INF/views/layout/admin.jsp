@@ -60,6 +60,7 @@
 
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/assets/admin/dist/css/admin.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
 <script>
 	$(function() {
 		$("#datepicker").datepicker({
@@ -311,7 +312,18 @@ FeedbackModel feedbackModel = new FeedbackModel();
 						<%
 						}
 						%>
-						
+						<%
+						if (account.getRole() == 2) {
+						%>
+						<li class="nav-item"><a
+							href="${pageContext.request.contextPath }/superadmin/receiverEmail"
+							class="nav-link ${activeReceiverEmail }"> <i
+								class="fa-solid fa-email"></i> &nbsp;
+								<p>Hộp thư</p>
+						</a></li>
+						<%
+						}
+						%>
 						<%
 						if (account.getRole() == 2) {
 						%>

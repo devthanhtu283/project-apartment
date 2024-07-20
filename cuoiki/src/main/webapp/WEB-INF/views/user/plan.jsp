@@ -207,7 +207,11 @@
 		<div>
 			<button id="rechargeBtn" class="btn btn-primary mx-3">Nạp tiền</button>
 		</div>
+		<h4>Bạn có thể sử dụng 2 phương thức là VNPay hoặc là Paypal, đối với Paypal sẽ có tỉ giá mới nhất chuyển đổi từ USD sang VND theo tỉ giá mà dịch vụ chúng tôi sử dụng</h4>
+	<br>
+	<h4>Tỉ giá USD sang VND hiện tại: ${usdSellRate }</h4>
 	</div>
+	
 <div class="wrapper">
 		<div class="pricing-content">
 			<div class="PageWidth">
@@ -297,6 +301,7 @@
     
     <div id="paypal" class="popup-container-paypal" style="display: none">
 	<h3 class="py-3">Vui lòng nhập số tiền</h3>
+	<h6>Tỉ giá USD hiện tại: ${usdSellRate }</h6>
 	<button class="close-button" onclick="closePopup()">x</button>
 	<div class="popup-content">
 		<form method="post"
@@ -306,7 +311,7 @@
 				value="sb-tseqm29238642@business.example.com"> <input
 				type="hidden" name="item_number_1" value="1"> <input
 				type="hidden" name="item_name_1" value="Nap tien vao tai khoan">
-			<input type="text" name="amount_1" class="form-control rounded-2"> <input type="hidden"
+			<input type="text" name="amount_1" class="form-control rounded-2"> &nbsp; $ <input type="hidden"
 				name="item_quantity_1" value="1"> <input type="hidden"
 				name="upload" value="1"> <input type="hidden" name="return"
 				value="http://localhost:8080/projectGroup2/payment?action=returnPaypal">

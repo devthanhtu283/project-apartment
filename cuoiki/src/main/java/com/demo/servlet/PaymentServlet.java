@@ -17,6 +17,9 @@ import com.demo.models.TransactionModel;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
@@ -35,6 +38,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 @WebServlet("/payment")
 /**
@@ -116,6 +125,61 @@ public class PaymentServlet extends HttpServlet {
 
 	}
 	protected void doGet_ReturnPaypal(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		   String urlString = "https://portal.vietcombank.com.vn/Usercontrols/TVPortal.TyGia/pXML.aspx?b=10"; 
+		   String usdSellRate = null;
+	        HttpURLConnection connection = null;
+	        InputStream inputStream = null;
+	        try {
+	        
+	            URL url = new URL(urlString);
+	            connection = (HttpURLConnection) url.openConnection();
+	            connection.setRequestMethod("GET");
+
+	          
+	            if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+	          
+	                inputStream = connection.getInputStream();
+
+	              
+	                DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+	                DocumentBuilder builder = factory.newDocumentBuilder();
+
+	              
+	                Document document = builder.parse(inputStream);
+
+	           
+	                NodeList nodeList = document.getElementsByTagName("Exrate");
+
+	               
+
+	          
+	                for (int i = 0; i < nodeList.getLength(); i++) {
+	                    Element element = (Element) nodeList.item(i);
+	                    if ("USD".equals(element.getAttribute("CurrencyCode"))) {
+	                        usdSellRate = element.getAttribute("Transfer");
+	                        break;
+	                    }
+	                }
+
+	            } else {
+	                throw new ServletException("Failed to fetch XML file: HTTP code " + connection.getResponseCode());
+	            }
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            throw new ServletException("Error processing XML file: " + e.getMessage(), e);
+	        } finally {
+	         
+	            if (inputStream != null) {
+	                try {
+	                    inputStream.close();
+	                } catch (IOException e) {
+	                    e.printStackTrace();
+	                }
+	            }
+	            if (connection != null) {
+	                connection.disconnect();
+	            }
+	        }
 		Account account = (Account) req.getSession().getAttribute("account");
 		AccountDetailsModel accountDetailsModel = new AccountDetailsModel();
 		Accountdetails accountdetails = new Accountdetails();
@@ -131,14 +195,14 @@ public class PaymentServlet extends HttpServlet {
 			} else {
 				String amount = req.getParameter("payment_gross");
 				String transactionNo = req.getParameter("txn_id");
-				String orderInfo = "Nạp tiền " + amount + "$ vào tài khoản.";
+				String orderInfo = "Nạp tiền " + Double.parseDouble(amount)* Double.parseDouble(usdSellRate.replace(",", "")) + " vào tài khoản.";
 				String paymentType = "paypal-" + req.getParameter("payer_email");
 				String statusCode = req.getParameter("payment_status");
 				if (statusCode.equals("Completed")) {
 					double beforeTransaction = accountdetails.getBalance();
-					double afterTransaction = accountdetails.getBalance() + Double.parseDouble(amount)*25000;
+					double afterTransaction = accountdetails.getBalance() + Double.parseDouble(amount)* Double.parseDouble(usdSellRate.replace(",", ""));
 					accountdetails.setBalance(afterTransaction);
-					Transaction transaction = new Transaction(1, Double.parseDouble(amount), new Date(),
+					Transaction transaction = new Transaction(1, Double.parseDouble(amount)* Double.parseDouble(usdSellRate.replace(",", "")), new Date(),
 							account.getId(), orderInfo, paymentType, transactionNo);
 					TransactionModel transactionModel = new TransactionModel();
 					if (accountDetailsModel.updateBalance(accountdetails) && transactionModel.create(transaction)) {

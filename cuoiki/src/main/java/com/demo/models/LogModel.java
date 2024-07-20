@@ -49,6 +49,36 @@ public class LogModel {
 				log.setId(resultSet.getInt("id"));
 				log.setIp(resultSet.getString("ip"));
 				log.setLevel(resultSet.getString("level"));
+				log.setNational(resultSet.getString("national"));
+				log.setDescription(resultSet.getString("description"));
+				log.setTime(resultSet.getTimestamp("time"));
+				log.setBeforeValue(resultSet.getString("beforeValue"));
+				log.setAfterValue(resultSet.getString("afterValue"));
+				logs.add(log);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			logs = null;
+			// TODO: handle exception
+		} finally {
+			ConnectDB.disconnect();
+		}
+		
+		return logs;
+	}
+	
+	public List<Log> findByLevel(String level){
+		List<Log> logs = new ArrayList<Log>();
+		try {
+			PreparedStatement preparedStatement = ConnectDB.connection().prepareStatement("select * from log where level = ?");
+			preparedStatement.setString(1, level);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			while(resultSet.next()) {
+				Log log = new Log();
+				log.setId(resultSet.getInt("id"));
+				log.setIp(resultSet.getString("ip"));
+				log.setLevel(resultSet.getString("level"));
+				log.setNational(resultSet.getString("national"));
 				log.setDescription(resultSet.getString("description"));
 				log.setTime(resultSet.getTimestamp("time"));
 				log.setBeforeValue(resultSet.getString("beforeValue"));
@@ -69,7 +99,7 @@ public class LogModel {
 	public List<Log> findTop20Log(){
 		List<Log> logs = new ArrayList<Log>();
 		try {
-			PreparedStatement preparedStatement = ConnectDB.connection().prepareStatement("select * from log order by id desc limit 10");
+			PreparedStatement preparedStatement = ConnectDB.connection().prepareStatement("select * from log order by id desc limit 20");
 			ResultSet resultSet = preparedStatement.executeQuery();
 			while(resultSet.next()) {
 				Log log = new Log();
