@@ -8,7 +8,6 @@ import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 import javax.servlet.http.HttpServletRequest;
 
-import com.demo.timers.HappyBirthdayTimer;
 import com.demo.timers.MSGTimer;
 import com.demo.timers.MyTask;
 import com.demo.timers.PostingTimer;
@@ -47,8 +46,7 @@ public class TimerHelper implements ServletContextListener {
 		timer.scheduleAtFixedRate(postingTimer, 0, 5000);
 		MSGTimer msgTimer = new MSGTimer(sce.getServletContext());
 		timer.scheduleAtFixedRate(msgTimer, 0, 1000*60*60*23);
-		HappyBirthdayTimer birthdayTimer = new HappyBirthdayTimer();
-		timer.scheduleAtFixedRate(birthdayTimer, 0, 1000*60*60*24);
+	
 	}
 
 }

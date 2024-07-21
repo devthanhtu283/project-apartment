@@ -1,6 +1,9 @@
 package com.demo.servlet.user;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -10,6 +13,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 import com.demo.entities.Account;
 import com.demo.entities.AccountService;
@@ -59,6 +68,65 @@ public class PlanServlet extends HttpServlet {
 
 	protected void doGet_Index(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		  String urlString = "https://portal.vietcombank.com.vn/Usercontrols/TVPortal.TyGia/pXML.aspx?b=10"; 
+
+	        HttpURLConnection connection = null;
+	        InputStream inputStream = null;
+	        try {
+	        
+	            URL url = new URL(urlString);
+	            connection = (HttpURLConnection) url.openConnection();
+	            connection.setRequestMethod("GET");
+
+	          
+	            if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+	          
+	                inputStream = connection.getInputStream();
+
+	              
+	                DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+	                DocumentBuilder builder = factory.newDocumentBuilder();
+
+	              
+	                Document document = builder.parse(inputStream);
+
+	           
+	                NodeList nodeList = document.getElementsByTagName("Exrate");
+
+	                String usdSellRate = null;
+
+	          
+	                for (int i = 0; i < nodeList.getLength(); i++) {
+	                    Element element = (Element) nodeList.item(i);
+	                    if ("USD".equals(element.getAttribute("CurrencyCode"))) {
+	                        usdSellRate = element.getAttribute("Sell");
+	                        break;
+	                    }
+	                }
+
+	          
+	                request.setAttribute("usdSellRate", usdSellRate);
+
+
+	            } else {
+	                throw new ServletException("Failed to fetch XML file: HTTP code " + connection.getResponseCode());
+	            }
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            throw new ServletException("Error processing XML file: " + e.getMessage(), e);
+	        } finally {
+	         
+	            if (inputStream != null) {
+	                try {
+	                    inputStream.close();
+	                } catch (IOException e) {
+	                    e.printStackTrace();
+	                }
+	            }
+	            if (connection != null) {
+	                connection.disconnect();
+	            }
+	        }
 		// TODO Auto-generated method stub
 		request.setAttribute("activePlan", "active");
 		request.setAttribute("p", "../user/plan.jsp");

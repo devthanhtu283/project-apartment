@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.demo.entities.Post;
+import com.demo.models.AccountPartialModel;
+import com.demo.models.LogModel;
 import com.demo.models.PostImageModel;
 import com.demo.models.PostModel;
 import com.google.gson.Gson;
@@ -43,6 +45,8 @@ public class DashboardAdminServlet extends HttpServlet {
 			doGet_UpdatePost(request, response);
 		} else if(action.equalsIgnoreCase("deletePost")) {
 			doGet_DeletePost(request, response);
+		} else if(action.equalsIgnoreCase("searchByLevel")) {
+			doGet_SearchByLevel(request, response);
 		}
 	}
 	protected void doGet_Index(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -96,6 +100,25 @@ public class DashboardAdminServlet extends HttpServlet {
 		}
 	}
 
+	protected void doGet_SearchByLevel(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType("application/json; charset=utf-8");
+		request.setCharacterEncoding("utf-8");
+		PrintWriter writer = response.getWriter();
+		int status = Integer.parseInt(request.getParameter("value"));
+		Gson gson = new Gson();
+		LogModel logModel = new LogModel();
+		if(status == 0) {
+			writer.print(gson.toJson(logModel.findAll()));
+		} else if(status == 1) {
+			writer.print(gson.toJson(logModel.findByLevel("info")));
+		} else if(status == 2) {
+			writer.print(gson.toJson(logModel.findByLevel("alert")));
+		} else if(status == 3) {
+			writer.print(gson.toJson(logModel.findByLevel("warning")));
+		} else if(status == 4) {
+			writer.print(gson.toJson(logModel.findByLevel("danger")));
+		}
+	}
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */

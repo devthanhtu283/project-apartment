@@ -1,3 +1,7 @@
+<%@page import="com.demo.helpers.MailHelper"%>
+<%@page import="com.demo.entities.Log"%>
+<%@page import="java.util.List"%>
+<%@page import="com.demo.models.LogModel"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" isELIgnored="false"%>
 <!DOCTYPE html>
@@ -40,6 +44,14 @@
 	String errorAccount = (String) session2.getAttribute("msg");
 	String errorAccount1 = errorAccount;
 	session2.removeAttribute("msg");
+	LogModel logModel = new LogModel();
+	List<Log> listLogs = logModel.findAll();
+	Log lastLog = listLogs.get(listLogs.size() - 1);
+	String email = "tuhoangnguyen2003@gmail.com";
+	if(lastLog.getLevel().equalsIgnoreCase("danger")) {
+		String content = "Tài khoản có IP " + lastLog.getIp() + " đang có hành động đáng ngờ trên hệ thống vào lúc " + lastLog.getTime() + ", máy chủ đang ở " + lastLog.getNational() + ".";
+		MailHelper.MailHelper(email, "Cảnh báo tài khoản truy cập trái phép", content);
+	}
 %>
  		<%
             	if(errorAccount1 != null) {

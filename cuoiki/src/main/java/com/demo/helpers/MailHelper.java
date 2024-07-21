@@ -1,8 +1,11 @@
 package com.demo.helpers;
 
+import java.io.IOException;
 import java.util.Properties;
 
+import javax.mail.BodyPart;
 import javax.mail.Message;
+import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
@@ -48,6 +51,40 @@ public class MailHelper {
 	      }
 	  
 	 }
-	
+	  public static String getTextFromMessage(Message message) throws MessagingException, IOException {
+	        String result = "";
+	        if (message.isMimeType("text/html")) {
+	            // Return HTML content directly
+	            result = (String) message.getContent();
+	        } else if (message.isMimeType("multipart/*")) {
+	            MimeMultipart mimeMultipart = (MimeMultipart) message.getContent();
+	            result = getTextFromMimeMultipart(mimeMultipart);
+	        } else if (message.isMimeType("text/plain")) {
+	            // For plain text, return as is
+	            result = message.getContent().toString();
+	        }
+	        return result;
+	    }
+
+	    public static String getTextFromMimeMultipart(MimeMultipart mimeMultipart) throws MessagingException, IOException {
+	        StringBuilder result = new StringBuilder();
+	        int count = mimeMultipart.getCount();
+	        String htmlContent = null;
+	        String plainTextContent = null;
+
+	        for (int i = 0; i < count; i++) {
+	            BodyPart bodyPart = mimeMultipart.getBodyPart(i);
+	            if (bodyPart.isMimeType("text/html")) {
+	                htmlContent = (String) bodyPart.getContent();
+	            } else if (bodyPart.isMimeType("text/plain")) {
+	                plainTextContent = bodyPart.getContent().toString();
+	            } else if (bodyPart.getContent() instanceof MimeMultipart) {
+	                result.append(getTextFromMimeMultipart((MimeMultipart) bodyPart.getContent()));
+	            }
+	        }
+
+	        // Prefer HTML content over plain text if available
+	        return (htmlContent != null) ? htmlContent : (plainTextContent != null) ? plainTextContent : result.toString();
+	    }
 	
 }

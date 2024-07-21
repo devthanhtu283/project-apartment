@@ -89,12 +89,12 @@
                                     <tr>
                                         <th>Thời hạn</th>
                                         <th>Trạng thái
-                                        <br>
+                                        <!-- <br>
                                             <select style="margin-top: 10px;" id="changeStatus">
                                                 <option value="0">Chọn trạng thái</option>
                                                 <option value="1">1</option>
                                                 <option value="2">0</option>
-                                            </select>
+                                            </select> -->
                                         </th>
                                         <th>Hành động</th>
                                     </tr>

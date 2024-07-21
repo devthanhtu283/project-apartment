@@ -33,6 +33,31 @@
 							
 							
 							</script>
+							<script>
+        function exportTableToExcel(tableID, filename = '') {
+        	var table = $('#' + tableID).DataTable();
+            var data = table.rows().data().toArray();
+            var headers = [];
+            $('#' + tableID + ' thead th').each(function() {
+                headers.push($(this).text().trim());
+            });
+
+            var jsonData = [];
+            data.forEach(function(row) {
+                var rowData = {};
+                headers.forEach(function(header, index) {
+                    rowData[header] = row[index];
+                });
+                jsonData.push(rowData);
+            });
+
+            var ws = XLSX.utils.json_to_sheet(jsonData);
+            var wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+
+            XLSX.writeFile(wb, filename + ".xlsx");
+        }
+    </script>
     <!-- Nội dung chính -->
     <section class="content">
         <div class="container-fluid">
@@ -45,6 +70,7 @@
                          
                             
                             <button id="buttonReload" class="btn"><i class="fa-solid fa-rotate"></i></button>
+                            <button class="btn btn-primary btn-md" onclick="exportTableToExcel('example2', 'myData')">Export to Excel</button>
                             <table style="text-align: center;" id="example2" class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
