@@ -58,6 +58,6 @@ Backend: Java (JSP Servlet)
 
 Database: MySQL  
 
-Các công nghệ khác: Google API, VNPay, PayPal, SMS  
+Các công nghệ khác: Google API, VNPay, PayPal, SMS, Web Socket
 Link video demo:  
 https://drive.google.com/file/d/1JYVS63ykh5tlp89WWlAqhHUgqjFQcmEb/view?usp=sharing
